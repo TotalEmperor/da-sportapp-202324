@@ -1,3 +1,4 @@
+"use client"
 import React, {useState} from "react";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
@@ -6,7 +7,7 @@ import BorderContainer from "@/components/borderContainer";
 import GenderDropdown from "@/components/genderDropdown";
 
 
-export default function SignUp() {
+export default function Page() {
 
     const [showPassword, setShowPassword] = useState(false);
 
