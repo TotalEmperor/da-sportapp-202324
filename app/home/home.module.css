@@ -1,0 +1,11 @@
+@media (min-width: 640px) {
+    .w-left-fixed {
+        flex: 0 1 230px;
+        min-width: 15%;
+    }
+
+    .w-right-fixed{
+        flex: 0 1 230px;
+        min-width: 45%;
+    }
+}

@@ -22,7 +22,8 @@
     "paths": {
       "@/components/*": ["app/components/*"],
       "@/images/*": ["public/images/*"],
-      "@/auth/*": ["app/(auth)/*"]
+      "@/auth/*": ["app/(auth)/*"],
+      "@/icons/*": ["public/icons/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

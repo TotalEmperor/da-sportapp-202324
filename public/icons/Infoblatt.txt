@@ -1,0 +1,20 @@
+Schriftart: Roboto
+
+Farben:
+Dunkelgrün: 046a4f
+Background color/Helles Gelb: fdfdf5
+2.Background color/dunkleres Gelb: f3f6eb
+Check color Grün: b7f397
+
+Icon berüht Grün: d9e7cb
+Suchleisten Ergebnis Grün: d9e7cb
+
+Grau: 9a9d93
+Weiß: fbfff8
+Schwarz: 1f1f1f
+rot: bb3232
+
+Yellowlight100 fdfdf5
+Yellowdark f3f6eb
+Greendark d9e7cb
+
