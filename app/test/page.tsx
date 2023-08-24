@@ -24,37 +24,35 @@ export default function page(){
         <div className="flex flex-col min-h-fit h-screen">
             <div className="w-full flex flex-col sm:flex-row flex-wrap sm:flex-nowrap py-4 flex-grow min-h-fit h-screen ">
                 <div className={styles["w-left-fixed"]+ " w-full flex-shrink flex-grow-0 px-4 "}>
-                    <div className="flex flex-col sticky top-0 p-4 rounded-xl w-full h-full bg-[#F3F6EB] border-solid border-gray-300 border-2">
-                        <div className="flex flex-col justify-center items-center mb-[15%] mt-[15%]">
-                            <Image src={Logo} alt="Logo" className="w-3/4"/>
-                        </div>
-                        <div className="flex flex-col mt-[50%] items-center min-h-fit h-full flex-grow">
-                            <ul className="flex sm:flex-col overflow-hidden content-center justify-center w-[75%]">
-                                <li className="py-2 hover:bg-indigo-300 rounded">
-                                    <a className="truncate" href="#">
-                                        <Image
-                                            src={workoutOn} className="w-7 sm:mx-2 mx-4 inline" alt="Workout"/>
-                                        <span className="hidden sm:inline">Workout</span>
-                                    </a>
-                                </li>
-                                <li className="py-2 hover:bg-indigo-300 rounded">
-                                    <a className="truncate" href="#">
-                                        <Image
-                                            src={modifyingOff} className="w-7 sm:mx-2 mx-4 inline" alt="Workout" /> <span className="hidden sm:inline">Modifying</span>
-                                    </a>
-                                </li>
-                                <li className="py-2 hover:bg-indigo-300 rounded">
-                                    <a className="" href="#">
-                                        <Image src={workoutOn} className="w-7 sm:mx-2 mx-4 inline" alt="Cal. Counter"/> <span className="hidden sm:inline">Calc. Counter</span>
-                                    </a>
-                                </li>
-                                <li className="py-2 hover:bg-indigo-300 rounded">
-                                    <a className="" href="#">
-                                        <Image src={accountsettingOff} className="w-7 sm:mx-2 mx-4 inline" alt="AccountOptions" /> <span className="hidden sm:inline">Options</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                    <div className="sticky top-0 p-4 bg-gray-100 rounded-xl w-full h-full">
+                        <ul className="flex sm:flex-col overflow-hidden content-center justify-center">
+                            <li className="py-2 hover:bg-indigo-300 rounded">
+                                <a className="truncate" href="#">
+                                    <img src="//cdn.jsdelivr.net/npm/heroicons@1.0.1/outline/home.svg" className="w-7 sm:mx-2 mx-4 inline" />
+                                    <span className="hidden sm:inline">Home</span>
+                                </a>
+                            </li>
+                            <li className="py-2 hover:bg-indigo-300 rounded">
+                                <a className="truncate" href="#">
+                                    <img src="//cdn.jsdelivr.net/npm/heroicons@1.0.1/outline/cog.svg" className="w-7 sm:mx-2 mx-4 inline" /> <span className="hidden sm:inline">Settings</span>
+                                </a>
+                            </li>
+                            <li className="py-2 hover:bg-indigo-300 rounded">
+                                <a className="" href="#">
+                                    <img src="//cdn.jsdelivr.net/npm/heroicons@1.0.1/outline/gift.svg" className="w-7 sm:mx-2 mx-4 inline" /> <span className="hidden sm:inline">Products</span>
+                                </a>
+                            </li>
+                            <li className="py-2 hover:bg-indigo-300 rounded">
+                                <a className="" href="#">
+                                    <img src="//cdn.jsdelivr.net/npm/heroicons@1.0.1/outline/chart-bar.svg" className="w-7 sm:mx-2 mx-4 inline" /> <span className="hidden sm:inline">Reports</span>
+                                </a>
+                            </li>
+                            <li className="py-2 hover:bg-indigo-300 rounded">
+                                <a className="" href="#">
+                                    <img src="//cdn.jsdelivr.net/npm/heroicons@1.0.1/outline/collection.svg" className="w-7 sm:mx-2 mx-4 inline" /> <span className="hidden sm:inline">Integrations</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <main role="main" className={styles["w-center-fixed"]+ " w-full flex-grow pt-1 px-3"}>
