@@ -23,9 +23,6 @@ export default function Page() {
 
     return (
         <>
-            <Head>
-                <title>Welcome Page</title>
-            </Head>
             <div
                 className="flex flex-col dark:bg-gradient-to-tr dark:from-green-700 dark:to-gray-100 dark:via-green-400 bg-gradient-to-tr from-gray-100 to-green-700 via-green-400 min-h-screen h-fit">
                 <header>
