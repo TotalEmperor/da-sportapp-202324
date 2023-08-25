@@ -14,4 +14,19 @@
         flex: 0 1 230px;
         min-width: 40%;
     }
+
+    .icons{
+        font-size: 3rem;
+        width: 3rem;
+    }
+}
+
+
+
+@media (max-width: 640px) {
+    .icons{
+        font-size: 2rem;
+        width: 2rem;
+    }
+
 }
