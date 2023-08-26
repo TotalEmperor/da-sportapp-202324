@@ -15,7 +15,7 @@ export default function SideNav() {
         <>
             <div className={styles["w-left-fixed"] + " w-full flex-shrink flex-grow-0 px-4 "}>
                 <div
-                    className="sticky top-0 sm:p-4 rounded-xl w-full h-full bg-[#F3F6EB] border-solid border-gray-300 border-2 min-w-fit flex flex-col">
+                    className={styles["w-left-panel"] + " sticky top-0 sm:p-4 rounded-xl w-full h-full bg-[#F3F6EB] min-w-fit flex flex-col"}>
                     <div className="flex-col justify-center items-center mb-[15%] mt-[15%] hidden sm:flex">
                         <Image src={Logo} alt="Logo"/>
                     </div>
