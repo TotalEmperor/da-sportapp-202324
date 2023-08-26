@@ -28,4 +28,10 @@
         width: 2rem;
     }
 
+    .w-right-fixed {
+        border-top: 2px solid #BFC9CA;
+        padding-top: 1rem;
+        #flex: 0 1 230px;
+    }
+
 }
