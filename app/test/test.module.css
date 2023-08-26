@@ -1,18 +1,18 @@
 @media (min-width: 640px) {
     .w-left-fixed {
         flex: 0 1 230px;
-        min-width: 20%;
+        min-width: 300px;
     }
 
     .w-center-fixed{
         flex: 0 1 230px;
-        min-width: 40%;
+        min-width: 50%;
     }
 
     .w-right-fixed{
         border-left: 2px solid #BFC9CA;
         flex: 0 1 230px;
-        min-width: 40%;
+        min-width: 50%;
     }
 
     .icons{
@@ -27,6 +27,13 @@
     .icons{
         font-size: 2rem;
         width: 2rem;
+    }
+
+    .w-right-fixed{
+        border-left: 2px solid #BFC9CA;
+        flex: 0 1 230px;
+        min-width: 50%;
+        height: fit-content;
     }
 
 }

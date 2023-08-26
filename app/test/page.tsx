@@ -5,6 +5,7 @@ import modifyingOff from "@/icons/modifyingoff.svg"
 import TimerIcon from '@mui/icons-material/Timer';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import BarChartIcon from '@mui/icons-material/BarChart';
+import Logo from "@/images/hope.svg"
 
 import Image from "next/image";
 import Head from "next/head";
@@ -22,10 +23,10 @@ export default function page() {
                     <div
                         className="flex flex-col sticky top-0 sm:p-4 rounded-xl w-full h-full bg-[#F3F6EB] border-solid border-gray-300 border-2 min-w-fit">
                         <div className="flex-col justify-center items-center mb-[15%] mt-[15%] hidden sm:flex">
-                            <Image src={Logo} alt="Logo" className="xl:w-3/4"/>
+                            <Image src={Logo} alt="Logo"/>
                         </div>
-                        <div className="flex flex-col sm:mt-[20%] items-center min-h-fit h-full flex-grow min-w-fit">
-                            <ul className="flex sm:flex-col overflow-hidden content-center justify-center w-[75%] min-w-fit">
+                        <div className="flex flex-col sm:mt-[20%] items-center min-w-fit">
+                            <ul className="flex sm:flex-col overflow-hidden justify-center content-center w-[75%] min-w-fit">
                                 <li className="py-2 rounded-3xl hover:bg-[#d9e7cb]">
                                     <a className="truncate" href="#">
                                         <TimerIcon className={styles["icons"]+" fill-black dark:fill-none sm:mx-2 mx-4 inline"}></TimerIcon>
@@ -40,17 +41,22 @@ export default function page() {
                                 </li>
                                 <li className="py-2 rounded-3xl hover:bg-[#d9e7cb]">
                                     <a className="" href="#">
-                                        <BarChartIcon className={styles["icons"] + " inline"}></BarChartIcon>
-                                        <span className="hidden sm:inline w-fit">Calc. Counter</span>
+                                        <BarChartIcon className={styles["icons"] + " sm:mx-2 mx-4 inline"}></BarChartIcon>
+                                        <span className="hidden sm:inline">Calc. Counter</span>
                                     </a>
                                 </li>
-                                <li className={" py-2 rounded-3xl hover:bg-[#d9e7cb]"}>
+                                <li className={"py-2 rounded-3xl hover:bg-[#d9e7cb]"}>
                                     <a className="" href="#">
-                                        <ManageAccountsOutlinedIcon className={styles["icons"] + " inline"}></ManageAccountsOutlinedIcon>
-                                        <span className="hidden sm:inline min-w-fit">Options</span>
+                                        <ManageAccountsOutlinedIcon className={styles["icons"] + " sm:mx-2 mx-4 inline"}></ManageAccountsOutlinedIcon>
+                                        <span className="hidden sm:inline">Options</span>
                                     </a>
                                 </li>
                             </ul>
+                        </div>
+                        <div className="flex justify-center items-center flex-col sm:mt-[40%]">
+                            <button className={"w-full text-4xl rounded-3xl bg-[#046a4f] inline text-white font-bold p-2 hover:bg-green-500"}>
+                                Start
+                            </button>
                         </div>
                     </div>
                 </div>
