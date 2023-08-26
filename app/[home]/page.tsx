@@ -6,6 +6,7 @@ import TimerIcon from '@mui/icons-material/Timer';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import Logo from "@/images/hope.svg"
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
 import Image from "next/image";
 import Head from "next/head";
@@ -20,7 +21,7 @@ export default function page() {
             <div className="w-full flex flex-col sm:flex-row flex-wrap sm:flex-nowrap py-4 flex-grow">
                 <div className={styles["w-left-fixed"] + " w-full flex-shrink flex-grow-0 px-4 "}>
                     <div
-                        className="sticky top-0 sm:p-4 rounded-xl w-full h-full bg-[#F3F6EB] border-solid border-gray-300 border-2 min-w-fit">
+                        className="sticky top-0 sm:p-4 rounded-xl w-full h-full bg-[#F3F6EB] border-solid border-gray-300 border-2 min-w-fit flex flex-col">
                         <div className="flex-col justify-center items-center mb-[15%] mt-[15%] hidden sm:flex">
                             <Image src={Logo} alt="Logo"/>
                         </div>
@@ -56,6 +57,12 @@ export default function page() {
                             <button className={"w-full text-4xl rounded-3xl bg-[#046a4f] inline text-white font-bold p-2 hover:bg-green-500"}>
                                 Start
                             </button>
+                        </div>
+                        <div className="flex justify-center items-center flex-col flex-grow">
+                            <a className="hover:bg-[#d9e7cb] rounded-3xl py-2 w-full justify-center items-center hidden sm:flex">
+                                <AccountCircleOutlinedIcon className={styles["icons"]+ " sm:mx-2 mx-4 inline"}></AccountCircleOutlinedIcon>
+                                <span className="hidden sm:inline">TestAccount</span>
+                            </a>
                         </div>
                     </div>
                 </div>
