@@ -4,27 +4,26 @@
         min-width: 300px;
     }
 
-    .w-center-fixed{
-        flex: 0 1 230px;
-        min-width: 50%;
+    .w-center-fixed {
+        #flex: 0 1 230px;
+        width: 50%;
     }
 
-    .w-right-fixed{
+    .w-right-fixed {
         border-left: 2px solid #BFC9CA;
-        flex: 0 1 230px;
-        min-width: 50vh;
+        #flex: 0 1 230px;
+        width: 50%;
     }
 
-    .icons{
+    .icons {
         font-size: 3rem;
         width: 3rem;
     }
 }
 
 
-
 @media (max-width: 640px) {
-    .icons{
+    .icons {
         font-size: 2rem;
         width: 2rem;
     }
