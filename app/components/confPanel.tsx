@@ -4,9 +4,8 @@ import React from "react";
 
 export default function confPanel({children}:{children: React.ReactNode}){
     return(
-        <>
-            <div className={styles["w-right-fixed"] + " w-full flex-shrink flex-grow-0 px-2  mx-4 sm:mx-0"}>
-                <div className="flex sm:flex-col px-2">
+            <div className={styles["w-right-fixed"] + " max-w-[-webkit-fill-available] sm:w-full flex justify-center flex-shrink flex-grow-0 px-2 mx-4 sm:mx-0 overflow-x-scroll"}>
+                <div className="flex flex-col ju px-2 w-[80%]">
 
                     {children}
 
@@ -36,6 +35,5 @@ export default function confPanel({children}:{children: React.ReactNode}){
 
                 </div>
             </div>
-        </>
     )
 }
