@@ -22,27 +22,27 @@ export default function SideNav() {
                     <div className="flex flex-col sm:mt-[20%] items-center min-w-fit">
                         <ul className="flex sm:flex-col overflow-hidden justify-center content-center w-[75%] min-w-fit">
                             <li className="py-2 rounded-3xl hover:bg-[#d9e7cb]">
-                                <a className="truncate" href="#">
+                                <a className={"truncate"} href="#">
                                     <TimerIcon className={styles["icons"]+" fill-black dark:fill-none sm:mx-2 mx-4 inline"}></TimerIcon>
-                                    <span className="hidden sm:inline">Workout</span>
+                                    <span className="hidden sm:inline font-medium text-[1.5rem]">Workout</span>
                                 </a>
                             </li>
                             <li className="py-2 rounded-3xl hover:bg-[#d9e7cb]">
                                 <a className="truncate" href="#">
-                                    <Image src={modifyingOff} alt="ModifyingOn" className={styles["icons"] + " sm:mx-2 mx-4 inline"} />
-                                    <span className="hidden sm:inline">Modifying</span>
+                                    <Image src={modifyingOff} alt="ModifyingOn" className={"sm:mx-2 mx-4 inline sm:w-[3rem] w-[2rem]"}/>
+                                    <span className="hidden sm:inline font-medium text-[1.5rem]">Modifying</span>
                                 </a>
                             </li>
                             <li className="py-2 rounded-3xl hover:bg-[#d9e7cb]">
                                 <a className="" href="#">
                                     <BarChartIcon className={styles["icons"] + " sm:mx-2 mx-4 inline"}></BarChartIcon>
-                                    <span className="hidden sm:inline">Calc. Counter</span>
+                                    <span className="hidden sm:inline font-medium text-[1.5rem] w-fit">Calc. Counter</span>
                                 </a>
                             </li>
                             <li className={"py-2 rounded-3xl hover:bg-[#d9e7cb]"}>
                                 <a className="" href="#">
                                     <ManageAccountsOutlinedIcon className={styles["icons"] + " sm:mx-2 mx-4 inline"}></ManageAccountsOutlinedIcon>
-                                    <span className="hidden sm:inline">Options</span>
+                                    <span className="hidden sm:inline font-medium text-[1.5rem]">Options</span>
                                 </a>
                             </li>
                         </ul>
@@ -55,7 +55,7 @@ export default function SideNav() {
                     <div className="flex justify-center items-center flex-col flex-grow">
                         <a className="hover:bg-[#d9e7cb] rounded-3xl py-2 w-full justify-center items-center hidden sm:flex">
                             <AccountCircleOutlinedIcon className={styles["icons"]+ " sm:mx-2 mx-4 inline"}></AccountCircleOutlinedIcon>
-                            <span className="hidden sm:inline">TestAccount</span>
+                            <span className="hidden sm:inline font-medium text-[1.5rem]">TestAccount</span>
                         </a>
                     </div>
                 </div>
