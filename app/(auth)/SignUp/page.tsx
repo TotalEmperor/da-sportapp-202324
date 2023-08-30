@@ -30,7 +30,7 @@ export default function Page() {
                 </header>
                 <div className="flex-1 flex justify-center items-center">
                     {activeTab === 0 && (
-                        <form className="rounded-3xl p-2 bg-white min-h-fit max-h-screen w-1/4 min-w-max">
+                        <form className="rounded-3xl p-2 bg-white min-h-fit max-h-screen w-1/4 min-w-fit">
                             <div className="space-y-12">
                                 <div className="border-b border-gray-900/10 pb-12">
                                     <h2 className="text-base font-semibold leading-7 text-gray-900">Personal
@@ -39,8 +39,8 @@ export default function Page() {
                                         you
                                         can receive mail.
                                     </p>
-                                    <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                        <div className="sm:col-span-3">
+                                    <div className="mt-10 grid grid-cols-6 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                        <div className="col-span-3">
                                             <BorderContainer title="First Name">
                                                 <input
                                                     type="text"
@@ -52,7 +52,7 @@ export default function Page() {
                                             </BorderContainer>
                                         </div>
 
-                                        <div className="sm:col-span-3">
+                                        <div className="col-span-3">
                                             <BorderContainer title="Last Name">
                                                 <input
                                                     type="text"
@@ -64,7 +64,7 @@ export default function Page() {
                                             </BorderContainer>
                                         </div>
 
-                                        <div className="sm:col-span-4">
+                                        <div className="col-span-4">
                                             <BorderContainer title=" Email">
                                                 <input
                                                     id="email"

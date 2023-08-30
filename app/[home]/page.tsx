@@ -1,9 +1,11 @@
 import styles from "./home.module.css"
 import React from "react";
-
+import SetComponent from "@/components/SetComponent"
 import SideNav from "@/components/SideNav";
 import MainComponent from "@/components/mainComponent";
 import ConfPanel from "@/components/confPanel";
+import DateConfig from "@/components/dateConfig";
+
 
 import Image from "next/image";
 import Head from "next/head";
@@ -11,7 +13,7 @@ import Head from "next/head";
 
 export default function page() {
     return (
-        <div className="flex flex-col min-h-fit h-screen">
+        <div className={ styles["contentWidth"] +" flex flex-col min-h-fit h-screen bg-[#F8FAF7]"}>
             <Head>
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="icon"/>
             </Head>
@@ -19,6 +21,7 @@ export default function page() {
                 <SideNav/>
                 <MainComponent>
                     <>
+                        <SetComponent/>
                     </>
                 </MainComponent>
                 <ConfPanel>
