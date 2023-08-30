@@ -24,7 +24,7 @@ export default function dateConfig() {
                     </div>
                     <div className="flex flex-row">
                         {Array.from({length: 7}, (_, i) => (
-                            <div key={i} className="flex flex-col pe-2">
+                            <div key={i} className="flex flex-col pe-3">
                                 <div
                                     onClick={() => handleClick(i)}
                                     className="cursor-pointer text-blue-500 hover:text-blue-700 flex justify-center"
