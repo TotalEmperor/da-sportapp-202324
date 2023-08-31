@@ -4,8 +4,28 @@ import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import Head from "next/head";
 import BorderContainer from "@/components/borderContainer";
+import signIn from "@/firebase/signin";
+import {useRouter} from "next/navigation";
 
 export default function SignUp() {
+
+    const [email, setEmail] = React.useState('')
+    const [password, setPassword] = React.useState('')
+    const router = useRouter()
+
+    const handleForm = async (event) => {
+        event.preventDefault()
+
+        const { result, error } = await signIn(email, password);
+
+        if (error) {
+            return console.log(error)
+        }
+
+        // else successful
+        console.log(result)
+        return router.push("/home")
+    }
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -24,7 +44,7 @@ export default function SignUp() {
                     <Navbar/>
                 </header>
                 <div className="flex-1 flex justify-center items-center">
-                    <form className="rounded-3xl p-2 bg-white min-h-fit max-h-screen w-1/5 min-w-max">
+                    <form className="rounded-3xl p-2 bg-white min-h-fit max-h-screen w-1/5 min-w-max" onSubmit={handleForm}>
                         <div className="space-y-12">
                             <div className="border-b border-gray-900/10 pb-12">
                                 <h2 className="text-base font-semibold leading-7 text-gray-900">Personal
@@ -41,7 +61,9 @@ export default function SignUp() {
                                                 id="email"
                                                 name="email"
                                                 type="email"
-                                                autoComplete="email"
+                                                required
+                                                onChange={(e) => setEmail(e.target.value)}
+                                                placeholder="example@mail.com"
                                                 className="text-center outline-0 w-full"
                                             />
                                         </BorderContainer>
@@ -53,11 +75,13 @@ export default function SignUp() {
                                                 type={showPassword ? 'text' : 'password'}
                                                 name="password"
                                                 id="password"
-                                                autoComplete="password"
+                                                required
+                                                onChange={(e) => setPassword(e.target.value)}
+                                                placeholder="password"
                                                 className="text-center outline-0 w-full"
                                             />
                                             <button
-                                                type="button"
+                                                type="submit"
                                                 onClick={handleTogglePassword}
                                                 className="absolute inset-y-0 right-0 flex items-center pr-3 text-sm text-gray-600 cursor-pointer"
                                             >
