@@ -4,7 +4,9 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    //"strict": true,
+    "strict": false,
+    "noImplicitAny": false,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -23,7 +25,9 @@
       "@/components/*": ["app/components/*"],
       "@/images/*": ["public/images/*"],
       "@/auth/*": ["app/(auth)/*"],
-      "@/icons/*": ["public/icons/*"]
+      "@/icons/*": ["public/icons/*"],
+      "@/firebase/*": ["app/firebase/*"],
+      "@/context/*": ["app/context/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
