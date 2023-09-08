@@ -9,6 +9,7 @@ import Head from "next/head";
 import React from "react";
 import {useAuthContext} from "@/context/AuthContext";
 import {useRouter} from "next/navigation";
+import DateConfig from "@/components/dateConfig";
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
 
@@ -26,11 +27,11 @@ export default function page() {
                 <SideNav/>
                 <MainComponent>
                     <>
-                        <SetComponent/>
                     </>
                 </MainComponent>
                 <ConfPanel>
                     <>
+                        <DateConfig/>
                     </>
                 </ConfPanel>
             </div>
