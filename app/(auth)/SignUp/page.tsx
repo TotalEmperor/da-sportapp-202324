@@ -7,7 +7,7 @@ import BorderContainer from "@/components/borderContainer";
 import GenderDropdown from "@/components/genderDropdown";
 
 
-export default function Page() {
+export default function SignUp() {
 
     const [showPassword, setShowPassword] = useState(false);
 
