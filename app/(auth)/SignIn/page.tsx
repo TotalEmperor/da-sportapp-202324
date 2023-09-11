@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import Head from "next/head";
 import BorderContainer from "@/components/borderContainer";
-import signIn from "@/firebase/signin";
+import signIn from "@/firebase/auth/signin";
 import {useRouter} from "next/navigation";
 
 export default function SignUp() {
