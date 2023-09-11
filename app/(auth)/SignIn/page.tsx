@@ -9,24 +9,6 @@ import {useRouter} from "next/navigation";
 
 export default function SignUp() {
 
-    const [email, setEmail] = React.useState('')
-    const [password, setPassword] = React.useState('')
-    const router = useRouter()
-
-    const handleForm = async (event) => {
-        event.preventDefault()
-
-        const { result, error } = await signIn(email, password);
-
-        if (error) {
-            return console.log(error)
-        }
-
-        // else successful
-        console.log(result)
-        return router.push("/home")
-    }
-
     const [showPassword, setShowPassword] = useState(false);
 
     const handleTogglePassword = () => {

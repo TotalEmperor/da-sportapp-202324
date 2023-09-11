@@ -5,7 +5,6 @@ import {
     getAuth,
 } from 'firebase/auth';
 import firebase_app from '@/firebase/config';
-import {router} from "next/client";
 
 const auth = getAuth(firebase_app);
 
