@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import Link from 'next/link'
 import Image from 'next/image'
-import Logo from '../../public/images/hope.svg'
+import Logo from '../../public/images/hope.svg';
 import LogoDark from "../../public/images/irgendwiesohalt.svg"
 import styles from "../[home]/home.module.css";
 import TimerIcon from "@mui/icons-material/Timer";
@@ -12,9 +12,21 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 
 import {useRouter} from "next/navigation";
 import logOut from "@/firebase/auth/logOut"
-
+import getDocument from "@/firebase/firestore/getData"
 
 export default function SideNav() {
+
+    const [data, setData] = useState(null);
+    const [isLoading, setLoading] = useState(true);
+
+    useEffect(() => {
+        getDocument("users", "kzXT1jAE8gb7rHz3MyWES7YBCf83")
+            .then((data) => {
+                // @ts-ignore
+                setData(data.result);
+                setLoading(false);
+            });
+    }, []);
 
     const router = useRouter()
 
@@ -76,7 +88,7 @@ export default function SideNav() {
                     <div className="flex justify-center items-center flex-col flex-grow">
                         <a onClick={handleLogOut} className="hover:bg-[#d9e7cb] rounded-3xl py-2 w-full justify-center items-center hidden sm:flex hover:cursor-pointer">
                             <AccountCircleOutlinedIcon className={styles["icons"]+ " sm:mx-2 mx-4 inline"}></AccountCircleOutlinedIcon>
-                            <span className="hidden sm:inline font-medium text-[1.5rem]">TestAccount</span>
+                            <span className="hidden sm:inline font-medium text-[1.5rem]">{data}</span>
                         </a>
                     </div>
                 </div>
