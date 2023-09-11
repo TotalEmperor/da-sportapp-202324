@@ -27,6 +27,7 @@ export default function page() {
                 <SideNav/>
                 <MainComponent>
                     <>
+                        <SetComponent/>
                     </>
                 </MainComponent>
                 <ConfPanel>
