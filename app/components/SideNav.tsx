@@ -13,14 +13,17 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import {useRouter} from "next/navigation";
 import logOut from "@/firebase/auth/logOut"
 import getDocument from "@/firebase/firestore/getData"
+import firebase_app from "@/firebase/config";
+import {getAuth} from "firebase/auth";
 
 export default function SideNav() {
 
     const [data, setData] = useState(null);
     const [isLoading, setLoading] = useState(true);
+    const auth = getAuth(firebase_app);
 
     useEffect(() => {
-        getDocument("users", "kzXT1jAE8gb7rHz3MyWES7YBCf83")
+        getDocument("users", auth.currentUser.uid)
             .then((data) => {
                 // @ts-ignore
                 setData(data.result);
