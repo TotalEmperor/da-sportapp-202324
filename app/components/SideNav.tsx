@@ -11,7 +11,7 @@ import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlin
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
 import {useRouter} from "next/navigation";
-import logOut from "@/firebase/logOut"
+import logOut from "@/firebase/auth/logOut"
 
 
 export default function SideNav() {
