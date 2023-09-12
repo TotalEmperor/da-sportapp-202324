@@ -13,28 +13,22 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 
 import {useRouter} from "next/navigation";
 import logOut from "@/firebase/auth/logOut"
+import { use } from "react";
+
 import getDocument from "@/firebase/firestore/getData"
 import firebase_app from "@/firebase/config";
 import {getAuth} from "firebase/auth";
 
+const getPosts = async (): Promise<String> => {
+   return getDocument("users", "")
+       .then((data) => {
+           return data.result.get("name");
+       });
+};
 export default function SideNav() {
 
-    const [data, setData] = useState(null);
-    const [isLoading, setLoading] = useState(true);
-    const auth = getAuth(firebase_app);
-
-    useEffect(() => {
-        getDocument("users", auth.currentUser.uid)
-            .then((data) => {
-                // @ts-ignore
-                setData(data.result.get("name"));
-                setLoading(false);
-            });
-    }, []);
-
-    console.log(data)
-
     const router = useRouter()
+    const username = getPosts();
 
     const handleLogOut = async (event) => {
         event.preventDefault()
@@ -94,7 +88,7 @@ export default function SideNav() {
                     <div className="flex justify-center items-center flex-col flex-grow">
                         <a onClick={handleLogOut} className="hover:bg-[#d9e7cb] rounded-3xl py-2 w-full justify-center items-center hidden sm:flex hover:cursor-pointer">
                             <AccountCircleOutlinedIcon className={styles["icons"]+ " sm:mx-2 mx-4 inline"}></AccountCircleOutlinedIcon>
-                            <span className="hidden sm:inline font-medium text-[1.5rem]">{data}</span>
+                            <span className="hidden sm:inline font-medium text-[1.5rem]">{username}</span>
                         </a>
                     </div>
                 </div>

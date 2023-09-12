@@ -5,16 +5,17 @@ import MainComponent from "@/components/mainComponent";
 import ConfPanel from "@/components/confPanel";
 import Image from "next/image";
 import Head from "next/head";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Link from "next/link"
 import {useAuthContext} from "@/context/AuthContext";
 import {useRouter} from "next/navigation";
 
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import {getAuth} from "firebase/auth";
+import firebase_app from "@/firebase/config";
+import getDocument from "@/firebase/firestore/getData";
 
 export default function page() {
-
-    // eslint-disable-next-line react-hooks/rules-of-hooks
 
     return (
         <div className={ styles["contentWidth"] +" flex flex-col min-h-fit h-screen bg-[#F8FAF7]"}>
