@@ -1,4 +1,3 @@
-"use client"
 import styles from "./settings.module.css"
 import SetComponent from "@/components/SetComponent"
 import SideNav from "@/components/SideNav";

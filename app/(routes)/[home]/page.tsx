@@ -1,4 +1,3 @@
-"use client";
 import styles from "./home.module.css"
 import SetComponent from "@/components/SetComponent"
 import SideNav from "@/components/SideNav";
@@ -14,10 +13,7 @@ import DateConfig from "@/components/dateConfig";
 // eslint-disable-next-line react-hooks/rules-of-hooks
 
 
-export default function page() {
-
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-
+export default async function page() {
     return (
         <div className={ styles["contentWidth"] +" flex flex-col min-h-fit h-screen bg-[#F8FAF7]"}>
             <Head>

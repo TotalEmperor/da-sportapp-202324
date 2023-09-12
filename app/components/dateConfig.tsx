@@ -1,5 +1,6 @@
+"use client"
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import styles from "../[home]/home.module.css";
+import styles from "../(routes)/[home]/home.module.css";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import React, {useState} from "react";
 

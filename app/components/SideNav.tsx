@@ -1,9 +1,10 @@
+"use client"
 import React, {useState, useEffect} from "react";
 import Link from 'next/link'
 import Image from 'next/image'
 import Logo from '../../public/images/hope.svg';
 import LogoDark from "../../public/images/irgendwiesohalt.svg"
-import styles from "../[home]/home.module.css";
+import styles from "../(routes)/[home]/home.module.css";
 import TimerIcon from "@mui/icons-material/Timer";
 import modifyingOff from "@/icons/modifyingoff.svg";
 import BarChartIcon from "@mui/icons-material/BarChart";
@@ -60,7 +61,7 @@ export default function SideNav() {
                     <div className="flex flex-col sm:mt-[20%] items-center min-w-fit">
                         <ul className="flex sm:flex-col overflow-hidden justify-center content-center w-[75%] min-w-fit">
                             <li className="py-2 rounded-3xl hover:bg-[#d9e7cb]">
-                                <Link href="../%5Bhome%5D">
+                                <Link href="../home%">
                                     <TimerIcon className={styles["icons"]+" fill-black dark:fill-none sm:mx-2 mx-4 inline"}></TimerIcon>
                                     <span className="hidden sm:inline font-medium text-[1.5rem]">Workout</span>
                                 </Link>

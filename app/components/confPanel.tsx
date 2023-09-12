@@ -1,5 +1,5 @@
 "use client"
-import styles from "../[home]/home.module.css";
+import styles from "../(routes)/[home]/home.module.css";
 import React, {useState} from "react";
 import DateConfig from "@/components/dateConfig";
 
