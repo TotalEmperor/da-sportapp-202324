@@ -10,8 +10,7 @@ export default async function getDoument(collection, id) {
     let error = null;
 
     try {
-        result = docS.get("name");
-        console.log(result);
+        result = docS;
     } catch (e) {
         error = e;
     }

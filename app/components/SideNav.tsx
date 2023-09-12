@@ -26,10 +26,12 @@ export default function SideNav() {
         getDocument("users", auth.currentUser.uid)
             .then((data) => {
                 // @ts-ignore
-                setData(data.result);
+                setData(data.result.get("name"));
                 setLoading(false);
             });
     }, []);
+
+    console.log(data)
 
     const router = useRouter()
 
