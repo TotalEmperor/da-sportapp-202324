@@ -1,9 +1,9 @@
 "use client"
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, use} from "react";
 import Link from 'next/link'
 import Image from 'next/image'
-import Logo from '../../public/images/hope.svg';
-import LogoDark from "../../public/images/irgendwiesohalt.svg"
+import Logo from '@/images/hope.svg';
+import LogoDark from "@/images/irgendwiesohalt.svg"
 import styles from "../(routes)/[home]/home.module.css";
 import TimerIcon from "@mui/icons-material/Timer";
 import modifyingOff from "@/icons/modifyingoff.svg";
@@ -13,22 +13,38 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 
 import {useRouter} from "next/navigation";
 import logOut from "@/firebase/auth/logOut"
-import { use } from "react";
-
 import getDocument from "@/firebase/firestore/getData"
-import firebase_app from "@/firebase/config";
-import {getAuth} from "firebase/auth";
+import {AuthContextProvider} from "@/context/AuthContext";
 
-const getPosts = async (): Promise<String> => {
+const getPosts = (): Promise<String> => {
    return getDocument("users", "")
        .then((data) => {
+           console.log()
            return data.result.get("name");
        });
 };
-export default function SideNav() {
 
-    const router = useRouter()
-    const username = getPosts();
+
+export default function SideNav() {
+    const [username, setUsers] = useState([]);
+
+    const router = useRouter();
+
+
+    useEffect(() => {
+        if(!AuthContextProvider){
+            router.push("/")
+        }
+
+        const fetchData = async () => {
+            return getDocument("users", "")
+                .then((data) => {
+                    setUsers(data.result.get("name"))
+                });
+        };
+
+        fetchData();
+    }, );
 
     const handleLogOut = async (event) => {
         event.preventDefault()
@@ -45,7 +61,6 @@ export default function SideNav() {
     }
 
     return (
-        <>
             <div className={styles["w-left-fixed"] + " w-full flex-shrink flex-grow-0 px-4 "}>
                 <div
                     className={styles["w-left-panel"] + " sticky top-0 sm:p-4 rounded-xl w-full h-full bg-[#F3F6EB] min-w-fit flex flex-col"}>
@@ -93,6 +108,5 @@ export default function SideNav() {
                     </div>
                 </div>
             </div>
-        </>
     );
 }

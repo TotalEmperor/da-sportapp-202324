@@ -1,10 +1,11 @@
 "use client"
-import React from 'react';
+import React, {createContext, useContext} from 'react';
 import {
     onAuthStateChanged,
     getAuth,
 } from 'firebase/auth';
 import firebase_app from '@/firebase/config';
+import { redirect } from 'next/navigation'
 
 const auth = getAuth(firebase_app);
 
@@ -35,3 +36,4 @@ export const AuthContextProvider = ({children,}) => {
         </AuthContext.Provider>
     );
 };
+

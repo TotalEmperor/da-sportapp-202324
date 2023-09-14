@@ -5,7 +5,6 @@ import MainComponent from "@/components/mainComponent";
 import ConfPanel from "@/components/confPanel";
 import Image from "next/image";
 import Head from "next/head";
-import React, {useEffect, useState} from "react";
 import Link from "next/link"
 import {useAuthContext} from "@/context/AuthContext";
 import {useRouter} from "next/navigation";

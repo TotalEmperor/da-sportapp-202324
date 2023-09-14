@@ -17,7 +17,7 @@ export default async function page() {
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="icon"/>
             </Head>
             <div className="w-full flex flex-col sm:flex-row flex-wrap sm:flex-nowrap py-4 flex-grow">
-                <SideNav username={"s"}/>
+                <SideNav/>
                 <MainComponent>
                     <>
                         <SetComponent/>

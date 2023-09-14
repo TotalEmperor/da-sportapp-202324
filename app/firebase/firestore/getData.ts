@@ -1,6 +1,9 @@
+"use client"
 import firebase_app from "@/firebase/config";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import {getAuth} from "firebase/auth";
+import { useEffect, useState } from 'react';
+import {getDocument} from "@floating-ui/utils/react";
 
 const db = getFirestore(firebase_app)
 export default async function getDoument(collection, id) {
@@ -21,3 +24,6 @@ export default async function getDoument(collection, id) {
 
     return { result, error };
 }
+
+
+
