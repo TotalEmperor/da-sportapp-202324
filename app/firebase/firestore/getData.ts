@@ -17,7 +17,7 @@ export default async function getDoument(collection, id) {
     let error = null;
 
     try {
-        result = docS.data();
+        result = docS;
     } catch (e) {
         error = e;
     }

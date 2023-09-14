@@ -1,5 +1,5 @@
 "use client"
-import React, {useState, useEffect, use, useContext} from "react";
+import React, {useState, useEffect, use} from "react";
 import Link from 'next/link'
 import Image from 'next/image'
 import Logo from '@/images/hope.svg';
@@ -14,8 +14,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import {useRouter} from "next/navigation";
 import logOut from "@/firebase/auth/logOut"
 import getDocument from "@/firebase/firestore/getData"
-import {AuthContextProvider, useAuthContext} from "@/context/AuthContext";
-import {getAuth} from "firebase/auth";
+import {AuthContextProvider} from "@/context/AuthContext";
 
 const getPosts = (): Promise<String> => {
    return getDocument("users", "")
@@ -28,9 +27,6 @@ const getPosts = (): Promise<String> => {
 
 export default function SideNav() {
     const [username, setUsers] = useState([]);
-
-    const auth = getAuth();
-    const user = auth.currentUser;
 
     const router = useRouter();
 
@@ -107,7 +103,7 @@ export default function SideNav() {
                     <div className="flex justify-center items-center flex-col flex-grow">
                         <a onClick={handleLogOut} className="hover:bg-[#d9e7cb] rounded-3xl py-2 w-full justify-center items-center hidden sm:flex hover:cursor-pointer">
                             <AccountCircleOutlinedIcon className={styles["icons"]+ " sm:mx-2 mx-4 inline"}></AccountCircleOutlinedIcon>
-                            <span className="hidden sm:inline font-medium text-[1.5rem]">{user.displayName}</span>
+                            <span className="hidden sm:inline font-medium text-[1.5rem]">{username}</span>
                         </a>
                     </div>
                 </div>

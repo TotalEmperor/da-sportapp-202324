@@ -7,9 +7,7 @@ import styles from "../(routes)/[home]/home.module.css";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 
 
-export default function setComponent(data) {
-
-    console.log(data)
+export default function setComponent() {
     return (
         <>
             <div className="rounded-xl border-2 border-[#9a9d93] w-[85%] my-2">

@@ -37,12 +37,3 @@ export const AuthContextProvider = ({children,}) => {
     );
 };
 
-export function uId(){
-    try{
-        return getAuth(firebase_app).currentUser.uid;
-    }catch (e){
-        console.log(e)
-    }
-}
-
-
