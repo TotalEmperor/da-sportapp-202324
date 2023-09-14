@@ -13,14 +13,16 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 
 import {useRouter} from "next/navigation";
 import logOut from "@/firebase/auth/logOut"
-import getDocument from "@/firebase/firestore/getData"
+import getFirestoreDocument from "@/firebase/firestore/getData"
 import {AuthContextProvider} from "@/context/AuthContext";
+import {getAuth} from "firebase/auth";
+import firebase_app from "@/firebase/config";
 
 const getPosts = (): Promise<String> => {
-   return getDocument("users", "")
+   return getFirestoreDocument("users", "")
        .then((data) => {
            console.log()
-           return data.result.get("name");
+           return data.result;
        });
 };
 
@@ -29,6 +31,9 @@ export default function SideNav() {
     const [username, setUsers] = useState([]);
 
     const router = useRouter();
+    const auth = getAuth(firebase_app);
+
+    const uid = auth.currentUser.uid
 
 
     useEffect(() => {
@@ -37,9 +42,9 @@ export default function SideNav() {
         }
 
         const fetchData = async () => {
-            return getDocument("users", "")
+            return getFirestoreDocument("users", uid)
                 .then((data) => {
-                    setUsers(data.result.get("name"))
+                    setUsers(data.result["name"])
                 });
         };
 

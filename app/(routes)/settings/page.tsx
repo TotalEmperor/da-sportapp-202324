@@ -6,8 +6,6 @@ import ConfPanel from "@/components/confPanel";
 import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link"
-import {useAuthContext} from "@/context/AuthContext";
-import {useRouter} from "next/navigation";
 
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import {getAuth} from "firebase/auth";

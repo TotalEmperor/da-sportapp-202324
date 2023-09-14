@@ -1,23 +1,18 @@
-"use client"
 import firebase_app from "@/firebase/config";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
-import {getAuth} from "firebase/auth";
-import { useEffect, useState } from 'react';
-import {getDocument} from "@floating-ui/utils/react";
+
 
 const db = getFirestore(firebase_app)
-export default async function getDoument(collection, id) {
-    const auth = getAuth(firebase_app);
+export default async function getFirestoreDocument(collection, id) {
 
-    const uid = auth.currentUser.uid
-    let docRef = doc(db, collection, uid);
+    let docRef = doc(db, collection, id);
     let docS = await getDoc(docRef);
 
     let result = null;
     let error = null;
 
     try {
-        result = docS;
+        result = docS.data();
     } catch (e) {
         error = e;
     }
