@@ -5,12 +5,13 @@ import MainComponent from "@/components/mainComponent";
 import ConfPanel from "@/components/confPanel";
 import Image from "next/image";
 import Head from "next/head";
-import React from "react";
-import {useAuthContext} from "@/context/AuthContext";
-import {useRouter} from "next/navigation";
 import DateConfig from "@/components/dateConfig";
+import {uId} from "@/context/AuthContext";
+import getDocument from "@/firebase/firestore/getData"
 
-export default async function page() {
+export default function page(data ) {
+
+    console.log(data)
     return (
         <div className={ styles["contentWidth"] +" flex flex-col min-h-fit h-screen bg-[#F8FAF7]"}>
             <Head>
@@ -20,7 +21,11 @@ export default async function page() {
                 <SideNav/>
                 <MainComponent>
                     <>
-                        <SetComponent/>
+                        {data.map((document) => (
+                            <>
+                                <SetComponent document={document} />
+                            </>
+                        ))}
                     </>
                 </MainComponent>
                 <ConfPanel>
@@ -31,4 +36,14 @@ export default async function page() {
             </div>
         </div>
     );
+}
+
+export async function getServerSideProps() {
+    const doc = await getDocument("exercises", uId())
+
+    return {
+        props: {
+            data: doc,
+        },
+    };
 }
