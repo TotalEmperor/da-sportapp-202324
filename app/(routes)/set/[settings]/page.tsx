@@ -14,10 +14,20 @@ import getDocument from "@/firebase/firestore/getData";
 import Account from "@/components/settings/Account";
 import Language from "@/components/settings/Language";
 import React from "react";
+import getSettings from "./getSettings";
 
 
-export default function page() {
+type Params = {
+    params:{
+        setting: string
+    }
+
+}
+
+export default function page({params : {settings}}) {
     const Account ="Account";
+
+    console.log("Settings: "+settings)
 
     return (
         <div className={ styles["contentWidth"] +" flex flex-col min-h-fit h-screen bg-[#F8FAF7]"}>
@@ -31,7 +41,7 @@ export default function page() {
                         <div className="flex flex-col w-full">
                             <div className="border-y-2 border-gray-500 flex flex-row justify-center items-center hover:bg-[#F5F3F3]">
                                 <Link
-                                    href={`/settings/${Account}`}
+                                    href={`/set/${Account}`}
                                     aria-current="true"
                                     className="block w-full cursor-pointer rounded-lg bg-primary-100 p-4 text-primary-600 hover:bg-[#F5F3F3]">
                                     Account
@@ -40,7 +50,7 @@ export default function page() {
                             </div>
                             <div className="border-b-2 border-gray-500 flex flex-row justify-center items-center hover:bg-[#F5F3F3]">
                                 <Link
-                                    href={`/settings/${"Language"}`}
+                                    href={`/set/${"Language"}`}
                                     className="block w-full cursor-pointer rounded-lg p-4 transition duration-500 hover:bg-neutral-100 hover:text-neutral-500 focus:bg-neutral-100 focus:text-neutral-500 focus:ring-0 dark:hover:bg-neutral-600 dark:hover:text-neutral-200 dark:focus:bg-neutral-600 dark:focus:text-neutral-200">
                                     Language
                                 </Link>
@@ -67,9 +77,18 @@ export default function page() {
                 </MainComponent>
                 <ConfPanel>
                     {
+                        getSettings(settings)
                     }
                 </ConfPanel>
             </div>
         </div>
     );
+}
+
+export async function getStaticProps({ params }) {
+    return {
+        props: {
+            params,
+        },
+    };
 }

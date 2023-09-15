@@ -1,3 +1,4 @@
+"use client"
 import styles from "../(routes)/[home]/home.module.css";
 import React from "react";
 
