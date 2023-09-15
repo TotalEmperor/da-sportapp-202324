@@ -93,7 +93,7 @@ export default function SideNav() {
                                 </a>
                             </li>
                             <li className={"py-2 rounded-3xl hover:bg-[#d9e7cb]"}>
-                                <Link href="../set/">
+                                <Link href={`/settings/${"Account"}`}>
                                     <ManageAccountsOutlinedIcon className={styles["icons"] + " sm:mx-2 mx-4 inline"}/>
                                     <span className="hidden sm:inline font-medium text-[1.5rem]">Options</span>
                                 </Link>

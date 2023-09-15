@@ -1,7 +1,7 @@
 import styles from "./home.module.css"
-import SetComponent from "@/components/SetComponent"
+import SetComponent from "@/components/MainScreen/SetComponent"
 import SideNav from "@/components/SideNav";
-import MainComponent from "@/components/mainComponent";
+import MainComponent from "@/components/MainScreen/mainComponent";
 import ConfPanel from "@/components/confPanel";
 import Image from "next/image";
 import Head from "next/head";
@@ -18,7 +18,7 @@ export default async function page() {
         ...dataSet[key],
     }))
 
-    console.log(dataSet.result["Exampleexercises"]["Abs"]["Crunches"])
+    //console.log(dataSet.result["Exampleexercises"]["Abs"]["Crunches"])
 
     return (
         <div className={ styles["contentWidth"] +" flex flex-col min-h-fit h-screen bg-[#F8FAF7]"}>

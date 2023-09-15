@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import Head from "next/head";
-import BorderContainer from "@/components/borderContainer";
+import BorderContainer from "@/components/Authentication/borderContainer";
 import signIn from "@/firebase/auth/signin";
 import {useRouter} from "next/navigation";
 

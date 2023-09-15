@@ -17,8 +17,3 @@ export default function confPanel({children}:{children: React.ReactNode}){
             </div>
     )
 }
-
-
-function test(){
-
-}
