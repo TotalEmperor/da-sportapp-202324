@@ -73,10 +73,3 @@ export default function page({params : {setting}}) {
     );
 }
 
-export async function getStaticProps({ params }) {
-    return {
-        props: {
-            params,
-        },
-    };
-}
