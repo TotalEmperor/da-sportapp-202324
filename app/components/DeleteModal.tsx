@@ -1,8 +1,26 @@
+"use client"
 import React from "react";
 import Link from "next/link";
 import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
+import deleteUser from "@/firebase/auth/deleteUser";
+import {useRouter} from "next/navigation";
+
 
 export default function DeleteModal({style, title, text}: { style?: string, title: string, text: string }) {
+    const router = useRouter();
+
+    const handleDelete = async (event) => {
+        event.preventDefault()
+
+        const res = await deleteUser();
+
+        if (res) {
+            router.push("/")
+
+        }else{
+            router.push("/settings/delete?deleteError=true")
+        }
+    }
 
     return (
         <div
@@ -36,7 +54,7 @@ export default function DeleteModal({style, title, text}: { style?: string, titl
                             </div>
                         </div>
                         <div className="text-center md:text-right mt-4 md:flex md:justify-end">
-                            <button className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-red-200 text-red-700 rounded-lg font-semibold text-sm md:ml-2 md:order-2">Delete
+                            <button className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-red-200 text-red-700 rounded-lg font-semibold text-sm md:ml-2 md:order-2" onClick={handleDelete}>Delete
                                 Account</button>
                             <Link
                                 href="/settings/delete"
@@ -51,4 +69,6 @@ export default function DeleteModal({style, title, text}: { style?: string, titl
         </div>
     );
 }
+
+
 
