@@ -25,7 +25,6 @@ export default function DeleteModal({style, title, text}: { style?: string, titl
         </span>
                 <div
                     className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
-                    <div className="bg-white rounded-lg md:max-w-md md:mx-auto p-4 fixed inset-x-0 bottom-0 z-50 mb-4 mx-4 md:relative">
                         <div className="md:flex items-center">
                             <div className="rounded-full border border-gray-300 flex items-center justify-center w-16 h-16 flex-shrink-0 mx-auto">
                                 <WarningAmberRoundedIcon/>
@@ -47,7 +46,6 @@ export default function DeleteModal({style, title, text}: { style?: string, titl
                                 Cancel
                             </Link>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
