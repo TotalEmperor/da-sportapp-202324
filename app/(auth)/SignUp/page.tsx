@@ -192,7 +192,7 @@ export default function SignUp() {
                                         </div>
 
                                         <div className="sm:col-span-full flex-col flex items-center justify-center">
-                                            <BorderContainer title="Weight (kg)" width="w-8/12">
+                                            <BorderContainer title="Weight (kg)" style="w-8/12">
 
                                                 <input
                                                     type="text"

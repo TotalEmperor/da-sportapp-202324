@@ -8,15 +8,11 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import React from "react";
 import getSettings from "./getSettings";
 
+type Props = {
+    searchParams: Record<string, string> | null | undefined;
+};
 
-type Params = {
-    params:{
-        setting: string
-    }
-
-}
-
-export default function page({params : {setting}}) {
+export default function page({params : {setting}} ) {
     return (
         <div className={ styles["contentWidth"] +" flex flex-col min-h-fit h-screen bg-[#F8FAF7]"}>
             <Head>

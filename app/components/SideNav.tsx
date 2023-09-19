@@ -1,5 +1,5 @@
 "use client"
-import React, {useState, useEffect, use} from "react";
+import React, {useState, useEffect, use, useContext} from "react";
 import Link from 'next/link'
 import Image from 'next/image'
 import Logo from '@/images/hope.svg';
@@ -14,7 +14,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import {useRouter} from "next/navigation";
 import logOut from "@/firebase/auth/logOut"
 import getFirestoreDocument from "@/firebase/firestore/getData"
-import {AuthContextProvider} from "@/context/AuthContext";
+import {UseAuthContext} from "@/context/AuthContext";
 import {getAuth} from "firebase/auth";
 import firebase_app from "@/firebase/config";
 
@@ -31,25 +31,28 @@ export default function SideNav() {
     const [username, setUsers] = useState([]);
 
     const router = useRouter();
-    const auth = getAuth(firebase_app);
-
-    const uid = auth.currentUser.uid
 
 
     useEffect(() => {
-        if(!AuthContextProvider){
-            router.push("/")
-        }
+        const auth = getAuth(firebase_app);
+
 
         const fetchData = async () => {
+            const uid = auth.currentUser.uid
             return getFirestoreDocument("users", uid)
                 .then((data) => {
                     setUsers(data.result["name"])
                 });
         };
+        console.log(auth.currentUser)
 
-        fetchData();
-    }, );
+        if(auth.currentUser){
+            fetchData()
+        }else {
+            router.push("/")
+        }
+
+        }, );
 
     const handleLogOut = async (event) => {
         event.preventDefault()

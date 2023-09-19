@@ -9,7 +9,7 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 export default function General(){
 
     return(
-        <div className="w-full flex-grow flex-shrink pt-1 flex-col flex">
+        <div className="w-full flex-grow flex-shrink pt-1 flex-col flex px-3">
             <div className="flex w-full flex-col border-b-2 border-gray-300 pb-[1.5rem]">
                 <h1 className="font-bold text-xl">General</h1>
                 <p>
