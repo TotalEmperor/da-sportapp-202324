@@ -1,4 +1,3 @@
-import React from "react"
 import {
     createUserWithEmailAndPassword, getAuth,
     sendEmailVerification,
@@ -7,19 +6,19 @@ import {
 import {useRouter} from "next/navigation";
 
 
-export default function CreateUser(email: string, password: string, displayName:string) {
+export default async function CreateUser(email: string, password: string, displayName:string) {
     const auth = getAuth();
-    const router = useRouter();
 
-
-    createUserWithEmailAndPassword(auth, email, password)
+    await createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
+            console.log(user)
             sendEmailVerification(user)
             updateProfile(auth.currentUser, {
                 displayName: displayName
             })
+
             // ...
         })
         .catch((error) => {
@@ -28,6 +27,4 @@ export default function CreateUser(email: string, password: string, displayName:
             return false;
             // ..
         });
-
-    router.push("/home")
 }

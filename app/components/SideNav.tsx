@@ -28,7 +28,7 @@ const getPosts = (): Promise<String> => {
 
 
 export default function SideNav() {
-    const [username, setUsers] = useState([]);
+    const [username, setUsers] = useState(String);
 
     const router = useRouter();
 
@@ -37,17 +37,18 @@ export default function SideNav() {
         const auth = getAuth(firebase_app);
 
 
-        const fetchData = async () => {
+        /*const fetchData = async () => {
             const uid = auth.currentUser.uid
             return getFirestoreDocument("users", uid)
                 .then((data) => {
                     setUsers(data.result["name"])
                 });
         };
-        console.log(auth.currentUser)
+        console.log(auth.currentUser)*/
+
 
         if(auth.currentUser){
-            fetchData()
+            setUsers(auth.currentUser.displayName)
         }else {
             router.push("/")
         }
