@@ -6,13 +6,16 @@ import Head from "next/head";
 import BorderContainer from "@/components/Authentication/borderContainer";
 import signIn from "@/firebase/auth/signin";
 import {useRouter} from "next/navigation";
+import {getAuth} from "firebase/auth";
 
 export default function SignIn() {
 
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
     const router = useRouter()
-
+    if(getAuth().currentUser){
+        router.push("/home")
+    }
     const handleForm = async (event) => {
         event.preventDefault()
 

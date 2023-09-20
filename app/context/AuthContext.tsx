@@ -14,9 +14,9 @@ export const AuthContext = React.createContext({});
 export const UseAuthContext = () => useContext(AuthContext);
 
 export const AuthContextProvider = ({children,}) => {
-    const router = useRouter();
     const [user, setUser] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
+    const router = useRouter();
 
     React.useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -24,7 +24,7 @@ export const AuthContextProvider = ({children,}) => {
                 setUser(user);
                 console.log("Verified")
                 // Activate the user's account
-            } else {
+            } else if(!user) {
                 setUser(null);
                 router.push("/")
             }
@@ -38,6 +38,27 @@ export const AuthContextProvider = ({children,}) => {
         <AuthContext.Provider value={{user}}>
             {loading ? <div>Loading...</div> : children}
         </AuthContext.Provider>
+    );
+};
+
+export const CheckEmailVerification = ({children,}) => {
+    const router = useRouter();
+
+    React.useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            console.log("User:" +user)
+            if (!user.emailVerified) {
+                router.push("/")
+            }
+        });
+
+        return () => unsubscribe();
+    });
+
+    return (
+        <>
+            {children}
+        </>
     );
 };
 

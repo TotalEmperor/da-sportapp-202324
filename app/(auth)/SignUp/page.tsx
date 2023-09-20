@@ -2,12 +2,10 @@
 import React, {useState} from "react";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
-import Head from "next/head";
 import BorderContainer from "@/components/Authentication/borderContainer";
-import GenderDropdown from "@/components/Authentication/genderDropdown";
 import createUser from "@/firebase/auth/createUser";
-import {createUserWithEmailAndPassword, getAuth, sendEmailVerification, updateProfile} from "firebase/auth";
 import {useRouter} from "next/navigation";
+import {getAuth} from "firebase/auth";
 
 export default function SignUp() {
 
@@ -26,10 +24,8 @@ export default function SignUp() {
     };
 
     const handleSignUp = () => {
-        const auth = getAuth();
-
         createUser("nico.pasching@it.htlhl.at", "AsterixObelix", "Nico Pasching").then(()=>{
-            console.log("User was succesfully created")
+            router.push("/Verification")
         });
         if(getAuth().currentUser){
             router.push("/home")
@@ -155,9 +151,9 @@ export default function SignUp() {
                             <button
                                 type="submit"
                                 className="rounded-md bg-green-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                onClick={() => switchTab(1)}
+                                onClick={handleSignUp}
                             >
-                                Next
+                                Submit
                             </button>
                         </div>
                     </div>
