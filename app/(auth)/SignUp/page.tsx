@@ -28,10 +28,12 @@ export default function SignUp() {
     const handleSignUp = () => {
         const auth = getAuth();
 
-        createUser("nico.pasching26@gmail.com", "AsterixObelix", "Nico Pasching").then(()=>{
+        createUser("nico.pasching@it.htlhl.at", "AsterixObelix", "Nico Pasching").then(()=>{
             console.log("User was succesfully created")
-            router.push("/home")
         });
+        if(getAuth().currentUser){
+            router.push("/home")
+        }
     }
     return (
         <>

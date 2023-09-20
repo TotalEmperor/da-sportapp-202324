@@ -36,21 +36,8 @@ export default function SideNav() {
     useEffect(() => {
         const auth = getAuth(firebase_app);
 
-
-        /*const fetchData = async () => {
-            const uid = auth.currentUser.uid
-            return getFirestoreDocument("users", uid)
-                .then((data) => {
-                    setUsers(data.result["name"])
-                });
-        };
-        console.log(auth.currentUser)*/
-
-
-        if(auth.currentUser){
+        if(auth.currentUser!==null){
             setUsers(auth.currentUser.displayName)
-        }else {
-            router.push("/")
         }
 
         }, );
