@@ -1,45 +1,40 @@
 import {
     createUserWithEmailAndPassword, getAuth,
     sendEmailVerification,
-    updateProfile
+    updateProfile,
 } from 'firebase/auth';
-import { redirect } from 'next/navigation';
 import {doc, getFirestore, setDoc} from "firebase/firestore";
-import {useRouter} from "next/navigation";
 import firebase_app from "@/firebase/config";
+import admin from "firebase-admin"
 
 export default async function CreateUser(email: string, password: string, displayName:string) {
     const auth = getAuth();
     const db = getFirestore(firebase_app)
-    const router = useRouter();
+    let result = null;
+    let error = null;
 
 
     await createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            // Signed in
+
             const user = userCredential.user;
-            sendEmailVerification(user).then(()=>{return false})
             updateProfile(auth.currentUser, {
                 displayName: displayName
-            }).catch(()=>{return false})
+            })
 
             // Add a new document in collection "cities"
             setDoc(doc(db, "users", user.uid), {
                 name: displayName,
                 uid: user.uid
-            }).catch(()=>{
-                return false;
-            });
+            }).then(()=>{
+                sendEmailVerification(user);
+            })
 
-            router.push("/Verification")
-
+            result= true;
 
             // ...
         })
         .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            return false;
-            // ..
+            error= error.code;
         });
 }

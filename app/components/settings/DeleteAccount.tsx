@@ -2,10 +2,8 @@
 import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import React, {useEffect} from "react";
-import BasicModal from "@/components/DeleteModal"
 import DeleteModal from "@/components/DeleteModal"
 import {useRouter, useSearchParams} from "next/navigation";
-import deleteUser from "@/firebase/auth/deleteUser";
 import {router} from "next/client";
 
 

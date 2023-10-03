@@ -20,13 +20,11 @@ export const AuthContextProvider = ({children,}) => {
 
     React.useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user && user.emailVerified) {
+            if (user) {
                 setUser(user);
-                console.log("Verified")
                 // Activate the user's account
-            } else if(!user) {
+            } else {
                 setUser(null);
-                router.push("/")
             }
             setLoading(false);
         });
@@ -47,7 +45,7 @@ export const CheckEmailVerification = ({children,}) => {
     React.useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             console.log("User:" +user)
-            if (!user.emailVerified) {
+            if (!user || !user.emailVerified) {
                 router.push("/")
             }
         });
@@ -61,4 +59,3 @@ export const CheckEmailVerification = ({children,}) => {
         </>
     );
 };
-

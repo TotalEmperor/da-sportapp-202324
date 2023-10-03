@@ -8,29 +8,23 @@ import {useRouter} from "next/navigation";
 import {getAuth} from "firebase/auth";
 
 export default function SignUp() {
-
     const [showPassword, setShowPassword] = useState(false);
     const router  = useRouter();
+
+    if(getAuth().currentUser){
+        router.push("/home")
+    }
 
 
     const handleTogglePassword = () => {
         setShowPassword((prevShowPassword) => !prevShowPassword);
     };
 
-    const [activeTab, setActiveTab] = useState(0);
-
-    const switchTab = (index: number) => {
-        setActiveTab(index);
-    };
-
-    const handleSignUp = () => {
-        createUser("nico.pasching@it.htlhl.at", "AsterixObelix", "Nico Pasching").then(()=>{
-            router.push("/Verification")
-        });
-        if(getAuth().currentUser){
-            router.push("/home")
-        }
+    async function handleSignUp() {
+        await createUser("nico.pasching26@gmail.com", "AsterixObelix", "Nico Pasching")
+        router.push("/Verification")
     }
+
     return (
         <>
             <div

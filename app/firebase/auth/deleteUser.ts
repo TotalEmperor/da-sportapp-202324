@@ -12,7 +12,7 @@ export default function deleteUser() {
             return true;
         })
         .catch((error) => {
-            console.log('Error deleting user:', error);
+            console.error('Error deleting user:', error);
             return false;
         });
     return null

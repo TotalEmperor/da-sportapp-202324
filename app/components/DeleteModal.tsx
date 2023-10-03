@@ -13,6 +13,7 @@ export default function DeleteModal({style, title, text}: { style?: string, titl
         event.preventDefault()
 
         const res = await deleteUser();
+        console.log(res)
 
         if (res) {
             router.push("/")
