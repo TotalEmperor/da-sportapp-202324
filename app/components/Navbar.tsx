@@ -1,11 +1,11 @@
 "use client"
-import React, { useState } from "react";
+import React, {useState} from "react";
 import Link from 'next/link'
 import Image from 'next/image'
 import Logo from '../../public/images/hope.svg'
 import LogoDark from "../../public/images/irgendwiesohalt.svg"
 
-export default function Navbar(){
+export default function Navbar() {
     const [open, setOpen] = useState(false);
 
     return (
@@ -33,9 +33,12 @@ export default function Navbar(){
                                     open && "navbarTogglerActive"
                                 } absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden`}
                             >
-                                <span className="relative my-[6px] block h-[2px] w-[30px] dark:bg-white bg-black"></span>
-                                <span className="relative my-[6px] block h-[2px] w-[30px] dark:bg-white bg-black"></span>
-                                <span className="relative my-[6px] block h-[2px] w-[30px] dark:bg-white bg-black"></span>
+                                <span
+                                    className="relative my-[6px] block h-[2px] w-[30px] dark:bg-white bg-black"></span>
+                                <span
+                                    className="relative my-[6px] block h-[2px] w-[30px] dark:bg-white bg-black"></span>
+                                <span
+                                    className="relative my-[6px] block h-[2px] w-[30px] dark:bg-white bg-black"></span>
                             </button>
                             <nav
                                 // :className="!navbarOpen && 'hidden' "
@@ -99,7 +102,7 @@ export default function Navbar(){
     );
 };
 
-const ListItem = ({ children, navItemStyles, NavLink }:{children: React.ReactNode, navItemStyles: unknown, NavLink: string}) => {
+const ListItem = ({children, navItemStyles, NavLink}: { children: React.ReactNode, navItemStyles: unknown, NavLink: string }) => {
     return (
         <>
             <li>

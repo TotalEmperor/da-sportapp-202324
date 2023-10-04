@@ -9,53 +9,11 @@ import TimerIcon from "@mui/icons-material/Timer";
 import modifyingOff from "@/icons/modifyingoff.svg";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-
-import {useRouter} from "next/navigation";
-import logOut from "@/firebase/auth/logOut"
-import getFirestoreDocument from "@/firebase/firestore/getData"
-import {UseAuthContext} from "@/context/AuthContext";
-import {getAuth} from "firebase/auth";
-import firebase_app from "@/firebase/config";
-
-const getPosts = (): Promise<String> => {
-   return getFirestoreDocument("users", "")
-       .then((data) => {
-           console.log()
-           return data.result;
-       });
-};
-
+import AccountDropdown from "@/components/AccountDropdown";
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 
 export default function SideNav() {
-    const [username, setUsers] = useState(String);
-
-    const router = useRouter();
-
-
-    useEffect(() => {
-        const auth = getAuth(firebase_app);
-
-        if(auth.currentUser!==null){
-            setUsers(auth.currentUser.displayName)
-        }
-
-        }, );
-
-    const handleLogOut = async (event) => {
-        event.preventDefault()
-
-        const { result, error } = await logOut();
-
-        if (error) {
-            return console.log(error)
-        }
-
-        // else successful
-        console.log(result)
-        return router.push("/")
-    }
-
     return (
             <div className={styles["w-left-fixed"] + " w-full flex-shrink flex-grow-0 px-4 "}>
                 <div
@@ -73,7 +31,7 @@ export default function SideNav() {
                             </li>
                             <li className="py-2 rounded-3xl hover:bg-[#d9e7cb]">
                                 <a className="truncate" href="#">
-                                    <Image src={modifyingOff} alt="ModifyingOn" className={"sm:mx-2 mx-4 inline sm:w-[3rem] w-[2rem]"}/>
+                                    <FitnessCenterIcon className={styles["icons"] + " sm:mx-2 mx-4 inline"}></FitnessCenterIcon>
                                     <span className="hidden sm:inline font-medium text-[1.5rem]">Modifying</span>
                                 </a>
                             </li>
@@ -85,22 +43,14 @@ export default function SideNav() {
                             </li>
                             <li className={"py-2 rounded-3xl hover:bg-[#d9e7cb]"}>
                                 <Link href={`/settings/${"Account"}`}>
-                                    <ManageAccountsOutlinedIcon className={styles["icons"] + " sm:mx-2 mx-4 inline"}/>
-                                    <span className="hidden sm:inline font-medium text-[1.5rem]">Options</span>
+                                    <SettingsOutlinedIcon className={styles["icons"] + " sm:mx-2 mx-4 inline"}/>
+                                    <span className="hidden sm:inline font-medium text-[1.5rem]">Settings</span>
                                 </Link>
                             </li>
+                            <li className="mt-[50%]">
+                                <AccountDropdown/>
+                            </li>
                         </ul>
-                    </div>
-                    <div className="flex justify-center items-center flex-col sm:mt-[40%]">
-                        <button className={"w-full text-4xl rounded-3xl bg-[#046a4f] inline text-white font-bold p-2 hover:bg-green-500"}>
-                            Start
-                        </button>
-                    </div>
-                    <div className="flex justify-center items-center flex-col flex-grow">
-                        <a onClick={handleLogOut} className="hover:bg-[#d9e7cb] rounded-3xl py-2 w-full justify-center items-center hidden sm:flex hover:cursor-pointer">
-                            <AccountCircleOutlinedIcon className={styles["icons"]+ " sm:mx-2 mx-4 inline"}></AccountCircleOutlinedIcon>
-                            <span className="hidden sm:inline font-medium text-[1.5rem]">{username}</span>
-                        </a>
                     </div>
                 </div>
             </div>

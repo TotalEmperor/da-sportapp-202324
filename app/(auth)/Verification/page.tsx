@@ -22,8 +22,6 @@ export default function Verification() {
                 setIsReady(true);
                 clearInterval(intervalId);
                 router.push("/home")
-            }else {
-                console.log(user.emailVerified)
             }
         };
 
