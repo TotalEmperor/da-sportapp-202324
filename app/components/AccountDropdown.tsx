@@ -1,5 +1,6 @@
+"use client"
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import styles from "../(routes)/[home]/home.module.css";
+import styles from "../(routes)/home/home.module.css";
 import React, {useEffect, useState} from "react";
 import logOut from "@/firebase/auth/logOut";
 import {useRouter} from "next/navigation";
@@ -44,7 +45,7 @@ export default function AccountDropdown() {
     return (
         <>
             <div className="flex justify-center items-center flex-col flex-grow">
-                <div className="relative inline-block text-left">
+                <div className="relative inline-block text-left min-h-fit mt-[5%]">
                     <div>
                         <button
                             type="button"
@@ -68,7 +69,7 @@ export default function AccountDropdown() {
                     >
                         <div className="py-1" role="none">
                             <Link
-                                href="settings/Account"
+                                href="/settings/Account"
                                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 text-center"
                                 role="menuitem"
                             >
