@@ -1,118 +1,41 @@
 "use client"
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import styles from "../(routes)/home/home.module.css";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import React, {useEffect, useState} from "react";
-import {getAuth} from "firebase/auth";
-import getFirestoreDocument from "@/firebase/firestore/getData";
-import {router} from "next/client";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import {useRouter} from "next/navigation";
-
-export let week:string;
-export let day:string;
-
-export default function DateConfig() {
-
-    const days = ["MO", "TH", "WE", "TU", "FR", "SA", "SU"]
-    const [checkedDay, setCheckedDay] = useState<number | null>(null);
-    const [checkedWeek, setCheckedWeek] = useState<number | 0>(0);
-
-    const [currentWeek, setCurrentWeek] = useState(String);
-
-    const user = getAuth().currentUser.uid;
-    const router = useRouter();
-
-// keeps `userdata` up to date
-    useEffect(() => {
-
-        if (!user) {
-            day=null;
-            week=null;
-            setCheckedDay(null);
-            return;
-        }else {
-            setCheckedDay(0);
-        }
+import React, {useState} from "react";
 
 
-        getFirestoreDocument("exercises", user).then((res: any) => {
-            if (res.result) {
-                sortDates(Object.keys(res.result.exercises)).then((date:[string])=>{
-                    week = date[0];
-                    day = days[0].toUpperCase();
-                    setCurrentWeek(reformatDate(date[0]))
-                    router.refresh()
-                })
-            }
-        });
-    }, [user]); // <-- rerun when user changes
+export default function dateConfig() {
 
-    const handleClickDay = (i: number) => {
-        if (checkedDay !== i) {
-            day = days[i].toUpperCase()
-            setCheckedDay(i);
-        }
-        router.refresh()
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [checked, setChecked] = useState<boolean[]>([]);
+
+    const handleClick = (i: number) => {
+        const newCheckedState = [...checked];
+        newCheckedState[i] = !newCheckedState[i];
+        setChecked(newCheckedState);
     };
-
-    const handleClickWeek = (i: number) => {
-        console.log("not checked yet")
-        console.log("Week index: ", checkedWeek)
-        console.log("Week index i: ", i)
-        console.log("new Week index: ", checkedWeek+i)
-
-        if (checkedWeek+i>=0 && checkedWeek+i<=3) {
-            console.log("checked")
-            getFirestoreDocument("exercises", user).then((res: any) => {
-                if (res.result) {
-                    sortDates(Object.keys(res.result.exercises)).then((date:[string])=>{
-                        console.log(date[checkedWeek+i])
-                        week = date[checkedWeek+i];
-                        setCurrentWeek(reformatDate(date[checkedWeek+i]))
-                        setCheckedWeek( checkedWeek+i);
-                        router.refresh()
-                    })
-                }
-            });
-        }
-    };
-
-    useEffect(() => {
-
-    }, [week]);
 
     return (
         <>
-            <div className="rounded-xl border-2 border-[#9a9d93] w-[40rem] min-w-fit">
+            <div className="rounded-xl border-2 border-[#9a9d93] w-[70%] min-w-fit">
                 <div className="w-fit justify-center flex-col mx-auto flex mb-3 px-4 pt-8 py-4">
-                    <div className="flex w-full mb-[1rem] font-bold text-3xl flex-row">
-                            <span className="w-full flex items-center">
-                                {currentWeek}
-                            </span>
-                            <span className="flex">
-                                <button className="rounded-full disabled:text-gray-300 enabled:hover:bg-gray-200" disabled={checkedWeek === 0}>
-                                    <ArrowBackIcon onClick={() => handleClickWeek(-1)} sx={{ fontSize: '2rem', margin:"0.5rem"}} />
-                                </button>
-                                <button className="rounded-full disabled:text-gray-300 enabled:hover:bg-gray-200" disabled={checkedWeek === 3}>
-                                    <ArrowForwardIcon onClick={() => handleClickWeek(1)} sx={{ fontSize: '2rem', margin:"0.5rem"}}/>
-                                </button>
-                            </span>
+                    <div className="flex w-fit ">
+                        <span className="font-bold text-3xl">22.5-29.5</span>
                     </div>
                     <div className="flex flex-row">
-                        {days.map((day, index) => (
-                            <div key={index} className="flex flex-col pe-3">
+                        {Array.from({length: 7}, (_, i) => (
+                            <div key={i} className="flex flex-col pe-3">
                                 <div
-                                    className="cursor-pointer hover:text-blue-700 flex justify-center"
+                                    onClick={() => handleClick(i)}
+                                    className="cursor-pointer text-blue-500 hover:text-blue-700 flex justify-center"
                                 >
-                                    {checkedDay === index ? (
-                                        <CheckCircleIcon onClick={() => handleClickDay(index)} sx={{ fontSize: '3rem', color: "limegreen" }} />
-                                    ) : (
-                                        <RadioButtonUncheckedIcon onClick={() => handleClickDay(index)} sx={{ fontSize: '3rem' }} />
-                                    )}
+                                    {checked[i] ? <CheckCircleOutlineIcon
+                                            className={styles["icons"] + " fill-[#1f1f1f] hover:fill-[#9a9d93] flex justify-center"}/> :
+                                        <RadioButtonUncheckedIcon
+                                            className={styles["icons"] + " fill-[#9a9d93] hover:fill-[#d9e7cb] flex justify-center items-center"}/>}
                                 </div>
-                                    <h2 key={index} className="flex justify-center">{day}</h2>
+                                <h2 className="flex justify-center">Mon</h2>
                             </div>
                         ))}
                     </div>
@@ -122,38 +45,4 @@ export default function DateConfig() {
 
         </>
     )
-}
-
-
-const sortDates = async (dates:any)=>{
-    dates.sort((a, b) => {
-        // Split the string and take the first part as the starting date of the week
-        const date1 = new Date(convertDateFormat(a.split('-')[0]));
-        const date2 = new Date(convertDateFormat(b.split('-')[0]));
-        return date1.getTime() - date2.getTime();
-    });
-    return dates;
-}
-
-const getDate=(index):string=>{
-    return "";
-}
-
-function convertDateFormat(date: string): string {
-    const [day, month, year] = date.split('.');
-    return `${month}/${day}/${year}`;
-}
-
-const reformatDate = (date:string)=>{
-    let dates = date.split("-"); // split the string into two dates
-
-    let firstDate = dates[0];
-    let secondDate = dates[1];
-
-// remove the year from the dates
-    firstDate = firstDate.slice(0, 5);
-    secondDate = secondDate.slice(0, 5);
-
-// combine the dates back into the desired format
-    return firstDate + "-" + secondDate;
 }
