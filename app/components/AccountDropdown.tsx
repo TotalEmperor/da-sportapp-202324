@@ -1,5 +1,6 @@
+"use client"
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import styles from "../(routes)/[home]/home.module.css";
+import styles from "../(routes)/home/home.module.css";
 import React, {useEffect, useState} from "react";
 import logOut from "@/firebase/auth/logOut";
 import {useRouter} from "next/navigation";
