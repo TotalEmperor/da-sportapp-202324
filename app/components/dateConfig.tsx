@@ -53,7 +53,7 @@ export default function DateConfig() {
 
     return (
         <>
-            <div className="rounded-xl border-2 border-[#9a9d93] w-[70%] min-w-fit">
+            <div className="rounded-xl border-2 border-[#9a9d93] w-[40rem] min-w-fit">
                 <div className="w-fit justify-center flex-col mx-auto flex mb-3 px-4 pt-8 py-4">
                     <div className="flex w-fit ">
                         <span className="font-bold text-3xl">{week}</span>

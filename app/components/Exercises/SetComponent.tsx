@@ -9,7 +9,7 @@ export default function SetComponent(data: any) {
 
     return (
         <>
-            <div className="rounded-xl border-2 border-[#9a9d93] w-[85%] my-2">
+            <div className="rounded-xl border-2 border-[#9a9d93] w-[40rem] my-2">
                 <div className="w-full justify-center flex-col mx-auto flex px-4 pt-8 py-4">
                     <div className="flex w-fit flex-row min-h-fit">
                         <span className="left-auto text-[1.8rem] font-bold me-6">{Object.keys(data.data)}</span>
