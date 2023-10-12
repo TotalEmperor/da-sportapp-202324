@@ -7,8 +7,6 @@ import Link from "next/link"
 
 export default function SetComponent(data: any) {
 
-    console.log(data.data.time)
-
     return (
         <>
             <div className="rounded-xl border-2 border-[#9a9d93] w-[85%] my-2">
