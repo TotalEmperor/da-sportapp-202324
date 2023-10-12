@@ -13,6 +13,8 @@ type Exercise = {
     moves: string,
     description: string
 };
+
+export let week ="";
 export default function SetComponentCollection() {
     const [user, setuser] = useState(() => {
         // if a user is already logged in, use the current user object, or `undefined` otherwise.
@@ -61,6 +63,8 @@ const getExercises = async (data: any) => {
     const dates = await sortDates(Object.keys(data.exercises))
 
     const date = dates[0]
+    week = date;
+
     //const day = Object.keys(data.exercises[date])["MON"]
 
     for (const exerciseType in data.exercises[date]["MO"]) {
