@@ -7,6 +7,7 @@ import BorderContainer from "@/components/Authentication/borderContainer";
 import signIn from "@/firebase/auth/signin";
 import {useRouter} from "next/navigation";
 import {getAuth} from "firebase/auth";
+import addData from "@/firebase/firestore/addData";
 
 export default function SignIn() {
 

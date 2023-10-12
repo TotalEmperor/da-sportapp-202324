@@ -1,5 +1,5 @@
 import styles from "./home.module.css"
-import SetComponent from "@/components/MainScreen/SetComponent"
+import SetComponent from "@/components/Exercises/SetComponent"
 import SideNav from "@/components/SideNav";
 import MainComponent from "@/components/MainScreen/mainComponent";
 import ConfPanel from "@/components/confPanel";
@@ -9,16 +9,9 @@ import React from "react";
 import {UseAuthContext} from "@/context/AuthContext";
 import DateConfig from "@/components/dateConfig";
 import getFirestoreDocument from "@/firebase/firestore/getData";
+import SetComponentCollection from "@/components/Exercises/SetComponentCollection";
 
 export default async function page() {
-
-    const dataSet = await getExerciseData();
-    const dataSetKeys = Object.keys(dataSet).map((key) => ({
-        id: key,
-        ...dataSet[key],
-    }))
-
-    //console.log(dataSet.result["Exampleexercises"]["Abs"]["Crunches"])
 
     return (
         <div className={ styles["contentWidth"] +" flex flex-col min-h-fit h-screen bg-[#F8FAF7]"}>
@@ -28,7 +21,7 @@ export default async function page() {
             <div className="w-full flex flex-col sm:flex-row flex-wrap sm:flex-nowrap py-4 flex-grow">
                 <SideNav/>
                 <MainComponent>
-                    <SetComponent/>
+                    <SetComponentCollection/>
                 </MainComponent>
                 <ConfPanel>
                     <>
@@ -42,14 +35,6 @@ export default async function page() {
 
 async function getExerciseData(){
 
-        return await getFirestoreDocument("Exampleexercises", "EbMQMKrsoqPK4sRvVNlocuXqLUG2")
-            .then((data) => {
-                return data;
-            });
-}
+    return await getFirestoreDocument("exercises", "EbMQMKrsoqPK4sRvVNlocuXqLUG2")
 
-/*{dataSet.result["Abs"]["Crunches"].map((item) => (
-                      <>
-                          <SetComponent/>
-                      </>
-                  ))}*/
+}
