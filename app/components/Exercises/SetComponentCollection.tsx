@@ -78,9 +78,8 @@ const getExercises = async (data: any) => {
         for (const exerciseType in data.exercises[week][day]) {
             const exercises = data.exercises[week][day][exerciseType];
             objArray.push(exercises)
-            return objArray
         }
     }
-    return null;
+    return objArray;
 };
 
