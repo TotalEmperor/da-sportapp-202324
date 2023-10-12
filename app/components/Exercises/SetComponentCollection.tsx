@@ -3,27 +3,25 @@ import getFirestoreDocument from "@/firebase/firestore/getData";
 import {useEffect, useState} from "react";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import SetComponent from "@/components/Exercises/SetComponent"
-import addData from "@/firebase/firestore/addData";
+import {week, day} from "@/components/dateConfig"
+import {useRouter} from "next/navigation";
 
-type Exercise = {
-    stars: string,
-    time: string,
-    break: string,
-    image: string,
-    moves: string,
-    description: string
-};
-
-export let week ="";
 export default function SetComponentCollection() {
     const [user, setuser] = useState(() => {
         // if a user is already logged in, use the current user object, or `undefined` otherwise.
         return getAuth().currentUser.uid || undefined;
     });
     const [userdata, setuserdata] = useState([]);
+    const [currentDay, setCurrentDay] = useState(day);
+    const [currentWeek, setCurrentWeek] = useState(week);
+    const router = useRouter();
+
 
 // keeps `userdata` up to date
+
     useEffect(() => {
+        setCurrentDay(day)
+        setCurrentWeek(week)
         if (user === null) {
             setuserdata(null); // <-- clear data when not logged in
             return;
@@ -36,8 +34,8 @@ export default function SetComponentCollection() {
 
         getFirestoreDocument("exercises", user).then((res: any) => {
             if (res.result) {
-                getExercises(res.result).then((exercises)=>{
-                    if(exercises){
+                getExercises(res.result).then((exercises) => {
+                    if (exercises) {
                         setuserdata(exercises);
                     }
 
@@ -45,7 +43,8 @@ export default function SetComponentCollection() {
             }
         });
 
-    }, [user]); // <-- rerun when user changes
+
+    }, [user, day, week]); // <-- rerun when user changes
 
     return (
         <>
@@ -59,34 +58,15 @@ export default function SetComponentCollection() {
 }
 
 const getExercises = async (data: any) => {
+
     let objArray = [];
-    const dates = await sortDates(Object.keys(data.exercises))
 
-    const date = dates[0]
-    week = date;
-
-    //const day = Object.keys(data.exercises[date])["MON"]
-
-    for (const exerciseType in data.exercises[date]["MO"]) {
-        const exercises = data.exercises[date]["MO"][exerciseType];
-        objArray.push(exercises)
+    if(day!=null){
+        for (const exerciseType in data.exercises[week][day]) {
+            const exercises = data.exercises[week][day][exerciseType];
+            objArray.push(exercises)
+        }
     }
-
     return objArray;
 };
-
-const sortDates = async (dates:any)=>{
-    dates.sort((a, b) => {
-        // Split the string and take the first part as the starting date of the week
-        const date1 = new Date(convertDateFormat(a.split('-')[0]));
-        const date2 = new Date(convertDateFormat(b.split('-')[0]));
-        return date1.getTime() - date2.getTime();
-    });
-    return dates;
-}
-
-function convertDateFormat(date: string): string {
-    const [day, month, year] = date.split('.');
-    return `${month}/${day}/${year}`;
-}
 
