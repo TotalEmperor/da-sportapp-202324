@@ -8,6 +8,12 @@ import {useRouter} from "next/navigation";
 import {getAuth} from "firebase/auth";
 
 export default function SignUp() {
+    const [email, setEmail] = React.useState('')
+    const [password, setPassword] = React.useState('')
+    const [firstName, setFirstName] = React.useState('')
+    const [lastName, setLastName] = React.useState('')
+
+
     const [showPassword, setShowPassword] = useState(false);
     const router  = useRouter();
 
@@ -21,7 +27,7 @@ export default function SignUp() {
     };
 
     async function handleSignUp() {
-        await createUser("nico.pasching26@gmail.com", "AsterixObelix", "Nico Pasching")
+        await createUser(email, password, firstName+" "+lastName)
         router.push("/Verification")
     }
 
@@ -50,6 +56,7 @@ export default function SignUp() {
                                                 type="text"
                                                 name="first-name"
                                                 id="first-name"
+                                                onChange={(e) => setFirstName(e.target.value)}
                                                 autoComplete="given-name"
                                                 className="text-center outline-0 w-full"
                                             />
@@ -62,6 +69,7 @@ export default function SignUp() {
                                                 type="text"
                                                 name="last-name"
                                                 id="last-name"
+                                                onChange={(e) => setLastName(e.target.value)}
                                                 autoComplete="family-name"
                                                 className="text-center outline-0 w-full"
                                             />
@@ -74,6 +82,7 @@ export default function SignUp() {
                                                 id="email"
                                                 name="email"
                                                 type="email"
+                                                onChange={(e) => setEmail(e.target.value)}
                                                 autoComplete="email"
                                                 className="text-center outline-0 w-full"
                                             />
@@ -107,6 +116,7 @@ export default function SignUp() {
                                                     name="password"
                                                     id="passwordRepeat"
                                                     autoComplete="password"
+                                                    onChange={(e) => setPassword(e.target.value)}
                                                     className="text-center outline-0 w-full"
                                                 />
                                                 <button
