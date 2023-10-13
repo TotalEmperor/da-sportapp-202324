@@ -49,7 +49,7 @@ export default function SignIn() {
                     <Navbar/>
                 </header>
                 <div className="flex-1 flex justify-center items-center">
-                    <form className="rounded-3xl p-2 bg-white min-h-fit max-h-screen w-1/5 min-w-max" onSubmit={handleForm}>
+                    <form className="rounded-3xl p-2 bg-white min-h-fit max-h-screen w-[30rem] min-w-max" onSubmit={handleForm}>
                         <div className="space-y-12">
                             <div className="border-b border-gray-900/10 pb-12">
                                 <h2 className="text-base font-semibold leading-7 text-gray-900">Personal

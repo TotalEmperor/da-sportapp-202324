@@ -25,7 +25,7 @@ export default function AccountDropdown() {
             setUsers(auth.currentUser.displayName)
         }
 
-    },);
+    },[]);
 
     const handleLogOut = async (event) => {
         event.preventDefault()
