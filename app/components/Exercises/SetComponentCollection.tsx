@@ -65,11 +65,19 @@ export default function SetComponentCollection() {
                         </div>
                     </div>
                 </>
-                : (
+                :
+                <>
+                    <div className="flex flex-col text-4xl font-bold w-full bg-gray-100 justify-center items-center rounded-2xl">
+                        <h1>{day}</h1>
+                        <h1 className="text-xl border-b-2 border-black">{userdata.length ? userdata.length : "0"}x. Exercises</h1>
+                    </div>
+                    {(
                     userdata.map((data, index) => (
-                        <SetComponent key={index} data={data}/>
+                    <SetComponent key={index} data={data}/>
                     ))
-                )}
+                    )}
+                </>
+            }
         </>
     )
 }
