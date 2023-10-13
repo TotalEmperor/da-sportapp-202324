@@ -13,7 +13,7 @@ export let day:string;
 
 export default function DateConfig() {
 
-    const days = ["Mo", "Th", "We", "Tu", "Fr", "Sa", "Su"]
+    const days = ["MO", "TH", "WE", "TU", "FR", "SA", "SU"]
     const [checked, setChecked] = useState<number | null>(null);
     const [currentWeek, setCurrentWeek] = useState()
     const user = getAuth().currentUser.uid;
@@ -21,6 +21,13 @@ export default function DateConfig() {
 
 // keeps `userdata` up to date
     useEffect(() => {
+
+        try{
+            console.log()
+            setChecked(days.indexOf(day));
+        }catch (e){
+            console.log(e)
+        }
 
         getFirestoreDocument("exercises", user).then((res: any) => {
             if (res.result) {
@@ -65,7 +72,7 @@ export default function DateConfig() {
                                     className="cursor-pointer hover:text-blue-700 flex justify-center"
                                 >
                                     {checked === index ? (
-                                        <CheckCircleIcon onClick={() => handleClick(index)} sx={{ fontSize: '3rem', color: "#2ECCFA" }} />
+                                        <CheckCircleIcon onClick={() => handleClick(index)} sx={{ fontSize: '3rem', color: "limegreen" }} />
                                     ) : (
                                         <RadioButtonUncheckedIcon onClick={() => handleClick(index)} sx={{ fontSize: '3rem' }} />
                                     )}
