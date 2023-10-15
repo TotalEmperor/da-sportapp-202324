@@ -71,12 +71,6 @@ export default function Navbar() {
                                     >
                                         About
                                     </ListItem>
-                                    <ListItem
-                                        navItemStyles="dark:hover:text-blue-400 hover:text-green-600"
-                                        NavLink="/#"
-                                    >
-                                        Blog
-                                    </ListItem>
                                 </ul>
                             </nav>
                         </div>

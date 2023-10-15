@@ -60,12 +60,12 @@ export default function Verification() {
                         <h1 className="font-extrabold text-2xl mt-4 ">{user.email}</h1>
 
                         <p className="md:w-[40vw] mt-8 text-2xl">
-                            Just click on the link in the email to complete your signup. If you don´t see it, may need to check your spam folder.
+                            Just click on the link in the email to complete your signup. If you don&apos;t see it, may need to check your spam folder.
                         </p>
-                        <p className="mt-[5%] text-2xl">
+                        <p className="mt-[5%] text-xl">
                             Still can´t find the email? No Problem.
                         </p>
-                        <button onClick={handleResend} className="bg-gray-400 hover:bg-gray-300 rounded-xl text-2xl p-4 mt-[5%]">
+                        <button onClick={handleResend} className="bg-black text-white hover:bg-green-200 hover:text-black rounded-xl text-2xl p-4 mt-[5%]">
                             Resend Verification Email
                         </button>
                     </div>

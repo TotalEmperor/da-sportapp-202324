@@ -19,6 +19,7 @@ export default function SetComponentCollection() {
     useEffect(() => {
         if (user === null) {
             setuserdata(null); // <-- clear data when not logged in
+
             return;
         }
 
