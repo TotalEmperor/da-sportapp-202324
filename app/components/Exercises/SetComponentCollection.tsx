@@ -5,6 +5,7 @@ import {getAuth, onAuthStateChanged} from "firebase/auth";
 import SetComponent from "@/components/Exercises/SetComponent"
 import {week, day} from "@/components/dateConfig"
 import {useRouter} from "next/navigation";
+import addData from "@/firebase/firestore/addData";
 
 export default function SetComponentCollection() {
     const [user, setuser] = useState(() => {
@@ -86,8 +87,9 @@ export default function SetComponentCollection() {
 const getExercises = async (data: any) => {
 
     let objArray = [];
+    console.log(week)
 
-    if (day != null) {
+    if (day) {
         for (const exerciseType in data.exercises[week][day]) {
             const exercises = data.exercises[week][day][exerciseType];
             objArray.push(exercises)
