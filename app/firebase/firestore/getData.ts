@@ -1,6 +1,5 @@
 import firebase_app from "@/firebase/config";
 import {getFirestore, doc, getDocs, getDoc, collection, orderBy, onSnapshot} from "firebase/firestore";
-import {query} from "express";
 
 
 const db = getFirestore(firebase_app)
@@ -17,7 +16,6 @@ export default async function getFirestoreDocument(collection, id) {
     } catch (e) {
         error = e;
     }
-
     return { result, error };
 }
 
