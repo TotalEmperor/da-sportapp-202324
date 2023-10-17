@@ -49,64 +49,43 @@ export default function SignIn() {
                     <Navbar/>
                 </header>
                 <div className="flex-1 flex justify-center items-center">
-                    <form className="rounded-3xl p-2 bg-white min-h-fit max-h-screen w-[30rem] min-w-max" onSubmit={handleForm}>
-                        <div className="space-y-12">
-                            <div className="border-b border-gray-900/10 pb-12">
-                                <h2 className="text-base font-semibold leading-7 text-gray-900">Personal
-                                    Information</h2>
-                                <p className="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where
-                                    you
-                                    can receive mail.
-                                </p>
-                                <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-
-                                    <div className="sm:col-span-full">
-                                        <BorderContainer title=" Email">
-                                            <input
-                                                id="email"
-                                                name="email"
-                                                type="email"
-                                                required
-                                                onChange={(e) => setEmail(e.target.value)}
-                                                placeholder="example@mail.com"
-                                                className="text-center outline-0 w-full"
-                                            />
-                                        </BorderContainer>
-                                    </div>
-
-                                    <div className="sm:col-span-full">
-                                        <BorderContainer title="Enter Password">
-                                            <input
-                                                type={showPassword ? 'text' : 'password'}
-                                                name="password"
-                                                id="password"
-                                                required
-                                                onChange={(e) => setPassword(e.target.value)}
-                                                placeholder="password"
-                                                className="text-center outline-0 w-full"
-                                            />
-                                            <button
-                                                type="submit"
-                                                onClick={handleTogglePassword}
-                                                className="absolute inset-y-0 right-0 flex items-center pr-3 text-sm text-gray-600 cursor-pointer"
-                                            >
-                                                {showPassword ? 'Hide' : 'Show'}
-                                            </button>
-                                        </BorderContainer>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="mt-6 flex items-center justify-end gap-x-6">
-                            <button
-                                type="submit"
-                                className="rounded-md bg-green-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                Login
-                            </button>
-                        </div>
+                    <form
+                        className="bg-white shadow-lg rounded-md p-5 md:p-10 flex flex-col w-11/12 max-w-lg group" noValidate onSubmit={handleForm}>
+                        <label htmlFor="email" className="mb-5">
+                            <span>Email</span>
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                className="w-full rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                                placeholder="yourFit@email.com"
+                                required
+                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+            Please enter a valid email address
+          </span>
+                        </label>
+                        <label htmlFor="password" className="mb-5">
+                            <span>Password</span>
+                            <input
+                                type="password"
+                                name="password"
+                                id="password"
+                                className="w-full rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                                placeholder="Password"
+                                required
+                                pattern=".{7,}"
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+            Your password must be at least 7 characters long
+          </span>
+                        </label>
+                        <button type="submit" className="mt-5 bg-blue-500 py-3 rounded-md text-white group-invalid:pointer-events-none group-invalid:opacity-50" onClick={handleForm}>
+                            Submit
+                        </button>
                     </form>
                 </div>
             </div>
