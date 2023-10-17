@@ -87,7 +87,6 @@ export default function SetComponentCollection() {
 const getExercises = async (data: any) => {
 
     let objArray = [];
-    console.log(week)
 
     if (day) {
         for (const exerciseType in data.exercises[week][day]) {
