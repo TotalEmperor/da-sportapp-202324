@@ -16,7 +16,9 @@ export let day:string;
 export default function DateConfig() {
 
     const days = ["MO", "TH", "WE", "TU", "FR", "SA", "SU"]
-    const [checked, setChecked] = useState<number | null>(null);
+    const [checkedDay, setCheckedDay] = useState<number | null>(null);
+    const [checkedWeek, setCheckedWeek] = useState<number | 0>(0);
+
     const [currentWeek, setCurrentWeek] = useState(String);
 
     const user = getAuth().currentUser.uid;
@@ -28,21 +30,18 @@ export default function DateConfig() {
         if (!user) {
             day=null;
             week=null;
-            setChecked(null);
+            setCheckedDay(null);
             return;
+        }else {
+            setCheckedDay(0);
         }
 
-        try{
-            console.log()
-            setChecked(days.indexOf(day));
-        }catch (e){
-            console.log(e)
-        }
 
         getFirestoreDocument("exercises", user).then((res: any) => {
             if (res.result) {
                 sortDates(Object.keys(res.result.exercises)).then((date:[string])=>{
                     week = date[0];
+                    day = days[0].toUpperCase();
                     setCurrentWeek(reformatDate(date[0]))
                     router.refresh()
                 })
@@ -50,15 +49,34 @@ export default function DateConfig() {
         });
     }, [user]); // <-- rerun when user changes
 
-    const handleClick = (i: number) => {
-        if (checked === i) {
+    const handleClickDay = (i: number) => {
+        if (checkedDay !== i) {
             day = days[i].toUpperCase()
-            setChecked(null);
-        } else {
-            day = days[i].toUpperCase()
-            setChecked(i);
+            setCheckedDay(i);
         }
         router.refresh()
+    };
+
+    const handleClickWeek = (i: number) => {
+        console.log("not checked yet")
+        console.log("Week index: ", checkedWeek)
+        console.log("Week index i: ", i)
+        console.log("new Week index: ", checkedWeek+i)
+
+        if (checkedWeek+i>=0 && checkedWeek+i<=3) {
+            console.log("checked")
+            getFirestoreDocument("exercises", user).then((res: any) => {
+                if (res.result) {
+                    sortDates(Object.keys(res.result.exercises)).then((date:[string])=>{
+                        console.log(date[checkedWeek+i])
+                        week = date[checkedWeek+i];
+                        setCurrentWeek(reformatDate(date[checkedWeek+i]))
+                        setCheckedWeek( checkedWeek+i);
+                        router.refresh()
+                    })
+                }
+            });
+        }
     };
 
     useEffect(() => {
@@ -74,11 +92,11 @@ export default function DateConfig() {
                                 {currentWeek}
                             </span>
                             <span className="flex">
-                                <button className="rounded-full hover:bg-gray-200">
-                                    <ArrowBackIcon sx={{ fontSize: '2rem', margin:"0.5rem" }} />
+                                <button className="rounded-full disabled:text-gray-300 enabled:hover:bg-gray-200" disabled={checkedWeek === 0}>
+                                    <ArrowBackIcon onClick={() => handleClickWeek(-1)} sx={{ fontSize: '2rem', margin:"0.5rem"}} />
                                 </button>
-                                <button className="rounded-full hover:bg-gray-200">
-                                    <ArrowForwardIcon sx={{ fontSize: '2rem', margin:"0.5rem" }}/>
+                                <button className="rounded-full disabled:text-gray-300 enabled:hover:bg-gray-200" disabled={checkedWeek === 3}>
+                                    <ArrowForwardIcon onClick={() => handleClickWeek(1)} sx={{ fontSize: '2rem', margin:"0.5rem"}}/>
                                 </button>
                             </span>
                     </div>
@@ -88,10 +106,10 @@ export default function DateConfig() {
                                 <div
                                     className="cursor-pointer hover:text-blue-700 flex justify-center"
                                 >
-                                    {checked === index ? (
-                                        <CheckCircleIcon onClick={() => handleClick(index)} sx={{ fontSize: '3rem', color: "limegreen" }} />
+                                    {checkedDay === index ? (
+                                        <CheckCircleIcon onClick={() => handleClickDay(index)} sx={{ fontSize: '3rem', color: "limegreen" }} />
                                     ) : (
-                                        <RadioButtonUncheckedIcon onClick={() => handleClick(index)} sx={{ fontSize: '3rem' }} />
+                                        <RadioButtonUncheckedIcon onClick={() => handleClickDay(index)} sx={{ fontSize: '3rem' }} />
                                     )}
                                 </div>
                                     <h2 key={index} className="flex justify-center">{day}</h2>
@@ -117,8 +135,8 @@ const sortDates = async (dates:any)=>{
     return dates;
 }
 
-const getDate=(index)=>{
-
+const getDate=(index):string=>{
+    return "";
 }
 
 function convertDateFormat(date: string): string {
