@@ -98,6 +98,7 @@ export default function SignUp() {
                                                     id="password"
                                                     autoComplete="password"
                                                     className="text-center outline-0 w-full"
+                                                    pattern={"^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$"}
                                                 />
                                                 <button
                                                     type="button"
@@ -118,6 +119,7 @@ export default function SignUp() {
                                                     autoComplete="password"
                                                     onChange={(e) => setPassword(e.target.value)}
                                                     className="text-center outline-0 w-full"
+                                                    pattern={"^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$"}
                                                 />
                                                 <button
                                                     type="button"
