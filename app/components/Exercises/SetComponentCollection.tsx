@@ -45,7 +45,7 @@ export default function SetComponentCollection() {
         });
 
 
-    }, [user]); // <-- rerun when user changes
+    }, [user, day, week]); // <-- rerun when user changes
 
     return (
         <>
