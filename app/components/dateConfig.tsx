@@ -47,7 +47,7 @@ export default function DateConfig() {
                 })
             }
         });
-    }, [user]); // <-- rerun when user changes
+    }, [days, router, user]); // <-- rerun when user changes
 
     const handleClickDay = (i: number) => {
         if (checkedDay !== i) {
