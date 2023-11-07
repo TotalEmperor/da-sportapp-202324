@@ -47,7 +47,6 @@ export const CheckEmailVerification = ({children,}) => {
 
     React.useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-            console.log("User:" +user)
             if (!user || !user.emailVerified) {
                 router.push("/")
             }

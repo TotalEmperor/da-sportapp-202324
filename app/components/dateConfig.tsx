@@ -22,6 +22,9 @@ export default function DateConfig() {
     const [currentWeek, setCurrentWeek] = useState(String);
 
     const user = getAuth().currentUser.uid;
+
+
+
     const router = useRouter();
 
 // keeps `userdata` up to date
@@ -58,17 +61,11 @@ export default function DateConfig() {
     };
 
     const handleClickWeek = (i: number) => {
-        console.log("not checked yet")
-        console.log("Week index: ", checkedWeek)
-        console.log("Week index i: ", i)
-        console.log("new Week index: ", checkedWeek+i)
 
         if (checkedWeek+i>=0 && checkedWeek+i<=3) {
-            console.log("checked")
             getFirestoreDocument("exercises", user).then((res: any) => {
                 if (res.result) {
                     sortDates(Object.keys(res.result.exercises)).then((date:[string])=>{
-                        console.log(date[checkedWeek+i])
                         week = date[checkedWeek+i];
                         setCurrentWeek(reformatDate(date[checkedWeek+i]))
                         setCheckedWeek( checkedWeek+i);

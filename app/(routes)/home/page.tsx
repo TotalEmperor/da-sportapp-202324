@@ -18,7 +18,7 @@ export default async function page() {
             <Head>
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="icon"/>
             </Head>
-            <div className="w-full flex flex-col sm:flex-row flex-wrap sm:flex-nowrap py-4 flex-grow">
+            <div className="w-full flex flex-col sm:flex-row flex-wrap sm:flex-nowrap py-4 flex-grow h-[100vh]">
                 <SideNav/>
                 <MainComponent>
                     <SetComponentCollection/>
@@ -31,10 +31,4 @@ export default async function page() {
             </div>
         </div>
     );
-}
-
-async function getExerciseData(){
-
-    return await getFirestoreDocument("exercises", "EbMQMKrsoqPK4sRvVNlocuXqLUG2")
-
 }

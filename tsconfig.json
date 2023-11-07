@@ -27,7 +27,8 @@
       "@/auth/*": ["app/(auth)/*"],
       "@/icons/*": ["public/icons/*"],
       "@/firebase/*": ["app/firebase/*"],
-      "@/context/*": ["app/context/*"]
+      "@/context/*": ["app/context/*"],
+      "@/scheduleTemplates/*": ["public/scheduleTemplates/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

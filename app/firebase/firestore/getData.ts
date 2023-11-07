@@ -2,8 +2,9 @@ import firebase_app from "@/firebase/config";
 import {getFirestore, doc, getDocs, getDoc, collection, orderBy, onSnapshot} from "firebase/firestore";
 
 
-const db = getFirestore(firebase_app)
 export default async function getFirestoreDocument(collection, id) {
+    const db = getFirestore(firebase_app)
+
 
     let docRef = doc(db, collection, id);
     let docS = await getDoc(docRef);

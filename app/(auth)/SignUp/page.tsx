@@ -6,6 +6,9 @@ import BorderContainer from "@/components/Authentication/borderContainer";
 import createUser from "@/firebase/auth/createUser";
 import {useRouter} from "next/navigation";
 import {getAuth} from "firebase/auth";
+import emptySchedule from "@/scheduleTemplates/emptySchedule.json"
+import * as fs from 'fs';
+import addData from "@/firebase/firestore/addData";
 
 export default function SignUp() {
     const [email, setEmail] = React.useState('')
@@ -28,7 +31,12 @@ export default function SignUp() {
 
     async function handleSignUp() {
         await createUser(email, password, firstName+" "+lastName)
+        await editSchedule();
         router.push("/Verification")
+    }
+
+    async function editSchedule(){
+        await addData("exercises", getAuth().currentUser.uid, emptySchedule)
     }
 
     return (

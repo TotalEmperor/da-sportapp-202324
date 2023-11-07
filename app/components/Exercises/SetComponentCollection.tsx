@@ -10,7 +10,11 @@ import addData from "@/firebase/firestore/addData";
 export default function SetComponentCollection() {
     const [user, setuser] = useState(() => {
         // if a user is already logged in, use the current user object, or `undefined` otherwise.
-        return getAuth().currentUser.uid || undefined;
+        try {
+            return getAuth().currentUser.uid || undefined;
+        }catch (e) {
+            console.log(e)
+        }
     });
     const [userdata, setuserdata] = useState([]);
     const [time, setTime] = useState(0);
@@ -81,11 +85,15 @@ export default function SetComponentCollection() {
                             <h2 className="text-sm ms-[1rem]">{userdata.length ?  time: "0"} Min.</h2>
                         </div>
                     </div>
-                    {(
-                    userdata.map((data, index) => (
-                    <SetComponent key={index} data={data}/>
-                    ))
-                    )}
+                    <div className={"w-full overflow-y-scroll flex flex-col items-center my-2"}>
+                        {(
+                            userdata.map((data:any, index) => (
+
+                                <SetComponent key={index} data={data}/>
+
+                            ))
+                        )}
+                    </div>
                 </>
             }
         </>
@@ -94,25 +102,22 @@ export default function SetComponentCollection() {
 
 const getExercises = async (data: any) => {
 
-    let objArray = [];
+    let objArray: any[]=[];
     let time = 0;
     let numSets = 0;
 
 
     if (day) {
-        console.log(data.exercises[week][day])
-        numSets = Object.keys(data.exercises[week][day]).length
-
-        for (const exerciseTypes in data.exercises[week][day]) {
-            const exercises = data.exercises[week][day][exerciseTypes];
-            objArray.push(exercises)
-
-            for (const exercise in data.exercises[week][day][exerciseTypes]){
-                time = time + parseInt(data.exercises[week][day][exerciseTypes][exercise].time)
+        for (const setName in data.exercises[week][day]) {
+            const exerciseSet = data.exercises[week][day][setName];
+            objArray = objArray.concat(Object.entries(exerciseSet));
+            for (const exerciseName in exerciseSet) {
+                time += parseInt(exerciseSet[exerciseName].time);
             }
-
         }
     }
-    return {objArray, time, numSets};
+
+    return { objArray, time, numSets };
+
 };
 
