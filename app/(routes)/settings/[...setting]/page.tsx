@@ -5,12 +5,8 @@ import ConfPanel from "@/components/confPanel";
 import Head from "next/head";
 import Link from "next/link"
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import React from "react";
+import React, {Suspense} from "react";
 import getSettings from "./getSettings";
-
-type Props = {
-    searchParams: Record<string, string> | null | undefined;
-};
 
 export default function page({params : {setting}} ) {
     return (
@@ -60,9 +56,9 @@ export default function page({params : {setting}} ) {
                     </>
                 </MainComponent>
                 <ConfPanel>
-                    {
-                        getSettings(setting)
-                    }
+                    <Suspense>
+                        {getSettings(setting)}
+                    </Suspense>
                 </ConfPanel>
             </div>
         </div>

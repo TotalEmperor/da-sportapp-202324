@@ -15,14 +15,11 @@ export default function ExerciseManager(props: {
 }) {
     const {data, time, stars,moves, description, style} = props;
 
-
-
-
     return (
         <>
-            <div className={"w-[40rem] " + style}>
+            <div className={"rounded-xl border-2 border-[#9a9d93] w-[40rem] bg-white " + style}>
                 <div
-                    className="rounded-xl border-2 border-[#9a9d93] w-full justify-center flex-col mx-auto flex px-4 pt-8 py-4 bg-white">
+                    className="w-full justify-center flex-col mx-auto flex px-4 pt-8 py-4">
                     <div className="flex w-fit flex-row min-h-fit">
                         <span className="left-auto text-[1.8rem] font-bold me-6">{data[0]}</span>
                         {Array.from({length: stars}, (_, i) => (

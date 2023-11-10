@@ -1,19 +1,19 @@
 "use client"
 import getFirestoreDocument from "@/firebase/firestore/getData";
-import {useEffect, useState} from "react";
+import React, {Suspense, useEffect, useState} from "react";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
-import SetManager from "@/components/Workout/SetManager"
 import {week, day} from "@/components/dateConfig"
-import {useRouter} from "next/navigation";
-import addData from "@/firebase/firestore/addData";
 import ExerciseManager from "@/components/Workout/ExerciseManager";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Link from "next/link";
+import {param} from "ts-interface-checker";
 
-export default function ExerciseComponentCollection() {
+export default function ExerciseComponentCollection(setName:any) {
     const [user, setuser] = useState(() => {
         // if a user is already logged in, use the current user object, or `undefined` otherwise.
         try {
             return getAuth().currentUser.uid || undefined;
-        }catch (e) {
+        } catch (e) {
             console.log(e)
         }
     });
@@ -38,7 +38,7 @@ export default function ExerciseComponentCollection() {
 
         getFirestoreDocument("exercises", user).then((res: any) => {
             if (res.result) {
-                getExercises(res.result).then((exercisesData) => {
+                getExercises(res.result, setName.setName).then((exercisesData) => {
                     if (exercisesData) {
                         setuserdata(exercisesData.objArray);
                         setTime(exercisesData.time)
@@ -51,6 +51,7 @@ export default function ExerciseComponentCollection() {
 
 
     }, [user, day, week]); // <-- rerun when user changes
+
 
     return (
         <>
@@ -79,28 +80,41 @@ export default function ExerciseComponentCollection() {
                 :
                 <>
                     <div className={"w-full overflow-y-scroll flex flex-col items-center my-2"}>
-                        <div className="w-fit p-2 rounded-t-2xl">
-                            {(
-                                userdata.map((data:any, index) => (
-                                    <>
-                                        <ExerciseManager key={index}
-                                                         data={data}
-                                                         time={data[1].time}
-                                                         stars={data[1].stars}
-                                                         description={data[1].description}
-                                                         style={"bg-gray-200 m-0 p-0"}
-                                                         moves={data[1].moves}
-                                        />
+                        <div className="flex w-full bg-gray-100 rounded-2xl mb-4 p-3 items-center">
+                            <span className={"w-[20%]"}>
+                                <Link
+                                    className="hover:bg-gray-200 rounded-full p-3"
+                                    href="/workout">
+                                    <ArrowBackIcon/>
+                                </Link>
+                            </span>
+                            <span className="font-bold ms-4 w-full justify-center flex text-4xl">{setName.setName}</span>
+                            <span className={"w-[20%]"}></span>
+                        </div>
+                        <div className="w-fit bg-gray-200 rounded-2xl">
+                            <Suspense>
+                                {(
+                                    userdata.map((data: any, index) => (
+                                        <React.Fragment key={index}>
+                                            <ExerciseManager data={data}
+                                                             time={data[1].time}
+                                                             stars={data[1].stars}
+                                                             description={data[1].description}
+                                                             style={"m-0 p-0"}
+                                                             moves={data[1].moves}
+                                            />
 
-                                        {
-                                            data[1].break != 0 ?
-                                                <span className={"flex items-center justify-center text-2xl font-bold h-20 bg-gray-200"}>{data[1].break} Sec. Break</span>
-                                                :
-                                                <></>
-                                        }
-                                    </>
-                                ))
-                            )}
+                                            {
+                                                data[1].break != 0 ?
+                                                    <span
+                                                        className={"flex items-center justify-center text-2xl font-bold h-20 bg-gray-200"}>{data[1].break} Sec. Break</span>
+                                                    :
+                                                    <></>
+                                            }
+                                        </React.Fragment>
+                                    ))
+                                )}
+                            </Suspense>
                         </div>
                     </div>
                 </>
@@ -109,45 +123,24 @@ export default function ExerciseComponentCollection() {
     )
 }
 
-const getExercises = async (data: any) => {
+const getExercises = async (data: any, setName:string) => {
 
-    let objArray: any[]=[];
+    let objArray: any[] = [];
     let time = 0;
     let numSets = 0;
 
 
     if (day) {
-        for (const setName in data.exercises[week][day]) {
+        objArray = objArray.concat(Object.entries(data.exercises[week][day][setName]))
             const exerciseSet = data.exercises[week][day][setName];
-            objArray = objArray.concat(Object.entries(exerciseSet));
             for (const exerciseName in exerciseSet) {
                 time += parseInt(exerciseSet[exerciseName].time);
             }
-        }
     }
 
-    return { objArray, time, numSets };
+    console.log(objArray)
 
-};
-
-const getSets = async (data: any) => {
-
-    let objArray: any[]=[];
-    let time = 0;
-    let numSets = 0;
-
-
-    if (day) {
-        for (const setName in data.exercises[week][day]) {
-            const exerciseSet = data.exercises[week][day][setName];
-            objArray = objArray.concat(Object.entries(exerciseSet));
-            for (const exerciseName in exerciseSet) {
-                time += parseInt(exerciseSet[exerciseName].time);
-            }
-        }
-    }
-
-    return { objArray, time, numSets };
+    return {objArray, time, numSets};
 
 };
 

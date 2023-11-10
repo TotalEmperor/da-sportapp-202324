@@ -21,7 +21,7 @@ export default function SideNav() {
                     <div className="flex flex-col sm:mt-[20%] items-center min-w-fit">
                         <ul className="flex sm:flex-col overflow-hidden justify-center content-center w-[75%] min-w-fit">
                             <li className="py-2 rounded-3xl hover:bg-[#d9e7cb]">
-                                <Link href="/workout">
+                                <Link href="/workout" prefetch>
                                     <TimerIcon className={styles["icons"]+" fill-black dark:fill-none sm:mx-2 mx-4 inline"}></TimerIcon>
                                     <span className="hidden sm:inline font-medium text-[1.5rem]">Workout</span>
                                 </Link>
@@ -33,13 +33,13 @@ export default function SideNav() {
                                 </Link>
                             </li>
                             <li className="py-2 rounded-3xl hover:bg-[#d9e7cb]">
-                                <Link className="" href="#">
+                                <Link className="" href="#" prefetch>
                                     <BarChartIcon className={styles["icons"] + " sm:mx-2 mx-4 inline"}></BarChartIcon>
                                     <span className="hidden sm:inline font-medium text-[1.5rem] w-fit">Calc. Counter</span>
                                 </Link>
                             </li>
                             <li className={"py-2 rounded-3xl hover:bg-[#d9e7cb]"}>
-                                <Link href={`/settings/${"Account"}`}>
+                                <Link href={`/settings/${"Account"}`} prefetch={true}>
                                     <SettingsOutlinedIcon className={styles["icons"] + " sm:mx-2 mx-4 inline"}/>
                                     <span className="hidden sm:inline font-medium text-[1.5rem]">Settings</span>
                                 </Link>
