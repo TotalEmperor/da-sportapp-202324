@@ -1,4 +1,4 @@
-import styles from "../../(routes)/home/home.module.css";
+import styles from "../../(routes)/workout/workout.module.css";
 import React from "react";
 
 export default function mainComponent({children}: { children: React.ReactNode }) {

@@ -21,7 +21,7 @@ export default function SignUp() {
     const router  = useRouter();
 
     if(getAuth().currentUser){
-        router.push("/home")
+        router.push("/workout")
     }
 
 

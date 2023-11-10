@@ -15,7 +15,7 @@ export let day:string;
 
 export default function DateConfig() {
 
-    const days = ["MO", "TH", "WE", "TU", "FR", "SA", "SU"]
+    const days = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"]
     const [checkedDay, setCheckedDay] = useState<number | null>(null);
     const [checkedWeek, setCheckedWeek] = useState<number | 0>(0);
 

@@ -1,5 +1,5 @@
-import styles from "./home.module.css"
-import SetComponent from "@/components/Exercises/SetComponent"
+import styles from "./workout.module.css"
+import SetManager from "@/components/Workout/SetManager"
 import SideNav from "@/components/SideNav";
 import MainComponent from "@/components/MainScreen/mainComponent";
 import ConfPanel from "@/components/confPanel";
@@ -9,7 +9,8 @@ import React from "react";
 import {UseAuthContext} from "@/context/AuthContext";
 import DateConfig from "@/components/dateConfig";
 import getFirestoreDocument from "@/firebase/firestore/getData";
-import SetComponentCollection from "@/components/Exercises/SetComponentCollection";
+import SetComponentCollection from "@/components/Workout/SetComponentCollection";
+import ExerciseComponentCollection from "@/components/Workout/ExerciseComponentCollection";
 
 export default async function page() {
 
@@ -22,6 +23,8 @@ export default async function page() {
                 <SideNav/>
                 <MainComponent>
                     <SetComponentCollection/>
+                    <ExerciseComponentCollection/>
+
                 </MainComponent>
                 <ConfPanel>
                     <>

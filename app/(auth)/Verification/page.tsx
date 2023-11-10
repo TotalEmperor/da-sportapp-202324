@@ -24,7 +24,7 @@ export default function Verification() {
             if (user.emailVerified) {
                 setIsReady(true);
                 clearInterval(intervalId);
-                router.push("/home")
+                router.push("/workout")
             }
         };
 

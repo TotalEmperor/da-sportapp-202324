@@ -15,7 +15,7 @@ export default function SignIn() {
     const [password, setPassword] = React.useState('')
     const router = useRouter()
     if(getAuth().currentUser){
-        router.push("/home")
+        router.push("/workout")
     }
     const handleForm = async (event) => {
         event.preventDefault()
@@ -28,7 +28,7 @@ export default function SignIn() {
 
         // else successful
         console.log(result)
-        return router.push("/home")
+        return router.push("/workout")
     }
 
     const [showPassword, setShowPassword] = useState(false);

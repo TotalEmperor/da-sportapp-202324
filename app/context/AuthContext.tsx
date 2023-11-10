@@ -24,7 +24,7 @@ export const AuthContextProvider = ({children,}) => {
                 setUser(user);
                 // Activate the user's account
                 if(user.emailVerified){
-                    router.push("/home")
+                    router.push("/workout")
                 }
             } else{
                 setUser(null);

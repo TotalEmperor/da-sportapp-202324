@@ -1,5 +1,5 @@
 "use client"
-import styles from "../(routes)/home/home.module.css";
+import styles from "../(routes)/workout/workout.module.css";
 import DateConfig from "@/components/dateConfig";
 
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
