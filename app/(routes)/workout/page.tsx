@@ -5,7 +5,7 @@ import MainComponent from "@/components/MainScreen/mainComponent";
 import ConfPanel from "@/components/confPanel";
 import Image from "next/image";
 import Head from "next/head";
-import React from "react";
+import React, {Suspense} from "react";
 import {UseAuthContext} from "@/context/AuthContext";
 import DateConfig from "@/components/dateConfig";
 import getFirestoreDocument from "@/firebase/firestore/getData";
@@ -20,15 +20,17 @@ export default async function page() {
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="icon"/>
             </Head>
             <div className="w-full flex flex-col sm:flex-row flex-wrap sm:flex-nowrap py-4 flex-grow h-[100vh]">
-                <SideNav/>
-                <MainComponent>
-                    <SetComponentCollection/>
-                </MainComponent>
-                <ConfPanel>
-                    <>
-                        <DateConfig/>
-                    </>
-                </ConfPanel>
+                <Suspense fallback={<></>}>
+                    <SideNav/>
+                    <MainComponent>
+                        <SetComponentCollection/>
+                    </MainComponent>
+                    <ConfPanel>
+                        <>
+                            <DateConfig/>
+                        </>
+                    </ConfPanel>
+                </Suspense>
             </div>
         </div>
     );

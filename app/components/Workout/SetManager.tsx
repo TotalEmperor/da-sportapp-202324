@@ -29,7 +29,7 @@ export default function SetManager(props: {
                         ))}
                     </div>
                     <div className="relative h-[1.8rem] mb-3">
-                        <Link href={link} className="absolute right-0 text-green-800"><span
+                        <Link href={link} className="absolute right-0 text-green-800" prefetch={true}><span
                             className="text-[1.8rem] font-bold">View</span>
                         </Link>
                     </div>

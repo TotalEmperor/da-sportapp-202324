@@ -31,7 +31,7 @@ export default function ExerciseManager(props: {
                     <div className="font-bold">
                         <div className="w-[70%] mb-2">
                             <h1 className={"text-lg"}>Description:</h1>
-                            <p className="text-sm font-light">{description}</p>
+                            <p className="text-md font-light">{description}</p>
                         </div>
                         <div className="float-right">
                             {

@@ -16,16 +16,21 @@ export default function Page({params : {setName}}) {
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="icon"/>
             </Head>
             <div className="w-full flex flex-col sm:flex-row flex-wrap sm:flex-nowrap py-4 flex-grow h-[100vh]">
-                <SideNav/>
-                <MainComponent>
-                    <Suspense fallback={<p>Loading user...</p>}>
-                        <ExerciseComponentCollection setName={setName} />
-                    </Suspense>
-                </MainComponent>
-                <ConfPanel>
-                    <>
-                    </>
-                </ConfPanel>
+                <Suspense fallback={<></>}>
+                    <SideNav/>
+                    <MainComponent>
+                        <Suspense fallback={<p>Loading user...</p>}>
+                            <SetComponentCollection/>
+                        </Suspense>
+                    </MainComponent>
+                    <ConfPanel>
+                        <section>
+                            <Suspense fallback={<p>Loading user...</p>}>
+                                <ExerciseComponentCollection setName={setName} />
+                            </Suspense>
+                        </section>
+                    </ConfPanel>
+                </Suspense>
             </div>
         </div>
     );

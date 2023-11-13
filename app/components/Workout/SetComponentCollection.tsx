@@ -90,7 +90,7 @@ export default function SetComponentCollection() {
                         {(
                             userdata.map((data: any, index) => (
                                 <SetManager key={index}
-                                            data={data} link={`workout/${data[0]}`}
+                                            data={data} link={`/workout/${data[0]}`}
                                             time={getSetTime(data)}
                                             exerciseNum={data[1] ? Object.entries(data[1]).length : 0}
                                             stars={getAverageDifficulty(data)}/>

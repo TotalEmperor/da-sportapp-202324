@@ -107,7 +107,7 @@ export default function ExerciseComponentCollection(setName:any) {
                                             {
                                                 data[1].break != 0 ?
                                                     <span
-                                                        className={"flex items-center justify-center text-2xl font-bold h-20 bg-gray-200"}>{data[1].break} Sec. Break</span>
+                                                        className={"flex items-center rounded-2xl justify-center text-2xl font-bold h-20"}>{data[1].break} Sec. Break</span>
                                                     :
                                                     <></>
                                             }
