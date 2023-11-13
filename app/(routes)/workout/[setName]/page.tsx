@@ -9,27 +9,12 @@ import SetComponentCollection from "@/components/Workout/SetComponentCollection"
 import ConfPanel from "@/components/confPanel";
 import DateConfig from "@/components/dateConfig";
 
-export default function Page({params : {setName}}) {
+export default function Page({params: {setName}}) {
     return (
-        <div className={styles["contentWidth"] + " flex flex-col min-h-fit h-screen bg-[#F8FAF7]"}>
-            <Head>
-                <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="icon"/>
-            </Head>
-            <div className="w-full flex flex-col sm:flex-row flex-wrap sm:flex-nowrap py-4 flex-grow h-[100vh]">
-                    <SideNav/>
-                    <MainComponent>
-                        <Suspense fallback={<p>Loading user...</p>}>
-                            <SetComponentCollection/>
-                        </Suspense>
-                    </MainComponent>
-                    <ConfPanel>
-                        <section>
-                            <Suspense fallback={<p>Loading user...</p>}>
-                                <ExerciseComponentCollection setName={setName} />
-                            </Suspense>
-                        </section>
-                    </ConfPanel>
-            </div>
-        </div>
+        <>
+
+            <ExerciseComponentCollection setName={setName}/>
+
+        </>
     );
 }

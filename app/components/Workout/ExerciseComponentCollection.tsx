@@ -79,7 +79,7 @@ export default function ExerciseComponentCollection(setName:any) {
                 </>
                 :
                 <>
-                    <div className={"w-full overflow-y-scroll flex flex-col items-center my-2"}>
+                    <div className={"w-full overflow-y-scroll flex flex-col items-center my-2 px-3"}>
                         <div className="flex w-full bg-gray-100 rounded-2xl mb-4 p-3 items-center">
                             <span className={"w-[20%]"}>
                                 <Link
