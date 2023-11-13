@@ -1,4 +1,3 @@
-"use client"
 import styles from "../(routes)/workout/workout.module.css";
 import DateConfig from "@/components/dateConfig";
 

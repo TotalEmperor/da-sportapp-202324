@@ -1,11 +1,9 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import Logo from '@/images/hope.svg';
-import LogoDark from "@/images/irgendwiesohalt.svg"
 import styles from "../(routes)/workout/workout.module.css";
 import TimerIcon from "@mui/icons-material/Timer";
 import BarChartIcon from "@mui/icons-material/BarChart";
-import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 import AccountDropdown from "@/components/AccountDropdown";
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
@@ -16,7 +14,7 @@ export default function SideNav() {
                 <div
                     className={styles["w-left-panel"] + " sticky top-0 sm:p-4 rounded-xl w-full h-full bg-[#F3F6EB] min-w-fit flex flex-col"}>
                     <div className="flex-col justify-center items-center mb-[15%] mt-[15%] hidden sm:flex">
-                        <Image src={Logo} alt="Logo"/>
+                        <Image src={Logo} alt="Logo" priority={true}/>
                     </div>
                     <div className="flex flex-col sm:mt-[20%] items-center min-w-fit">
                         <ul className="flex sm:flex-col overflow-hidden justify-center content-center w-[75%] min-w-fit">
