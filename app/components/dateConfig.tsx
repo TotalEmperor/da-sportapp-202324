@@ -5,17 +5,15 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import React, {Suspense, useEffect, useState} from "react";
 import {getAuth} from "firebase/auth";
 import getFirestoreDocument from "@/firebase/firestore/getData";
-import {router} from "next/client";
+import {useContextData} from "@/context/ContextData";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import {useRouter} from "next/navigation";
 
-export let week:string;
-export let day:string;
-
 export default function DateConfig() {
 
-    const days = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"]
+    const days = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
+    const { day, week, setDay, setWeek } = useContextData();
     const [checkedDay, setCheckedDay] = useState<number | null>(null);
     const [checkedWeek, setCheckedWeek] = useState<number | 0>(0);
     const [exerciseStatus, setExerciseStatus] = useState<(boolean | null)[]>(new Array(7).fill(true));
@@ -37,8 +35,8 @@ export default function DateConfig() {
     useEffect(() => {
 
         if (!user) {
-            day=null;
-            week=null;
+            setDay(null);
+            setWeek(null);
             setCheckedDay(null);
             return;
         }else {
@@ -47,10 +45,9 @@ export default function DateConfig() {
                 getFirestoreDocument("userdata", user).then((res: any) => {
                     if (res.result.weeks) {
                         sortDates(Object.keys(res.result.weeks)).then((date:[string])=>{
-                            week = date[0];
-                            day = days[0].toUpperCase();
+                            setWeek(date[0]);
+                            setDay(days[0].toUpperCase());
                             setCurrentWeek(reformatDate(date[0]))
-                            router.refresh();
                         })
                     }
                 });
@@ -61,7 +58,6 @@ export default function DateConfig() {
                             setCheckedWeek(dates.indexOf(week))
                             setCheckedDay(days.indexOf(day))
                             setCurrentWeek(reformatDate(week))
-                            router.refresh();
                         })
                     }
                 });
@@ -71,10 +67,9 @@ export default function DateConfig() {
 
     const handleClickDay = (i: number) => {
         if (checkedDay !== i) {
-            day = days[i].toUpperCase()
+            setDay(days[i].toUpperCase());
             setCheckedDay(i);
         }
-        router.refresh()
     };
 
     const handleClickWeek = (i: number) => {
@@ -83,10 +78,9 @@ export default function DateConfig() {
             getFirestoreDocument("exercises", user).then((res: any) => {
                 if (res.result) {
                     sortDates(Object.keys(res.result.exercises)).then((date:[string])=>{
-                        week = date[checkedWeek+i];
+                        setWeek(date[checkedWeek+i]);
                         setCurrentWeek(reformatDate(date[checkedWeek+i]))
                         setCheckedWeek( checkedWeek+i);
-                        router.refresh()
                     })
                 }
             });

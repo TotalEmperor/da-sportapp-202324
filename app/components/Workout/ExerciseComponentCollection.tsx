@@ -2,11 +2,11 @@
 import getFirestoreDocument from "@/firebase/firestore/getData";
 import React, {Suspense, useEffect, useState} from "react";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
-import {week, day} from "@/components/dateConfig"
 import ExerciseManager from "@/components/Workout/ExerciseManager";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
 import {param} from "ts-interface-checker";
+import {useContextData} from "@/context/ContextData";
 
 export default function ExerciseComponentCollection(setName:any) {
     const [user, setuser] = useState(() => {
@@ -20,6 +20,8 @@ export default function ExerciseComponentCollection(setName:any) {
     const [userdata, setuserdata] = useState([]);
     const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
+    const { day, week, setDay, setWeek } = useContextData();
+
 
 
 // keeps `userdata` up to date
@@ -38,7 +40,7 @@ export default function ExerciseComponentCollection(setName:any) {
 
         getFirestoreDocument("exercises", user).then((res: any) => {
             if (res.result) {
-                getExercises(res.result, setName.setName).then((exercisesData) => {
+                getExercises(res.result, setName.setName, day, week).then((exercisesData) => {
                     if (exercisesData) {
                         setuserdata(exercisesData.objArray);
                         setTime(exercisesData.time)
@@ -123,7 +125,7 @@ export default function ExerciseComponentCollection(setName:any) {
     )
 }
 
-const getExercises = async (data: any, setName:string) => {
+const getExercises = async (data: any, setName:string, day:string, week:string) => {
 
     let objArray: any[] = [];
     let time = 0;
@@ -132,10 +134,10 @@ const getExercises = async (data: any, setName:string) => {
 
     if (day) {
         objArray = objArray.concat(Object.entries(data.exercises[week][day][setName]))
-            const exerciseSet = data.exercises[week][day][setName];
-            for (const exerciseName in exerciseSet) {
-                time += parseInt(exerciseSet[exerciseName].time);
-            }
+        const exerciseSet = data.exercises[week][day][setName];
+        for (const exerciseName in exerciseSet) {
+            time += parseInt(exerciseSet[exerciseName].time);
+        }
     }
 
     console.log(objArray)
@@ -143,4 +145,6 @@ const getExercises = async (data: any, setName:string) => {
     return {objArray, time, numSets};
 
 };
+
+
 

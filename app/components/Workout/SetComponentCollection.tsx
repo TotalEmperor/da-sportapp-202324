@@ -3,9 +3,9 @@ import getFirestoreDocument from "@/firebase/firestore/getData";
 import {useEffect, useState} from "react";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import SetManager from "@/components/Workout/SetManager"
-import {week, day} from "@/components/dateConfig"
 import {useRouter} from "next/navigation";
 import addData from "@/firebase/firestore/addData";
+import {useContextData} from "@/context/ContextData";
 
 export default function SetComponentCollection() {
     const [user, setuser] = useState(() => {
@@ -19,6 +19,7 @@ export default function SetComponentCollection() {
     const [userdata, setuserdata] = useState([]);
     const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
+    const { day, week, setDay, setWeek } = useContextData();
 
 
 // keeps `userdata` up to date
@@ -37,7 +38,7 @@ export default function SetComponentCollection() {
 
         getFirestoreDocument("exercises", user).then((res: any) => {
             if (res.result) {
-                getSets(res.result).then((exercisesData) => {
+                getSets(res.result, day, week).then((exercisesData) => {
                     if (exercisesData) {
                         setuserdata(exercisesData.objArray);
                         setTime(exercisesData.time)
@@ -103,7 +104,7 @@ export default function SetComponentCollection() {
     )
 }
 
-const getSets = async (data: any) => {
+const getSets = async (data: any, day:string, week:string) => {
 
     let objArray: any[] = [];
     let exerciseNum = 0;
