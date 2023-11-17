@@ -12,9 +12,7 @@ import DateConfig from "@/components/dateConfig";
 export default function Page({params: {setName}}) {
     return (
         <>
-
             <ExerciseComponentCollection setName={setName}/>
-
         </>
     );
 }

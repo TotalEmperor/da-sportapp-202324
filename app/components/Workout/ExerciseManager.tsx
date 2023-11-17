@@ -17,7 +17,7 @@ export default function ExerciseManager(props: {
 
     return (
         <>
-            <div className={"rounded-xl border-2 border-[#9a9d93] w-[40rem] bg-white " + style}>
+            <div className={"rounded-xl border-2 border-[#9a9d93] w-full bg-white " + style}>
                 <div
                     className="w-full justify-center flex-col mx-auto flex px-4 pt-8 py-4">
                     <div className="flex w-fit flex-row min-h-fit">

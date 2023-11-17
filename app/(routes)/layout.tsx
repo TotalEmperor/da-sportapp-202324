@@ -17,7 +17,7 @@ export default function DashboardLayout({children,}: {
             <Head>
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="icon"/>
             </Head>
-            <div className="w-full flex flex-col sm:flex-row flex-wrap sm:flex-nowrap py-4 flex-grow h-[100vh]">
+            <div className="w-full flex flex-col sm:flex-row sm:flex-nowrap py-4 flex-grow overflow-hidden">
                 <SideNav/>
                 <>
                     {children}

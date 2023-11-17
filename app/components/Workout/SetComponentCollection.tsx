@@ -55,7 +55,7 @@ export default function SetComponentCollection() {
         <>
             {userdata.length == 0 ?
                 <>
-                    <div className="border border-blue-300 shadow rounded-md p-4 w-[40rem] h-[10rem]">
+                    <div className="border border-blue-300 shadow rounded-md p-4 h-[10rem] w-full">
                         <div className="animate-pulse flex space-x-4">
                             <div className="rounded-full bg-slate-200 h-10 w-10"></div>
                             <div className="flex-1 space-y-6 py-1">
@@ -86,7 +86,7 @@ export default function SetComponentCollection() {
                             <h2 className="text-sm ms-[1rem]">{userdata.length ? time : "0"} Min.</h2>
                         </div>
                     </div>
-                    <div className={"w-full overflow-y-auto flex flex-col items-center my-2"}>
+                    <div className={"w-full overflow-y-auto flex flex-col items-center my-2 md:w-[80%]"}>
                         {(
                             userdata.map((data: any, index) => (
                                 <SetManager key={index}

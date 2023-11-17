@@ -447,8 +447,33 @@ export default async function addData(collection, id, data){
         }
     }
 
+    const calender = {
+        personaldata: {
+            birthday: "26.12.2004",
+            firstName: "Nico",
+            height: "Pasching",
+            gender: "Male",
+            lastName: "Pasching",
+            weight: "72",
+        },
+        settingsdata: {
+            heightUnit: "186",
+            language: "English",
+            weighUnit: "kg",
+        },
+        weeks: {
+            "02.10.2023-08.10.2023": { MO: "TRAINING_DONE", TU: "TRAINING_DONE", WE: "TRAINING_DONE", TH: "", FR: "", SA: "", SU: "" },
+            "09.10.2023-15.10.2023": { MO: "", TU: "", WE: "", TH: "", FR: "TRAINING_DONE", SA: "isGoingTo", SU: "" },
+            "16.10.2023-22.10.2023": { MO: "", TU: "", WE: "TRAINING_DONE", TH: "", FR: "", SA: "", SU: "" },
+            "23.10.2023-29.10.2023": { MO: "", TU: "", WE: "", TH: "", FR: "", SA: "", SU: "" },
+        },
+        streak: {
+            counter: "",
+        },
+    };
+
     let docRef = doc(db, collection, id);
-    await setDoc(docRef, data);
+    await setDoc(docRef, calender);
 
 
 

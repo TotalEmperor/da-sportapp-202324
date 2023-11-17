@@ -57,7 +57,7 @@ export default function ExerciseComponentCollection(setName:any) {
         <>
             {userdata.length == 0 ?
                 <>
-                    <div className="border border-blue-300 shadow rounded-md p-4 w-[40rem] h-[10rem]">
+                    <div className="border border-blue-300 shadow rounded-md p-4 w-full h-[10rem]">
                         <div className="animate-pulse flex space-x-4">
                             <div className="rounded-full bg-slate-200 h-10 w-10"></div>
                             <div className="flex-1 space-y-6 py-1">
@@ -91,7 +91,7 @@ export default function ExerciseComponentCollection(setName:any) {
                             <span className="font-bold ms-4 w-full justify-center flex text-4xl">{setName.setName}</span>
                             <span className={"w-[20%]"}></span>
                         </div>
-                        <div className="w-fit bg-gray-200 rounded-2xl">
+                        <div className="w-full md:w-[80%] bg-gray-200 rounded-2xl">
                             <Suspense>
                                 {(
                                     userdata.map((data: any, index) => (

@@ -2,7 +2,7 @@
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import React, {useEffect, useState} from "react";
+import React, {Suspense, useEffect, useState} from "react";
 import {getAuth} from "firebase/auth";
 import getFirestoreDocument from "@/firebase/firestore/getData";
 import {router} from "next/client";
@@ -10,19 +10,26 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import {useRouter} from "next/navigation";
 
-export let week: string;
-export let day: string;
+export let week:string;
+export let day:string;
 
 export default function DateConfig() {
 
     const days = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"]
     const [checkedDay, setCheckedDay] = useState<number | null>(null);
     const [checkedWeek, setCheckedWeek] = useState<number | 0>(0);
-
+    const [exerciseStatus, setExerciseStatus] = useState<(boolean | null)[]>(new Array(7).fill(true));
     const [currentWeek, setCurrentWeek] = useState(String);
 
     const user = getAuth().currentUser.uid;
 
+    const updateDay = (index: number, value: boolean | null) => {
+        setExerciseStatus(prevWeek => {
+            const newWeek = [...prevWeek];
+            newWeek[index] = value;
+            return newWeek;
+        });
+    };
 
     const router = useRouter();
 
@@ -30,38 +37,36 @@ export default function DateConfig() {
     useEffect(() => {
 
         if (!user) {
-            day = null;
-            week = null;
+            day=null;
+            week=null;
             setCheckedDay(null);
             return;
-        } else {
-            if (!day) {
-                setCheckedDay(0);
-                getFirestoreDocument("exercises", user).then((res: any) => {
-                    if (res.result) {
-                        sortDates(Object.keys(res.result.exercises)).then((date: [string]) => {
+        }else {
+            setCheckedDay(0);
+            if(!day){
+                getFirestoreDocument("userdata", user).then((res: any) => {
+                    if (res.result.weeks) {
+                        sortDates(Object.keys(res.result.weeks)).then((date:[string])=>{
                             week = date[0];
                             day = days[0].toUpperCase();
                             setCurrentWeek(reformatDate(date[0]))
-                            router.refresh()
+                            router.refresh();
                         })
                     }
                 });
-            } else {
-                setCheckedDay(days.indexOf(day));
-                getFirestoreDocument("exercises", user).then((res: any) => {
-                    if (res.result) {
-                        sortDates(Object.keys(res.result.exercises)).then((dates: [string]) => {
+            }else {
+                getFirestoreDocument("userdata", user).then((res: any) => {
+                    if (res.result.weeks) {
+                        sortDates(Object.keys(res.result.weeks)).then((dates:string)=>{
+                            setCheckedWeek(dates.indexOf(week))
+                            setCheckedDay(days.indexOf(day))
                             setCurrentWeek(reformatDate(week))
-                            setCheckedWeek(dates.indexOf(week));
-                            router.refresh()
+                            router.refresh();
                         })
                     }
                 });
             }
         }
-
-
     }, [user]); // <-- rerun when user changes
 
     const handleClickDay = (i: number) => {
@@ -74,13 +79,13 @@ export default function DateConfig() {
 
     const handleClickWeek = (i: number) => {
 
-        if (checkedWeek + i >= 0 && checkedWeek + i <= 3) {
+        if (checkedWeek+i>=0 && checkedWeek+i<=3) {
             getFirestoreDocument("exercises", user).then((res: any) => {
                 if (res.result) {
-                    sortDates(Object.keys(res.result.exercises)).then((date: [string]) => {
-                        week = date[checkedWeek + i];
-                        setCurrentWeek(reformatDate(date[checkedWeek + i]))
-                        setCheckedWeek(checkedWeek + i);
+                    sortDates(Object.keys(res.result.exercises)).then((date:[string])=>{
+                        week = date[checkedWeek+i];
+                        setCurrentWeek(reformatDate(date[checkedWeek+i]))
+                        setCheckedWeek( checkedWeek+i);
                         router.refresh()
                     })
                 }
@@ -98,18 +103,16 @@ export default function DateConfig() {
                 <div className="w-fit justify-center flex-col mx-auto flex mb-3 px-4 pt-8 py-4">
                     <div className="flex w-full mb-[1rem] font-bold text-3xl flex-row">
                             <span className="w-full flex items-center">
-                                {currentWeek}
+                                <Suspense fallback={<></>}>
+                                    {currentWeek}
+                                </Suspense>
                             </span>
                         <span className="flex">
-                                <button className="rounded-full disabled:text-gray-300 enabled:hover:bg-gray-200"
-                                        disabled={checkedWeek === 0}>
-                                    <ArrowBackIcon onClick={() => handleClickWeek(-1)}
-                                                   sx={{fontSize: '2rem', margin: "0.5rem"}}/>
+                                <button className="rounded-full disabled:text-gray-300 enabled:hover:bg-gray-200" disabled={checkedWeek === 0}>
+                                    <ArrowBackIcon onClick={() => handleClickWeek(-1)} sx={{ fontSize: '2rem', margin:"0.5rem"}} />
                                 </button>
-                                <button className="rounded-full disabled:text-gray-300 enabled:hover:bg-gray-200"
-                                        disabled={checkedWeek === 3}>
-                                    <ArrowForwardIcon onClick={() => handleClickWeek(1)}
-                                                      sx={{fontSize: '2rem', margin: "0.5rem"}}/>
+                                <button className="rounded-full disabled:text-gray-300 enabled:hover:bg-gray-200" disabled={checkedWeek === 3}>
+                                    <ArrowForwardIcon onClick={() => handleClickWeek(1)} sx={{ fontSize: '2rem', margin:"0.5rem"}}/>
                                 </button>
                             </span>
                     </div>
@@ -120,11 +123,9 @@ export default function DateConfig() {
                                     className="cursor-pointer hover:text-blue-700 flex justify-center"
                                 >
                                     {checkedDay === index ? (
-                                        <CheckCircleIcon onClick={() => handleClickDay(index)}
-                                                         sx={{fontSize: '3rem', color: "limegreen"}}/>
+                                        <CheckCircleIcon onClick={() => handleClickDay(index)} sx={{ fontSize: '3rem', color: "limegreen" }} />
                                     ) : (
-                                        <RadioButtonUncheckedIcon onClick={() => handleClickDay(index)}
-                                                                  sx={{fontSize: '3rem'}}/>
+                                        <RadioButtonUncheckedIcon onClick={() => handleClickDay(index)} sx={{ fontSize: '3rem' }} />
                                     )}
                                 </div>
                                 <h2 key={index} className="flex justify-center">{day}</h2>
@@ -140,7 +141,7 @@ export default function DateConfig() {
 }
 
 
-const sortDates = async (dates: any) => {
+const sortDates = async (dates:any)=>{
     dates.sort((a, b) => {
         // Split the string and take the first part as the starting date of the week
         const date1 = new Date(convertDateFormat(a.split('-')[0]));
@@ -150,13 +151,16 @@ const sortDates = async (dates: any) => {
     return dates;
 }
 
+const getExerciseStatus= (data:any):any=>{
+
+}
 
 function convertDateFormat(date: string): string {
     const [day, month, year] = date.split('.');
     return `${month}/${day}/${year}`;
 }
 
-const reformatDate = (date: string) => {
+const reformatDate = (date:string)=>{
     let dates = date.split("-"); // split the string into two dates
 
     let firstDate = dates[0];
