@@ -16,20 +16,7 @@ export default function DateConfig() {
     const { day, week, setDay, setWeek } = useContextData();
     const [checkedDay, setCheckedDay] = useState<number | null>(null);
     const [checkedWeek, setCheckedWeek] = useState<number | 0>(0);
-    const [exerciseStatus, setExerciseStatus] = useState<(boolean | null)[]>(new Array(7).fill(true));
-    const [currentWeek, setCurrentWeek] = useState(String);
-
     const user = getAuth().currentUser.uid;
-
-    const updateDay = (index: number, value: boolean | null) => {
-        setExerciseStatus(prevWeek => {
-            const newWeek = [...prevWeek];
-            newWeek[index] = value;
-            return newWeek;
-        });
-    };
-
-    const router = useRouter();
 
 // keeps `userdata` up to date
     useEffect(() => {
@@ -47,7 +34,6 @@ export default function DateConfig() {
                         sortDates(Object.keys(res.result.weeks)).then((date:[string])=>{
                             setWeek(date[0]);
                             setDay(days[0].toUpperCase());
-                            setCurrentWeek(reformatDate(date[0]))
                         })
                     }
                 });
@@ -55,9 +41,8 @@ export default function DateConfig() {
                 getFirestoreDocument("userdata", user).then((res: any) => {
                     if (res.result.weeks) {
                         sortDates(Object.keys(res.result.weeks)).then((dates:string)=>{
-                            setCheckedWeek(dates.indexOf(week))
-                            setCheckedDay(days.indexOf(day))
-                            setCurrentWeek(reformatDate(week))
+                            setCheckedWeek(dates.indexOf(week));
+                            setCheckedDay(days.indexOf(day));
                         })
                     }
                 });
@@ -79,7 +64,6 @@ export default function DateConfig() {
                 if (res.result) {
                     sortDates(Object.keys(res.result.exercises)).then((date:[string])=>{
                         setWeek(date[checkedWeek+i]);
-                        setCurrentWeek(reformatDate(date[checkedWeek+i]))
                         setCheckedWeek( checkedWeek+i);
                     })
                 }
@@ -98,7 +82,7 @@ export default function DateConfig() {
                     <div className="flex w-full mb-[1rem] font-bold text-3xl flex-row">
                             <span className="w-full flex items-center">
                                 <Suspense fallback={<></>}>
-                                    {currentWeek}
+                                    {reformatDate(week)}
                                 </Suspense>
                             </span>
                         <span className="flex">
@@ -146,7 +130,7 @@ const sortDates = async (dates:any)=>{
 }
 
 const getExerciseStatus= (data:any):any=>{
-
+    console.log(data)
 }
 
 function convertDateFormat(date: string): string {
