@@ -16,6 +16,10 @@ export default function DateConfig() {
     const { day, week, setDay, setWeek } = useContextData();
     const [checkedDay, setCheckedDay] = useState<number | null>(null);
     const [checkedWeek, setCheckedWeek] = useState<number | 0>(0);
+    const [exerciseStatus, setExerciseStatus] = useState<boolean[]>(new Array(7).fill(null));
+    const setExerciseStatusAtIndex = (index: number, value: boolean) => {
+        setExerciseStatus(prevStatus => prevStatus.map((status, i) => i === index ? value : status));
+    };
     const user = getAuth().currentUser.uid;
 
 // keeps `userdata` up to date
@@ -34,6 +38,10 @@ export default function DateConfig() {
                         sortDates(Object.keys(res.result.weeks)).then((date:[string])=>{
                             setWeek(date[0]);
                             setDay(days[0].toUpperCase());
+                        })
+                        console.log(res.result[week])
+                        days.forEach((day)=>{
+                            setExerciseStatusAtIndex(days.indexOf(day), getExerciseStatus(day, res.result[week]));
                         })
                     }
                 });
@@ -77,7 +85,7 @@ export default function DateConfig() {
 
     return (
         <>
-            <div className="rounded-xl border-2 border-[#9a9d93] w-[40rem] min-w-fit">
+            <div className="rounded-xl border-2 border-[#9a9d93] w-[80%] min-w-fit">
                 <div className="w-fit justify-center flex-col mx-auto flex mb-3 px-4 pt-8 py-4">
                     <div className="flex w-full mb-[1rem] font-bold text-3xl flex-row">
                             <span className="w-full flex items-center">
@@ -129,8 +137,8 @@ const sortDates = async (dates:any)=>{
     return dates;
 }
 
-const getExerciseStatus= (data:any):any=>{
-    console.log(data)
+const getExerciseStatus= (day:string, data:any):any=>{
+
 }
 
 function convertDateFormat(date: string): string {
@@ -139,15 +147,18 @@ function convertDateFormat(date: string): string {
 }
 
 const reformatDate = (date:string)=>{
-    let dates = date.split("-"); // split the string into two dates
+    if(date){
+        let dates = date.split("-"); // split the string into two dates
 
-    let firstDate = dates[0];
-    let secondDate = dates[1];
+        let firstDate = dates[0];
+        let secondDate = dates[1];
 
 // remove the year from the dates
-    firstDate = firstDate.slice(0, 5);
-    secondDate = secondDate.slice(0, 5);
+        firstDate = firstDate.slice(0, 5);
+        secondDate = secondDate.slice(0, 5);
 
 // combine the dates back into the desired format
-    return firstDate + "-" + secondDate;
+        return firstDate + "-" + secondDate;
+    }
+    return null;
 }
