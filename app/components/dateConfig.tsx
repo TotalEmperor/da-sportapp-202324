@@ -47,21 +47,16 @@ export default function DateConfig() {
                         })
                     }
                 });
-            } else {
-                getFirestoreDocument("userdata", user).then((res: any) => {
-                    if (res.result.weeks) {
-                        sortDates(Object.keys(res.result.weeks)).then((dates: string) => {
-                            setCheckedWeek(dates.indexOf(week));
-                            setCheckedDay(days.indexOf(day));
-                        })
-                    }
-                });
             }
-            checkExerciseStatus().then();
         }
     }, [user]); // <-- rerun when user changes
 
-    const checkExerciseStatus = () => getFirestoreDocument("userdata", user).then((res: any) => {
+    useEffect(() => {
+        checkExerciseStatus().then()
+    }, [week]);
+
+
+    const checkExerciseStatus = async () => await getFirestoreDocument("userdata", user).then((res: any) => {
         if(res.result.weeks[week]){
             days.forEach((day) => {
                 setExerciseStatusAtIndex(days.indexOf(day), getExerciseStatus(day, res.result.weeks[week]));
@@ -116,9 +111,11 @@ export default function DateConfig() {
                     </div>
                     <div className="flex flex-row">
                         {days.map((day, index) => (
-                            <div key={index} className={`flex flex-col pe-3 ${currentDay === day ? "mt-[-5%]" : ""}`}>
+                            <div key={index} className={`flex flex-col pe-3 `}>
+                                <div className={"h-[-webkit-fill-available]"}>
+                                </div>
                                 <div
-                                    className="cursor-pointer hover:text-blue-700 flex items-center flex-col"
+                                    className={`cursor-pointer hover:text-blue-700 flex items-center flex-col`}
                                 >
                                     {checkedDay === index
                                         ?
@@ -129,15 +126,18 @@ export default function DateConfig() {
                                     {
                                         getExerciseStatusAtIndex(index) === true ? (
                                             <CheckCircleIcon onClick={() => handleClickDay(index)}
-                                                             sx={{fontSize: '3rem', color: "limegreen"}}/>
+                                                             sx={{fontSize: '4vh', color: "limegreen"}}/>
                                         ) : getExerciseStatusAtIndex(index) === false ? (
                                             <CheckCircleOutlineIcon onClick={() => handleClickDay(index)}
-                                                                    sx={{fontSize: '3rem', color: "lightgray"}}/>
+                                                                    sx={{fontSize: '4rvh', color: "lightgray"}}/>
                                         ) : (<RadioButtonUncheckedIcon onClick={() => handleClickDay(index)}
-                                                                       sx={{fontSize: '3rem'}}/>)
+                                                                       sx={{fontSize: '4vh'}}/>)
                                     }
+                                    <h2 key={index} className="flex justify-center">{day}</h2>
+                                    <div className={`${currentDay === day ? "h-[1vh]" : ""}  ${checkedDay === index ? "h-[1vh]" : ""}`}>
+
+                                    </div>
                                 </div>
-                                <h2 key={index} className="flex justify-center">{day}</h2>
                             </div>
                         ))}
                     </div>
