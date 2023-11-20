@@ -9,6 +9,9 @@ import {getAuth} from "firebase/auth";
 import emptySchedule from "@/scheduleTemplates/emptySchedule.json"
 import * as fs from 'fs';
 import addData from "@/firebase/firestore/addData";
+import Head from "next/head";
+import userdata from "@/templates/userdata.json";
+import signIn from "@/firebase/auth/signin";
 
 export default function SignUp() {
     const [email, setEmail] = React.useState('')
@@ -20,8 +23,8 @@ export default function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
     const router  = useRouter();
 
-    if(getAuth().currentUser){
-        router.push("/workout")
+    if(getAuth().currentUser && getAuth().currentUser.emailVerified){
+        router.push("/Verification")
     }
 
 
@@ -29,14 +32,24 @@ export default function SignUp() {
         setShowPassword((prevShowPassword) => !prevShowPassword);
     };
 
-    async function handleSignUp() {
-        await createUser(email, password, firstName+" "+lastName)
-        await editSchedule();
-        router.push("/Verification")
+    async function editSchedule(){
+        const userData = await reformateTemplate(firstName, lastName);
+        await addData("userdata", getAuth().currentUser.uid, userData);
     }
 
-    async function editSchedule(){
-        await addData("exercises", getAuth().currentUser.uid, emptySchedule)
+    const handleForm = async (event) => {
+        event.preventDefault()
+
+        createUser(email, password, firstName+" "+lastName).then((userCredential)=>{
+            addData("userdata",getAuth().currentUser.uid,"");
+            editSchedule();
+            router.push("/ConfigurateAccount")        }
+        ).catch((error)=>{
+            const errorCode = error.code;
+            const errorMessage = error.message;
+        })
+
+
     }
 
     return (
@@ -47,132 +60,87 @@ export default function SignUp() {
                     <Navbar/>
                 </header>
                 <div className="flex-1 flex justify-center items-center">
-
-                    <div className="rounded-3xl p-2 bg-white min-h-fit max-h-screen w-1/4 min-w-fit">
-                        <div className="space-y-12">
-                            <div className="border-b border-gray-900/10 pb-12">
-                                <h2 className="text-base font-semibold leading-7 text-gray-900">Personal
-                                    Information</h2>
-                                <p className="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where
-                                    you
-                                    can receive mail.
-                                </p>
-                                <div className="mt-10 grid grid-cols-6 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                    <div className="col-span-3">
-                                        <BorderContainer title="First Name">
-                                            <input
-                                                type="text"
-                                                name="first-name"
-                                                id="first-name"
-                                                onChange={(e) => setFirstName(e.target.value)}
-                                                autoComplete="given-name"
-                                                className="text-center outline-0 w-full"
-                                            />
-                                        </BorderContainer>
-                                    </div>
-
-                                    <div className="col-span-3">
-                                        <BorderContainer title="Last Name">
-                                            <input
-                                                type="text"
-                                                name="last-name"
-                                                id="last-name"
-                                                onChange={(e) => setLastName(e.target.value)}
-                                                autoComplete="family-name"
-                                                className="text-center outline-0 w-full"
-                                            />
-                                        </BorderContainer>
-                                    </div>
-
-                                    <div className="col-span-4">
-                                        <BorderContainer title=" Email">
-                                            <input
-                                                id="email"
-                                                name="email"
-                                                type="email"
-                                                onChange={(e) => setEmail(e.target.value)}
-                                                autoComplete="email"
-                                                className="text-center outline-0 w-full"
-                                            />
-                                        </BorderContainer>
-                                    </div>
-
-                                    <fieldset className="col-span-5">
-                                        <div className="col-span-5 mb-5">
-                                            <BorderContainer title="Enter Password">
-                                                <input
-                                                    type={showPassword ? 'text' : 'password'}
-                                                    name="password"
-                                                    id="password"
-                                                    autoComplete="password"
-                                                    className="text-center outline-0 w-full"
-                                                    pattern={"^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$"}
-                                                />
-                                                <button
-                                                    type="button"
-                                                    onClick={handleTogglePassword}
-                                                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-sm text-gray-600 cursor-pointer"
-                                                >
-                                                    {showPassword ? 'Hide' : 'Show'}
-                                                </button>
-                                            </BorderContainer>
-                                        </div>
-
-                                        <div className="col-span-5">
-                                            <BorderContainer title="Enter Password agian">
-                                                <input
-                                                    type={showPassword ? 'text' : 'password'}
-                                                    name="password"
-                                                    id="passwordRepeat"
-                                                    autoComplete="password"
-                                                    onChange={(e) => setPassword(e.target.value)}
-                                                    className="text-center outline-0 w-full"
-                                                    pattern={"^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$"}
-                                                />
-                                                <button
-                                                    type="button"
-                                                    onClick={handleTogglePassword}
-                                                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-sm text-gray-600 cursor-pointer"
-                                                >
-                                                    {showPassword ? 'Hide' : 'Show'}
-                                                </button>
-                                            </BorderContainer>
-                                        </div>
-                                    </fieldset>
-
-                                    <div className="col-span-3">
-                                        <BorderContainer title="Country">
-                                            <select
-                                                id="language"
-                                                name="language"
-                                                autoComplete="language-name"
-                                                className="text-center outline-0 w-full border-none appearance-none">
-                                                <option>Austria</option>
-                                                <option>UK</option>
-                                                <option>Turkey</option>
-                                            </select>
-                                        </BorderContainer>
-                                    </div>
-                                </div>
+                    <form
+                        className="bg-white shadow-lg rounded-md p-5 md:p-10 flex flex-col w-11/12 max-w-lg group" noValidate onSubmit={handleForm}>
+                        <div className="flex flex-row">
+                            <div className="me-3">
+                                <span>First Name</span>
+                                <input
+                                    type="text"
+                                    name="firstName"
+                                    id="firstName"
+                                    className="w-full rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                                    placeholder="Markus"
+                                    required
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                />
                             </div>
+                           <div>
+                               <span>Last Name</span>
+                               <input
+                                   type="text"
+                                   name="lastName"
+                                   id="lastName"
+                                   className="w-full rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                                   placeholder="Mustermann"
+                                   required
+                                   onChange={(e) => setLastName(e.target.value)}
+                               />
+                           </div>
                         </div>
 
-                        <div className="mt-6 flex items-center justify-end gap-x-6">
-                            <Link type="button" className="text-sm font-semibold leading-6 text-gray-900"
-                                  href="/landing">
-                                Cancel
-                            </Link>
-                            <button
-                                type="submit"
-                                className="rounded-md bg-green-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                onClick={handleSignUp}
-                            >
-                                Submit
-                            </button>
-                        </div>
-                    </div>
+                        <label htmlFor="email" className="mb-5">
+                            <span>Email</span>
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                className="w-full rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                                placeholder="yourFit@email.com"
+                                required
+                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+            Please enter a valid email address
+          </span>
+                        </label>
+                        <label htmlFor="password" className="mb-5">
+                            <span>Enter Password</span>
+                            <input
+                                type="password"
+                                name="password"
+                                id="password"
+                                className="w-full rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                                placeholder="Password"
+                                required
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <span>Enter Password again</span>
+                            <input
+                                type="password"
+                                name="password"
+                                id="password"
+                                className="w-full rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                                placeholder="Password"
+                                required
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </label>
+                        <button type="submit" className="mt-5 bg-blue-500 py-3 rounded-md text-white group-invalid:pointer-events-none group-invalid:opacity-50" onClick={handleForm}>
+                            Submit
+                        </button>
+                    </form>
                 </div>
             </div>
+
         </>
     )
+}
+
+const reformateTemplate = (firstName:string, lastName:string):any=>{
+    const userData = userdata;
+    userData.personaldata.firstName = firstName;
+    userData.personaldata.lastName = lastName;
+    return userData;
 }

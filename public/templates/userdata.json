@@ -1,0 +1,22 @@
+{
+  "personaldata": {
+    "birthday": "",
+    "firstName": "",
+    "height": "",
+    "gender": "",
+    "lastName": "",
+    "weight": ""
+  },
+  "settingsdata": {
+    "heightUnit": "",
+    "language": "",
+    "weighUnit": ""
+  },
+  "weeks": {
+    "placeholder": { "MO": "", "TU": "", "WE": "", "TH": "", "FR": "", "SA": "", "SU": "" }
+  },
+  "streak": {
+    "counter": ""
+  }
+}
+
