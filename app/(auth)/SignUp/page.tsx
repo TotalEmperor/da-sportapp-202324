@@ -41,9 +41,8 @@ export default function SignUp() {
         event.preventDefault()
 
         createUser(email, password, firstName+" "+lastName).then((userCredential)=>{
-            addData("userdata",getAuth().currentUser.uid,"");
             editSchedule();
-            router.push("/ConfigurateAccount")        }
+            router.push("/configureAccount")        }
         ).catch((error)=>{
             const errorCode = error.code;
             const errorMessage = error.message;

@@ -54,7 +54,7 @@ export default function SetComponentCollection() {
 
     return (
         <>
-            {userdata.length == 0 ?
+            {userdata==null ?
                 <>
                     <div className="border border-blue-300 shadow rounded-md p-4 h-[10rem] w-full">
                         <div className="animate-pulse flex space-x-4">

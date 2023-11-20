@@ -1,6 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApps } from "firebase/app";import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
+import {images} from "next/dist/build/webpack/config/blocks/images";
+import {initializeFirestore} from "@firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -14,12 +16,17 @@ const firebaseConfig = {
     storageBucket: "fir-d150a.appspot.com",
     messagingSenderId: "728786659989",
     appId: "1:728786659989:web:83512e31f6cfd2501a499c",
-    measurementId: "G-LJ84K7MZXP"
+    measurementId: "G-LJ84K7MZXP",
 };
 
 // Initialize Firebase
 let firebase_app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
 const app = initializeApp(firebaseConfig);
+
+initializeFirestore(app, {
+    ignoreUndefinedProperties: true
+})
+
 export const auth = getAuth(app);
 export default firebase_app;
