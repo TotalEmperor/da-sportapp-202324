@@ -23,6 +23,7 @@ type Props = {
 export function ContextDataProvider({ children }: Props) {
     const [day, setDay] = useState<string>(null);
     const [week, setWeek] = useState<string>("");
+
     const value = {
         day,
         week,

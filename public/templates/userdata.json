@@ -16,7 +16,7 @@
     "placeholder": { "MO": "", "TU": "", "WE": "", "TH": "", "FR": "", "SA": "", "SU": "" }
   },
   "streak": {
-    "counter": ""
+    "counter": 0
   }
 }
 

@@ -4,7 +4,6 @@ import {getAuth} from "firebase/auth";
 const db = getFirestore(firebase_app)
 
 export default async function addData(collection, id, data){
-
     let docRef = doc(db, collection, id);
     await setDoc(docRef, data);
 }

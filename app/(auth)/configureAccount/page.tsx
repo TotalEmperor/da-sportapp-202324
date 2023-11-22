@@ -12,12 +12,12 @@ import updateFirestoreDocument from "@/firebase/firestore/updateData";
 export default function Page() {
 
     const [birthday, setBirthday] = useState<string>("");
-    const [weight, setWeight] = useState('');
-    const [height, setHeight] = useState('');
-    const [heightUnit, setHeightUnit] = useState<string>("cm");
-    const [weightUnit, setWeightUnit] = useState<string>("kg");
-    const [language, setLanguage] = useState<string>("german");
-    const [gender, setGender] = useState<string>("male");
+    const [weight, setWeight] = useState<number>();
+    const [height, setHeight] = useState<number>();
+    const [heightUnit, setHeightUnit] = useState<string>("CM");
+    const [weightUnit, setWeightUnit] = useState<string>("KG");
+    const [language, setLanguage] = useState<string>("GERMAN");
+    const [gender, setGender] = useState<string>("MALE");
 
     const router = useRouter();
     const updatingUserData = async ()=>{
@@ -51,7 +51,7 @@ export default function Page() {
 
         await updateFirestoreDocument("userdata", userData.result);
         await addData("exercises", getAuth().currentUser.uid, workoutSchedule);
-
+        await addData("caloriecounter", getAuth().currentUser.uid, {});
         router.push("/Verification");
     }
 
@@ -82,7 +82,7 @@ export default function Page() {
                             <span>Weight</span>
                             <div
                                 className="flex flex-row w-full bg-inherit shadow shadow-gray-100 appearance-none outline-none text-neutral-800 items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
-                                <input type="number" className="w-full  bg-inherit p-3  outline-none" onChange={(e) => setWeight(e.target.value)}/>
+                                <input type="number" className="w-full  bg-inherit p-3  outline-none" onChange={(e) => setWeight(e.target.valueAsNumber)}/>
                                 <select
                                     className="border-s-2 border-black p-2 w-[15%] text-md text-center outline-0 appearance-none"
                                     onChange={(e) => setWeightUnit(e.target.value)}>
@@ -95,12 +95,12 @@ export default function Page() {
                             <span>Height</span>
                             <div
                                 className="flex flex-row w-full bg-inherit shadow shadow-gray-100 appearance-none outline-none text-neutral-800 items-center rounded border border-gray-300 invalid:border-red-500 peer">
-                                <input type="number" className="w-full bg-inherit p-3 outline-none" onChange={(e) => setHeight(e.target.value)}/>
+                                <input type="number" className="w-full bg-inherit p-3 outline-none" onChange={(e) => setHeight(e.target.valueAsNumber)}/>
                                 <select
                                     className="border-s-2 border-black p-2 w-[15%] text-md text-center outline-0 appearance-none"
                                     onChange={(e) => setHeightUnit(e.target.value)}>
-                                    <option value="cm">cm</option>
-                                    <option value="feet">feet</option>
+                                    <option value="CM">cm</option>
+                                    <option value="FEET">feet</option>
                                 </select>
                             </div>
                         </label>
@@ -115,9 +115,9 @@ export default function Page() {
                                         name="language"
                                         autoComplete="language-name"
                                         className="text-center outline-0 w-full border-none  p-4">
-                                        <option value="german">German</option>
-                                        <option value="english">English</option>
-                                        <option value="turkish">Turkish</option>
+                                        <option value="GERMAN">German</option>
+                                        <option value="ENGLISH">English</option>
+                                        <option value="TURKISH">Turkish</option>
                                     </select>
                                 </div>
                             </label>
@@ -131,9 +131,9 @@ export default function Page() {
                                         name="gender"
                                         autoComplete="gender"
                                         className="text-center outline-0 w-full border-none  p-4">
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                        <option value="other">Other</option>
+                                        <option value="MALE">Male</option>
+                                        <option value="FEMALE">Female</option>
+                                        <option value="OTHER">Other</option>
                                     </select>
                                 </div>
                             </label>

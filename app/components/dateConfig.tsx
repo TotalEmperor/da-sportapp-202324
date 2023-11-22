@@ -57,6 +57,7 @@ export default function DateConfig() {
 
 
     const checkExerciseStatus = async () => await getFirestoreDocument("userdata", user).then((res: any) => {
+        console.log(res)
         if(res.result.weeks[week]){
             days.forEach((day) => {
                 setExerciseStatusAtIndex(days.indexOf(day), getExerciseStatus(day, res.result.weeks[week]));
