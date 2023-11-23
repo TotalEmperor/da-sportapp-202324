@@ -9,15 +9,17 @@ import {useContextData} from "@/context/ContextData";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import LoadingModule from "@/components/loadingModule";
+
 export default function DateConfig() {
 
     const days = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
     const {day, week, setDay, setWeek} = useContextData();
-    const [checkedDay, setCheckedDay] = useState<number | null>(null);
+    const [checkedDay, setCheckedDay] = useState<number | 0>(0);
     const [checkedWeek, setCheckedWeek] = useState<number | 0>(0);
     const [exerciseStatus, setExerciseStatus] = useState<boolean[]>(new Array(7).fill(null));
     const date = new Date();
-    const currentDay = days[date.getDay()-1];
+    const currentDay = days[date.getDay() - 1];
 
     const setExerciseStatusAtIndex = (index: number, value: boolean) => {
         setExerciseStatus(prevStatus => prevStatus.map((status, i) => i === index ? value : status));
@@ -34,20 +36,28 @@ export default function DateConfig() {
         if (!user) {
             setDay(null);
             setWeek(null);
-            setCheckedDay(null);
+            setCheckedDay(0);
+            setCheckedWeek(0)
             return;
         } else {
-            setCheckedDay(0);
-            if (!day) {
-                getFirestoreDocument("userdata", user).then((res: any) => {
-                    if (res.result.weeks) {
-                        sortDates(Object.keys(res.result.weeks)).then((date: [string]) => {
+            getFirestoreDocument("userdata", user).then((res: any) => {
+                if (res.result.weeks) {
+                    sortDates(Object.keys(res.result.weeks)).then((date: [string]) => {
+                        if (!day) {
                             setWeek(date[0]);
                             setDay(days[0].toUpperCase());
-                        })
-                    }
-                });
-            }
+                            setCheckedDay(0);
+                            setCheckedWeek(0);
+                        } else {
+                            setCheckedWeek(date.indexOf(week));
+                            setCheckedDay(days.indexOf(day));
+                        }
+
+                    })
+
+                }
+            });
+
         }
     }, [user]); // <-- rerun when user changes
 
@@ -58,7 +68,7 @@ export default function DateConfig() {
 
     const checkExerciseStatus = async () => await getFirestoreDocument("userdata", user).then((res: any) => {
         console.log(res)
-        if(res.result.weeks[week]){
+        if (res.result.weeks[week]) {
             days.forEach((day) => {
                 setExerciseStatusAtIndex(days.indexOf(day), getExerciseStatus(day, res.result.weeks[week]));
             });
@@ -89,15 +99,16 @@ export default function DateConfig() {
 
     return (
         <>
-            <div className="rounded-xl border-2 border-[#9a9d93] w-[80%] min-w-fit">
-                <div className="w-fit justify-center flex-col mx-auto flex mb-3 px-4 pt-8 py-4">
-                    <div className="flex w-full mb-[1rem] font-bold text-3xl flex-row">
+            {day && week ?
+                <div className="rounded-xl border-2 border-[#9a9d93] w-[80%] min-w-fit">
+                    <div className="w-fit justify-center flex-col mx-auto flex mb-3 px-4 pt-8 py-4">
+                        <div className="flex w-full mb-[1rem] font-bold text-3xl flex-row">
                             <span className="w-full flex items-center">
                                 <Suspense fallback={<></>}>
                                     {reformatDate(week)}
                                 </Suspense>
                             </span>
-                        <span className="flex">
+                            <span className="flex">
                                 <button className="rounded-full disabled:text-gray-300 enabled:hover:bg-gray-200"
                                         disabled={checkedWeek === 0}>
                                     <ArrowBackIcon onClick={() => handleClickWeek(-1)}
@@ -109,43 +120,45 @@ export default function DateConfig() {
                                                       sx={{fontSize: '2rem', margin: "0.5rem"}}/>
                                 </button>
                             </span>
-                    </div>
-                    <div className="flex flex-row">
-                        {days.map((day, index) => (
-                            <div key={index} className={`flex flex-col pe-3 `}>
-                                <div className={"h-[-webkit-fill-available]"}>
-                                </div>
-                                <div
-                                    className={`cursor-pointer hover:text-blue-700 flex items-center flex-col`}
-                                >
+                        </div>
+                        <div className="flex flex-row">
+                            {days.map((day, index) => (
+                                <div key={index} className={`flex flex-col pe-3 items-center`}>
+                                    <div className={"h-[-webkit-fill-available]"}>
+                                    </div>
                                     {checkedDay === index
                                         ?
-                                        <FiberManualRecordIcon/>
+                                        <FiberManualRecordIcon sx={{fontSize: '2vh'}}/>
                                         :
                                         <></>
                                     }
-                                    {
-                                        getExerciseStatusAtIndex(index) === true ? (
-                                            <CheckCircleIcon onClick={() => handleClickDay(index)}
-                                                             sx={{fontSize: '4vh', color: "limegreen"}}/>
-                                        ) : getExerciseStatusAtIndex(index) === false ? (
-                                            <CheckCircleOutlineIcon onClick={() => handleClickDay(index)}
-                                                                    sx={{fontSize: '4rvh', color: "lightgray"}}/>
-                                        ) : (<RadioButtonUncheckedIcon onClick={() => handleClickDay(index)}
-                                                                       sx={{fontSize: '4vh'}}/>)
-                                    }
-                                    <h2 key={index} className="flex justify-center">{day}</h2>
-                                    <div className={`${currentDay === day ? "h-[1vh]" : ""}  ${checkedDay === index ? "h-[1vh]" : ""}`}>
+                                    <div
+                                        className={`cursor-pointer hover:text-blue-700 flex items-center rounded flex-col ${currentDay === day ? "bg-red-200 text-white" : ""}`}
+                                        onClick={() => handleClickDay(index)}
+                                    >
+                                        {
+                                            getExerciseStatusAtIndex(index) === true ? (
+                                                <CheckCircleIcon sx={{
+                                                    fontSize: '4vh',
+                                                    color: `${currentDay === day ? "" : "limegreen"}`
+                                                }}/>
+                                            ) : getExerciseStatusAtIndex(index) === false ? (
+                                                <CheckCircleOutlineIcon sx={{fontSize: '4rvh', color: "lightgray"}}/>
+                                            ) : (<RadioButtonUncheckedIcon sx={{fontSize: '4vh'}}/>)
+                                        }
+                                        <h2 key={index} className="flex justify-center">{day}</h2>
+                                        <div className={`${checkedDay === index ? "h-[1vh]" : ""}`}>
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="p-2"></div>
-
+                :
+                <LoadingModule/>
+            }
         </>
     )
 }

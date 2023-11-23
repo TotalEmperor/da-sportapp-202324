@@ -46,8 +46,8 @@ return (
         <header>
             <Navbar/>
         </header>
-        <div className="flex-1 flex justify-center items-center">
-            <div className="flex p-[5%] bg-white rounded-2xl flex-col items-center">
+        <div className="flex-1 flex justify-center items-center ">
+            <div className="flex p-[5%] bg-white rounded-2xl m-5 flex-col items-center">
                 <div className="rounded-full bg-blue-100 flex p-4 w-fit">
                     <div className="rounded-full bg-blue-300 flex p-6 w-fit">
                         <EmailIcon/>
@@ -55,17 +55,17 @@ return (
                 </div>
 
                 <div className="flex flex-col text-center mt-4 justify-center items-center">
-                    <h1 className="font-bold text-5xl mt-4 ">Please verify your email</h1>
-                    <p className="mt-4 text-2xl">You are almost there. We sent an email to</p>
-                    <h1 className="font-extrabold text-2xl mt-4 ">{user.email}</h1>
+                    <h1 className="font-bold text-xl sm:text-5xl mt-4 ">Please verify your email</h1>
+                    <p className="mt-4 sm:text-2xl">You are almost there. We sent an email to:</p>
+                    <h1 className="font-extrabold text-lg sm:text-2xl mt-4 ">{user.email}</h1>
 
-                    <p className="md:w-[40vw] mt-8 text-2xl">
+                    <p className="md:w-[40vw] mt-8 sm:text-2xl">
                         Just click on the link in the email to complete your signup. If you dont see it, may need to check your spam folder.
                     </p>
-                    <p className="mt-[5%] text-2xl">
+                    <p className="mt-[5%] sm:text-2xl">
                         Still cant find the email? No Problem.
                     </p>
-                    <button onClick={handleResend} className="bg-gray-400 hover:bg-gray-300 rounded-xl text-2xl p-4 mt-[5%]">
+                    <button onClick={handleResend} className="bg-gray-400 hover:bg-gray-300 rounded-xl sm:text-2xl p-4 mt-[5%]">
                         Resend Verification Email
                     </button>
                 </div>

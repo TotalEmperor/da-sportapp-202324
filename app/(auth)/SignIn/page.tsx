@@ -26,7 +26,6 @@ export default function SignIn() {
             return console.log(error)
         }
 
-        addData("userdata",getAuth().currentUser.uid,"")
         // else successful
         return router.push("/workout")
     }

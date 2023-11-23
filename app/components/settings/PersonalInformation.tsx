@@ -25,6 +25,7 @@ export default function PersonalInformation() {
                 setEmail(getAuth().currentUser.email);
                 setBirthday(res.result.personaldata.birthday);
                 setHeight(res.result.personaldata.height);
+                console.log(height)
                 setWeight(res.result.personaldata.weight);
                 setWeightUnit(res.result.settingsdata.weightUnit);
                 setHeightUnit(res.result.settingsdata.heightUnit);
@@ -47,39 +48,41 @@ export default function PersonalInformation() {
                 <div className="flex w-full flex-col border-b-2 border-gray-300 mt-[1.5rem] pb-[1.5rem]">
                     <h1 className="font-bold text-2xl">Information</h1>
                     <div className="flex flex-row mb-5">
-                        <div className="me-3">
-                            <span>First Name</span>
-                            <input
-                                type="text"
-                                name="firstName"
-                                id="firstName"
-                                className="w-full rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
-                                placeholder={firstName}
-                                required
-                                onChange={(e) => setFirstName(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <span>Last Name</span>
-                            <input
-                                type="text"
-                                name="lastName"
-                                id="lastName"
-                                className="w-full rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
-                                placeholder={lastName}
-                                required
-                                onChange={(e) => setLastName(e.target.value)}
-                            />
+                        <div className="me-3 flex flex-row w-full">
+                            <label className="flex flex-col me-3 sm:w-[30%]">
+                                <span>First Name</span>
+                                <input
+                                    type="text"
+                                    name="firstName"
+                                    id="firstName"
+                                    className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                                    placeholder={firstName}
+                                    required
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                />
+                            </label>
+                            <label className="flex flex-col sm:w-[30%]">
+                                <span>Last Name</span>
+                                <input
+                                    type="text"
+                                    name="lastName"
+                                    id="lastName"
+                                    className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                                    placeholder={lastName}
+                                    required
+                                    onChange={(e) => setLastName(e.target.value)}
+                                />
+                            </label>
                         </div>
                     </div>
 
-                    <label htmlFor="email" className="mb-5">
+                    <label htmlFor="email" className="mb-5 sm:w-[50%] flex flex-col">
                         <span>Email</span>
                         <input
                             type="email"
                             name="email"
                             id="email"
-                            className="w-full rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                            className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                             placeholder={email}
                             required
                             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
@@ -91,11 +94,11 @@ export default function PersonalInformation() {
                     </span>
                     </label>
 
-                    <label htmlFor="birthday" className="mb-5">
+                    <label htmlFor="birthday" className="mb-5 sm:w-fit flex flex-col">
                         <span>Birthday</span>
                         <input type="text"
                                placeholder={dateFormat(birthday)}
-                               className="w-full rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                               className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                                onChange={(e) => setBirthday(e.target.value)}
                                onBlur={(e) => {
                                    e.target.type = "text"
@@ -106,6 +109,7 @@ export default function PersonalInformation() {
                                onFocus={(e) => {
                                    e.target.type = "date"
                                }}
+                               required
                         />
                     </label>
                 </div>
@@ -134,8 +138,8 @@ export default function PersonalInformation() {
                 </div>
 
                 <button type="submit"
-                        className="mt-5 bg-blue-500 py-3 rounded-md text-white group-invalid:pointer-events-none group-invalid:opacity-50">
-                    Submit
+                        className="mt-5 bg-blue-500 py-3 w-fit hover:bg-blue-300 px-2 rounded-md text-white group-invalid:pointer-events-none group-invalid:opacity-50">
+                    Save Changes
                 </button>
             </form>
         </div>

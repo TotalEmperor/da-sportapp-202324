@@ -68,7 +68,7 @@ export default function Page() {
             <div
                 className="flex flex-col dark:bg-gradient-to-tr dark:from-green-700 dark:to-gray-100 dark:via-green-400 bg-gradient-to-tr from-gray-100 to-green-700 via-green-400 min-h-screen h-fit">
                 <div className="flex-1 flex justify-center items-center">
-                    <form className="bg-white shadow-lg rounded-md p-5 md:p-10 flex flex-col min-w-fit max-w-lg group">
+                    <form className="bg-white shadow-lg rounded-md p-5 m-4 md:p-10 flex flex-col min-w-fit max-w-lg group">
                         <div className="border-b-2 border-black mb-[2vh]">
                             <h1>Pls enter your personal Information, so we can customize your experience</h1>
                         </div>
@@ -104,11 +104,11 @@ export default function Page() {
                                 </select>
                             </div>
                         </label>
-                        <div className={"flex flex-row"}>
+                        <div className={"flex flex-col sm:flex-row"}>
                             <label  htmlFor="Language" className="mb-5">
                                 <span>Language</span>
                                 <div
-                                    className="min-w-fit w-[10vw] bg-inherit shadow shadow-gray-100 appearance-none outline-none text-neutral-800 items-center rounded border border-gray-300 invalid:border-red-500 peer">
+                                    className="min-w-fit sm:w-[10vw) bg-inherit shadow shadow-gray-100 appearance-none outline-none text-neutral-800 items-center rounded border border-gray-300 invalid:border-red-500 peer">
                                     <select
                                         id="language"
                                         onChange={(e) => setLanguage(e.target.value)}
@@ -121,10 +121,10 @@ export default function Page() {
                                     </select>
                                 </div>
                             </label>
-                            <label  htmlFor="Language" className="mb-5 ms-4">
+                            <label  htmlFor="Language" className="mb-5 sm:ms-4">
                                 <span>Gender</span>
                                 <div
-                                    className="min-w-fit w-[10vw] bg-inherit shadow shadow-gray-100 appearance-none outline-none text-neutral-800 items-center rounded border border-gray-300 invalid:border-red-500">
+                                    className="min-w-fit sm:w-[10vw] bg-inherit shadow shadow-gray-100 appearance-none outline-none text-neutral-800 items-center rounded border border-gray-300 invalid:border-red-500">
                                     <select
                                         id="gender"
                                         onChange={(e) => setGender(e.target.value)}
