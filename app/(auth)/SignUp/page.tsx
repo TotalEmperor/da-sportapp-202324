@@ -15,10 +15,10 @@ import signIn from "@/firebase/auth/signin";
 
 export default function SignUp() {
     const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const [password, setPassword] = React.useState<string>();
     const [firstName, setFirstName] = React.useState('');
     const [lastName, setLastName] = React.useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = React.useState<string>();
 
 
 
@@ -52,16 +52,18 @@ export default function SignUp() {
     }
 
     useEffect(() => {
-        if(password!=confirmPassword){
-            const passwordInput =  document.getElementsByName("password");
-            passwordInput.forEach((e:HTMLInputElement)=>{
-                e.setCustomValidity("Invalid")
-            })
-        }else {
-            const passwordInput =  document.getElementsByName("password");
-            passwordInput.forEach((e:HTMLInputElement)=>{
-                e.setCustomValidity("")
-            })
+        if(password && confirmPassword){
+            if(password!=confirmPassword){
+                const passwordInput =  document.getElementsByName("password");
+                passwordInput.forEach((e:HTMLInputElement)=>{
+                    e.setCustomValidity("Invalid")
+                })
+            }else {
+                const passwordInput =  document.getElementsByName("password");
+                passwordInput.forEach((e:HTMLInputElement)=>{
+                    e.setCustomValidity("")
+                })
+            }
         }
     }, [password, confirmPassword]);
 
