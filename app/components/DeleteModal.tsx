@@ -2,8 +2,9 @@
 import React from "react";
 import Link from "next/link";
 import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
-import deleteUser from "@/firebase/auth/deleteUser";
+import deleteCurrentUser from "@/firebase/auth/deleteCurrentUser";
 import {useRouter} from "next/navigation";
+import {getAuth} from "firebase/auth";
 
 
 export default function DeleteModal({style, title, text}: { style?: string, title: string, text: string }) {
@@ -12,12 +13,12 @@ export default function DeleteModal({style, title, text}: { style?: string, titl
     const handleDelete = async (event) => {
         event.preventDefault()
 
-        const res = await deleteUser();
+        const res = await deleteCurrentUser();
         console.log(res)
 
         if (res) {
+            await getAuth().signOut();
             router.push("/")
-
         }else{
             router.push("/settings/delete?deleteError=true")
         }

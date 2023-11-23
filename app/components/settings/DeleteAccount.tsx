@@ -11,9 +11,11 @@ export default function DeleteAccount() {
     const router = useRouter();
 
     const searchParams = useSearchParams().get("modal");
-    let deleteError = useSearchParams().get("deleteError")
+    let deleteError = useSearchParams().get("deleteError");
+    console.log(deleteError);
 
     const handleDelete = async (event) => {
+        event.preventDefault();
         router.push("/settings/delete");
     }
 

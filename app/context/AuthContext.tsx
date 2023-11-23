@@ -61,3 +61,24 @@ export const CheckEmailVerification = ({children,}) => {
         </>
     );
 };
+
+export const RedirectSignedUpUser = ({children,}) => {
+    const router = useRouter();
+
+    React.useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user && user.emailVerified) {
+                router.push("/workout")
+            }
+        });
+
+        return () => unsubscribe();
+    });
+
+    return (
+        <>
+            {children}
+        </>
+    );
+
+}

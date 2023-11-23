@@ -1,5 +1,5 @@
 "use client"
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import BorderContainer from "@/components/Authentication/borderContainer";
@@ -14,10 +14,12 @@ import userdata from "@/templates/userdata.json";
 import signIn from "@/firebase/auth/signin";
 
 export default function SignUp() {
-    const [email, setEmail] = React.useState('')
-    const [password, setPassword] = React.useState('')
-    const [firstName, setFirstName] = React.useState('')
-    const [lastName, setLastName] = React.useState('')
+    const [email, setEmail] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const [firstName, setFirstName] = React.useState('');
+    const [lastName, setLastName] = React.useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+
 
 
     const [showPassword, setShowPassword] = useState(false);
@@ -47,9 +49,22 @@ export default function SignUp() {
             const errorCode = error.code;
             const errorMessage = error.message;
         })
-
-
     }
+
+    useEffect(() => {
+        if(password!=confirmPassword){
+            const passwordInput =  document.getElementsByName("password");
+            passwordInput.forEach((e:HTMLInputElement)=>{
+                e.setCustomValidity("Invalid")
+            })
+        }else {
+            const passwordInput =  document.getElementsByName("password");
+            passwordInput.forEach((e:HTMLInputElement)=>{
+                e.setCustomValidity("")
+            })
+        }
+    }, [password, confirmPassword]);
+
 
     return (
         <>
@@ -104,27 +119,29 @@ export default function SignUp() {
             Please enter a valid email address
           </span>
                         </label>
-                        <label htmlFor="password" className="mb-5">
+                        <label htmlFor="password" className="mb-5" >
                             <span>Enter Password</span>
                             <input
                                 type="password"
                                 name="password"
-                                id="password"
+                                id="firstPassword"
                                 className="w-full rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                                 placeholder="Password"
                                 required
                                 onChange={(e) => setPassword(e.target.value)}
                             />
-                            <span>Enter Password again</span>
                             <input
                                 type="password"
                                 name="password"
-                                id="password"
+                                id="secondPassword"
                                 className="w-full rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                                 placeholder="Password"
                                 required
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={e => setConfirmPassword(e.target.value)}
                             />
+                            <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                                Password don&apos;t match
+                            </span>
                         </label>
                         <button type="submit" className="mt-5 bg-blue-500 py-3 rounded-md text-white group-invalid:pointer-events-none group-invalid:opacity-50" onClick={handleForm}>
                             Submit
