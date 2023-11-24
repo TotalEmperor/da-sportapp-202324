@@ -1,0 +1,46 @@
+@media (min-width: 640px) {
+    .w-left-fixed {
+        flex: 0 1 230px;
+        min-width: 300px;
+    }
+
+    .w-center-fixed {
+        #flex: 0 1 230px;
+        width: 50%;
+    }
+
+    .w-right-fixed {
+        border-left: 2px solid #BFC9CA;
+        #flex: 0 1 230px;
+        width: 50%;
+    }
+
+    .contentWidth {
+
+    }
+
+
+    .icons {
+        font-size: 3rem;
+    }
+}
+
+
+@media (max-width: 640px) {
+    .icons {
+        font-size: 2rem;
+        width: 2rem;
+    }
+
+    .w-right-fixed {
+        border-top: 2px solid #BFC9CA;
+        padding-top: 1rem;
+        width: 100%;
+    }
+
+}
+
+.w-left-panel {
+    border: 2px solid #BFC9CA;
+}
+

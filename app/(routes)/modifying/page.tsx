@@ -1,24 +1,11 @@
-import Head from "next/head";
-import SideNav from "@/components/SideNav";
-import MainComponent from "@/components/MainScreen/mainComponent";
-import ConfPanel from "@/components/confPanel";
+import React, {Suspense} from "react";
 import DateConfig from "@/components/dateConfig";
-import React from "react";
 
+export default async function page() {
 
-export default function page(){
-
-    return(
+    return (
         <>
-            <MainComponent>
-                <>
-                </>
-            </MainComponent>
-            <ConfPanel>
-                <>
-                    <DateConfig/>
-                </>
-            </ConfPanel>
+            <DateConfig/>
         </>
-    )
+    );
 }
