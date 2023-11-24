@@ -72,10 +72,10 @@ export default function ModifySetComponentCollection() {
                     </div>
                     {userdata.length == 0 ?
                         <>
-                            <div className="h-full flex">
+                            <div className="h-full flex w-full">
                                 <button
-                                    className={"mb-20 mt-auto rounded-2xl border-2 border-black p-4 bg-green-300 hover:bg-green-100"}>Create
-                                    new Schedule
+                                    className={"mb-20 ms-auto me-10 mt-auto rounded-2xl border-2 border-black p-4 bg-green-300 hover:bg-green-100"}>
+                                    <LaunchIcon/>
                                 </button>
                             </div>
                         </>
@@ -95,13 +95,13 @@ export default function ModifySetComponentCollection() {
                             <div className={"mt-auto mb-20 flex flex-row w-full md:w-[80%]"}>
                                 <div className="me-auto flex">
                                     <Link href="#"
-                                          className={"p-5 border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200"}>
+                                          className={"p-5 border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200 ms-5"}>
                                         <CreateIcon/>
                                     </Link>
                                 </div>
                                 <div className="ms-auto flex">
                                     <Link href="#"
-                                          className={"p-5 border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200"}>
+                                          className={"p-5 border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200 ms-5"}>
                                         <AddIcon/>
                                     </Link>
                                 </div>
