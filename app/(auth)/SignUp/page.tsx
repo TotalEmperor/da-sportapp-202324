@@ -15,10 +15,10 @@ import signIn from "@/firebase/auth/signin";
 
 export default function SignUp() {
     const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState<string>();
+    const [password, setPassword] = React.useState<string>("");
     const [firstName, setFirstName] = React.useState('');
     const [lastName, setLastName] = React.useState('');
-    const [confirmPassword, setConfirmPassword] = React.useState<string>();
+    const [confirmPassword, setConfirmPassword] = React.useState<string>("");
 
 
 

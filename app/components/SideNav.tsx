@@ -8,11 +8,17 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import AccountDropdown from "@/components/AccountDropdown";
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import React,{useState} from "react";
+import React, {useEffect, useState} from "react";
 
 export default function SideNav() {
+    const [activeButton, setActiveButton] = useState<string>();
 
-    const [activeButton, setActiveButton] = useState('/workout');
+    useEffect(() => {
+        if(!activeButton && localStorage.getItem("currentPage")){
+            setActiveButton(localStorage.getItem("currentPage"))
+        }
+        localStorage.setItem("currentPage", activeButton);
+    }, [activeButton]);
 
     return (
             <div className={styles["w-left-fixed"] + " w-full flex-shrink flex-grow-0 px-4"}>
