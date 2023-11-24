@@ -15,8 +15,8 @@ export default function DateConfig() {
 
     const days = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
     const {day, week, setDay, setWeek} = useContextData();
-    const [checkedDay, setCheckedDay] = useState<number | 0>(0);
-    const [checkedWeek, setCheckedWeek] = useState<number | 0>(0);
+    const [checkedDay, setCheckedDay] = useState<number | 0>();
+    const [checkedWeek, setCheckedWeek] = useState<number | 0>();
     const [exerciseStatus, setExerciseStatus] = useState<boolean[]>(new Array(7).fill(null));
     const date = new Date();
     const currentDay = days[date.getDay() - 1];
@@ -67,7 +67,6 @@ export default function DateConfig() {
 
 
     const checkExerciseStatus = async () => await getFirestoreDocument("userdata", user).then((res: any) => {
-        console.log(res)
         if (res.result.weeks[week]) {
             days.forEach((day) => {
                 setExerciseStatusAtIndex(days.indexOf(day), getExerciseStatus(day, res.result.weeks[week]));
@@ -133,7 +132,7 @@ export default function DateConfig() {
                                         <></>
                                     }
                                     <div
-                                        className={`cursor-pointer hover:text-blue-700 flex items-center rounded flex-col ${currentDay === day ? "bg-red-200 text-white" : ""}`}
+                                        className={`cursor-pointer hover:text-blue-700 flex items-center rounded flex-col hover:bg-gray-200 ${currentDay === day ? "bg-red-200 text-white" : ""}`}
                                         onClick={() => handleClickDay(index)}
                                     >
                                         {

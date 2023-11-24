@@ -5,6 +5,7 @@ import SetComponentCollection from "@/components/Workout/SetComponentCollection"
 import ConfPanel from "@/components/confPanel";
 import ExerciseComponentCollection from "@/components/Workout/ExerciseComponentCollection";
 import DateConfig from "@/components/dateConfig";
+import ModifySetComponentCollection from "@/components/Modifying/ModifySetComponentCollection";
 export default function DashboardLayout({children,}: {
     children: React.ReactNode
 }) {
@@ -12,7 +13,7 @@ export default function DashboardLayout({children,}: {
     return (
         <>
             <MainComponent>
-                <SetComponentCollection/>
+                <ModifySetComponentCollection/>
             </MainComponent>
             <ConfPanel>
                 {children}
