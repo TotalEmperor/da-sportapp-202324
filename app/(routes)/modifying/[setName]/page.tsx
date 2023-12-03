@@ -3,10 +3,10 @@ import getFirestoreDocument from "@/firebase/firestore/getData";
 import ExerciseComponentCollection from "@/components/Workout/ExerciseComponentCollection";
 import styles from "../workout.module.css";
 import Head from "next/head";
-import SideNav from "@/components/SideNav";
-import MainComponent from "@/components/MainScreen/mainComponent";
+import SideNav from "@/components/MainComponents/SideNav";
+import MainComponent from "@/components/MainComponents/mainComponent";
 import SetComponentCollection from "@/components/Workout/SetComponentCollection";
-import ConfPanel from "@/components/confPanel";
+import ConfPanel from "@/components/MainComponents/confPanel";
 import DateConfig from "@/components/dateConfig";
 
 export default function Page({params: {setName}}) {

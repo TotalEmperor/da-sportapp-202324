@@ -132,17 +132,17 @@ export default function DateConfig() {
                                         <></>
                                     }
                                     <div
-                                        className={`cursor-pointer hover:text-blue-700 flex items-center rounded flex-col hover:bg-gray-200 ${currentDay === day ? "bg-red-200 text-white" : ""}`}
+                                        className={`cursor-pointer hover:text-blue-700 flex items-center rounded flex-col dark:hover:bg-gray-400 hover:bg-gray-200 ${currentDay === day ? "bg-red-200 text-white" : ""}`}
                                         onClick={() => handleClickDay(index)}
                                     >
                                         {
                                             getExerciseStatusAtIndex(index) === true ? (
                                                 <CheckCircleIcon sx={{
                                                     fontSize: '4vh',
-                                                    color: `${currentDay === day ? "" : "limegreen"}`
+                                                    color: `${currentDay === day ? "" : "#b7f397"}`
                                                 }}/>
                                             ) : getExerciseStatusAtIndex(index) === false ? (
-                                                <CheckCircleOutlineIcon sx={{fontSize: '4rvh', color: "lightgray"}}/>
+                                                <CheckCircleOutlineIcon sx={{fontSize: '4rvh', color: "#b7f397"}}/>
                                             ) : (<RadioButtonUncheckedIcon sx={{fontSize: '4vh'}}/>)
                                         }
                                         <h2 key={index} className="flex justify-center">{day}</h2>

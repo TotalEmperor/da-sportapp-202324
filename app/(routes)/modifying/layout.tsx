@@ -1,8 +1,8 @@
 
-import MainComponent from "@/components/MainScreen/mainComponent";
+import MainComponent from "@/components/MainComponents/mainComponent";
 import React, {Suspense} from "react";
 import SetComponentCollection from "@/components/Workout/SetComponentCollection";
-import ConfPanel from "@/components/confPanel";
+import ConfPanel from "@/components/MainComponents/confPanel";
 import ExerciseComponentCollection from "@/components/Workout/ExerciseComponentCollection";
 import DateConfig from "@/components/dateConfig";
 import ModifySetComponentCollection from "@/components/Modifying/ModifySetComponentCollection";

@@ -17,7 +17,7 @@ export default function SetManager(props: {
 
     return (
         <>
-            <div className={"rounded-xl border-2 border-[#9a9d93] w-full my-3 bg-white " + style}>
+            <div className={"rounded-xl border-2 border-[#9a9d93] w-full my-3 bg-white dark:bg-neutral-700 " + style}>
                 <div
                     className="w-full justify-center flex-col mx-auto flex px-4 pt-8 py-4">
                     <div className="flex w-fit flex-row min-h-fit">

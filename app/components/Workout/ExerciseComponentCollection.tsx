@@ -82,7 +82,7 @@ export default function ExerciseComponentCollection(setName:any) {
                 :
                 <>
                     <div className={"w-full overflow-y-scroll flex flex-col items-center my-2 px-3"}>
-                        <div className="flex w-full bg-gray-100 rounded-2xl mb-4 p-3 items-center">
+                        <div className="flex w-full bg-gray-100 dark:bg-gray-700 rounded-2xl mb-4 p-3 items-center">
                             <span className={"w-[20%]"}>
                                 <Link
                                     className="hover:bg-gray-200 rounded-full p-3"
@@ -93,7 +93,7 @@ export default function ExerciseComponentCollection(setName:any) {
                             <span className="font-bold ms-4 w-full justify-center flex text-4xl">{setName.setName}</span>
                             <span className={"w-[20%]"}></span>
                         </div>
-                        <div className="w-full md:w-[80%] bg-gray-200 rounded-2xl">
+                        <div className="w-full md:w-[80%] bg-gray-200 dark:bg-gray-400 rounded-2xl">
                             <Suspense>
                                 {(
                                     userdata.map((data: any, index) => (
@@ -103,13 +103,14 @@ export default function ExerciseComponentCollection(setName:any) {
                                                              stars={data[1].stars}
                                                              description={data[1].description}
                                                              style={"m-0 p-0"}
+                                                             image={data[1].image}
                                                              moves={data[1].moves}
                                             />
 
                                             {
                                                 data[1].break != 0 ?
                                                     <span
-                                                        className={"flex items-center rounded-2xl justify-center text-2xl font-bold h-20"}>{data[1].break} Sec. Break</span>
+                                                        className={"flex items-center rounded-2xl justify-center dark:text-black text-2xl font-bold h-20"}>{data[1].break} Sec. Break</span>
                                                     :
                                                     <></>
                                             }

@@ -5,7 +5,7 @@ export default function mainComponent({children, style}: { children: React.React
     return (
 
         <main role="main"
-              className={styles["w-center-fixed"] + " w-full flex-grow flex-shrink pt-1 px-3 items-center flex-col flex "+style}>
+              className={styles["w-center-fixed"] + " w-full flex-grow flex-shrink pt-1 px-3 items-center flex-col flex bg-inherit "+style}>
             {children}
         </main>
     )

@@ -62,7 +62,7 @@ export default function AccountDropdown() {
                     </div>
 
                     <div
-                        className={`origin-bottom-right absolute right-0 bottom-full mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-in-out transform ${isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+                        className={`origin-bottom-right absolute right-0 bottom-full dark:text-gray-300 text-gray-700 dark:bg-gray-800 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-in-out transform ${isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
                         role="menu"
                         aria-orientation="vertical"
                         aria-labelledby="options-menu"
@@ -70,21 +70,21 @@ export default function AccountDropdown() {
                         <div className="py-1" role="none">
                             <Link
                                 href="/settings/Account"
-                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 text-center"
+                                className="block px-4 py-2 text-sm  hover:bg-gray-100 hover:text-gray-900 text-center"
                                 role="menuitem"
                             >
                                 <span><ManageAccountsOutlinedIcon className={styles["icons"] + " sm:mx-2 mx-4 inline"}/> Account settings</span>
                             </Link>
                             <Link
                                 href="#"
-                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 text-center"
+                                className="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900 text-center"
                                 role="menuitem"
                             >
                                 <span><SwitchAccountOutlinedIcon className={styles["icons"] + " sm:mx-2 mx-4 inline"}/>Change Account</span>
                             </Link>
                             <button
                                 onClick={handleLogOut}
-                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full"
+                                className="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900 w-full"
                                 role="menuitem"
                             >
                                 <span><LogoutIcon/> Sign out</span>
