@@ -4,8 +4,10 @@ import {createContext, ReactNode, useContext, useState} from "react";
 type ContextData = {
     day: string;
     week: string;
+    activeButton: string;
     setDay: (day: string) => void;
     setWeek: (week: string) => void;
+    setActiveButton : (activeButton: string) => void;
 };
 
 const ContextData = createContext<ContextData | null>(null);

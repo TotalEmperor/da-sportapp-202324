@@ -4,12 +4,13 @@ import {useEffect, useState} from "react";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import SetManager from "@/components/Workout/SetManager"
 import {useRouter} from "next/navigation";
+import addData from "@/firebase/firestore/addData";
+import {useContextData} from "@/context/ContextData";
+import EditCalendarIcon from "@mui/icons-material/EditCalendar";
+import Link from "next/link";
 import LaunchIcon from '@mui/icons-material/Launch';
-import Link from 'next/link'
 import CreateIcon from '@mui/icons-material/Create';
 import AddIcon from '@mui/icons-material/Add';
-import {useContextData} from "@/context/ContextData";
-import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import LoadingModule from "@/components/loadingModule";
 
 export default function ModifySetComponentCollection() {
@@ -24,7 +25,7 @@ export default function ModifySetComponentCollection() {
     const [userdata, setuserdata] = useState([]);
     const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
-    const {day, week, setDay, setWeek} = useContextData();
+    const { day, week, setDay, setWeek } = useContextData();
 
 
 // keeps `userdata` up to date
@@ -52,35 +53,31 @@ export default function ModifySetComponentCollection() {
 
                 })
             }
-            console.log(userdata.length)
         });
 
 
     }, [user, day, week]); // <-- rerun when user changes
 
-
     return (
         <>
-            {userdata != null ?
+            {userdata!=null ?
                 <>
                     <div
-                        className="flex flex-col text-4xl font-bold w-full bg-gray-100 justify-center items-center rounded-2xl">
+                        className="flex flex-col text-4xl font-bold w-full bg-gray-100 dark:bg-gray-700 justify-center items-center rounded-2xl">
                         <h1>{day}</h1>
-                        <div className="flex felx-row border-b-2 border-black justify-center items-center">
+                        <div className="flex felx-row border-b-2 border-black dark:border-white justify-center items-center">
                             <h2 className="text-sm me-[1rem]">{userdata.length ? userdata.length : "0"}x Sets</h2>
                             <h1 className="text-xl font-bold">{userdata.length ? numSets : "0"}x. Exercises</h1>
                             <h2 className="text-sm ms-[1rem]">{userdata.length ? time : "0"} Min.</h2>
                         </div>
                     </div>
                     {userdata.length == 0 ?
-                        <>
-                            <div className="h-full flex w-full">
-                                <button
-                                    className={"mb-20 ms-auto me-10 mt-auto rounded-2xl border-2 border-black p-4 bg-green-300 hover:bg-green-100"}>
-                                    <LaunchIcon/>
-                                </button>
-                            </div>
-                        </>
+                        <div className={"mt-auto w-[80%] flex mb-20"}>
+                            <button
+                                className={"p-5 ms-auto border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
+                                <LaunchIcon/>
+                            </button>
+                        </div>
                         :
                         <>
                             <div className={"w-full overflow-y-auto flex flex-col items-center my-2 md:w-[80%]"}>
@@ -94,25 +91,24 @@ export default function ModifySetComponentCollection() {
                                     ))
                                 )}
                             </div>
-                            <div className={"mt-auto mb-20 flex flex-row w-full md:w-[80%]"}>
-                                <div className="w-[50%]">
-                                    <Link href="#"
-                                          className={"me-auto p-4 flex border-2 w-fit border-black rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
-                                        <CreateIcon/>
-                                    </Link>
-                                </div>
-                                <div className="w-[50%]">
-                                    <Link href="#"
-                                          className={"ms-auto flex w-fit p-4 border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
-                                        <AddIcon/>
-                                    </Link>
-                                </div>
+                            <div className={"mt-auto w-[80%] flex mb-20"}>
+                                <button
+                                    className={"p-5 me-auto border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
+                                    <CreateIcon/>
+                                </button>
+                                <button
+                                    className={"p-5 ms-auto border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
+                                    <AddIcon/>
+                                </button>
                             </div>
                         </>
                     }
+
                 </>
                 :
-                <LoadingModule/>
+                <>
+                    <LoadingModule/>
+                </>
             }
         </>
     )

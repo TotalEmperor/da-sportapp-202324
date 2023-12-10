@@ -9,12 +9,24 @@ import AccountDropdown from "@/components/AccountDropdown";
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import React, {useEffect, useState} from "react";
-import {useRouter} from "next/navigation";
+import {usePathname} from "next/navigation";
 import {useContextData} from "@/context/ContextData";
 
 export default function SideNav() {
-    // @ts-ignore
     const {activeButton, setActiveButton} = useContextData();
+    const path = usePathname();
+
+    useEffect(() => {
+        const parts = path.split('/');
+        console.log("Parts: "+parts)
+
+        // Check the length of parts array
+        const result = parts.length >= 3 ? parts.slice(0, 3) : parts.slice(0, 2);
+
+        result.join('/');
+
+        setActiveButton("/"+result[1])
+        }, [path]);
 
     useEffect(() => {
         if(!activeButton && localStorage.getItem("currentPage")){
