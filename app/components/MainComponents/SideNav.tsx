@@ -9,9 +9,12 @@ import AccountDropdown from "@/components/AccountDropdown";
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import React, {useEffect, useState} from "react";
+import {useRouter} from "next/navigation";
+import {useContextData} from "@/context/ContextData";
 
 export default function SideNav() {
-    const [activeButton, setActiveButton] = useState<string>();
+    // @ts-ignore
+    const {activeButton, setActiveButton} = useContextData();
 
     useEffect(() => {
         if(!activeButton && localStorage.getItem("currentPage")){

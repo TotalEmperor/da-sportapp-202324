@@ -23,12 +23,16 @@ type Props = {
 export function ContextDataProvider({ children }: Props) {
     const [day, setDay] = useState<string>(null);
     const [week, setWeek] = useState<string>("");
+    const [activeButton, setActiveButton] = useState<string>(null);
+
 
     const value = {
         day,
         week,
+        activeButton,
         setDay,
         setWeek,
+        setActiveButton
     };
     return (
         <ContextData.Provider value={value}>

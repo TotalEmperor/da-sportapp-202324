@@ -7,6 +7,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
 import {param} from "ts-interface-checker";
 import {useContextData} from "@/context/ContextData";
+import LoadingModule from "@/components/loadingModule";
 
 export default function ExerciseComponentCollection(setName:any) {
     const [user, setuser] = useState(() => {
@@ -59,25 +60,7 @@ export default function ExerciseComponentCollection(setName:any) {
         <>
             {userdata.length == 0 ?
                 <>
-                    <div className="border border-blue-300 shadow rounded-md p-4 w-full h-[10rem]">
-                        <div className="animate-pulse flex space-x-4">
-                            <div className="rounded-full bg-slate-200 h-10 w-10"></div>
-                            <div className="flex-1 space-y-6 py-1">
-                                <div className="h-2 bg-slate-200 rounded opacity-50"></div>
-                                <div className="space-y-3">
-                                    <div className="grid grid-cols-3 gap-4">
-                                        <div className="h-2 bg-slate-200 rounded col-span-2"></div>
-                                        <div className="h-2 bg-slate-200 rounded col-span-1"></div>
-                                        <div className="h-2 bg-slate-200 rounded col-span-1"></div>
-                                        <div className="h-2 bg-slate-200 rounded col-span-1"></div>
-                                        <div className="h-2 bg-slate-200 rounded col-span-1"></div>
-                                        <div className="h-2 bg-slate-200 rounded col-span-1"></div>
-                                    </div>
-                                    <div className="h-2 bg-slate-200 rounded"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <LoadingModule/>
                 </>
                 :
                 <>
@@ -85,7 +68,7 @@ export default function ExerciseComponentCollection(setName:any) {
                         <div className="flex w-full bg-gray-100 dark:bg-gray-700 rounded-2xl mb-4 p-3 items-center">
                             <span className={"w-[20%]"}>
                                 <Link
-                                    className="hover:bg-gray-200 rounded-full p-3"
+                                    className="hover:bg-gray-200 rounded-full p-3 dark:hover:bg-gray-400"
                                     href="/workout">
                                     <ArrowBackIcon/>
                                 </Link>

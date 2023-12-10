@@ -6,6 +6,9 @@ import SetManager from "@/components/Workout/SetManager"
 import {useRouter} from "next/navigation";
 import addData from "@/firebase/firestore/addData";
 import {useContextData} from "@/context/ContextData";
+import EditCalendarIcon from "@mui/icons-material/EditCalendar";
+import Link from "next/link";
+import AddIcon from "@mui/icons-material/Add";
 
 export default function SetComponentCollection() {
     const [user, setuser] = useState(() => {
@@ -97,6 +100,12 @@ export default function SetComponentCollection() {
                                             stars={getAverageDifficulty(data)}/>
                             ))
                         )}
+                    </div>
+                    <div className={"mt-auto w-[80%] flex"}>
+                        <Link href="/modifying" prefetch={true}
+                              className={"p-5 mb-20 ms-auto border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
+                            <EditCalendarIcon/>
+                        </Link>
                     </div>
                 </>
             }

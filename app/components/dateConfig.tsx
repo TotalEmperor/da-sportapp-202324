@@ -132,7 +132,7 @@ export default function DateConfig() {
                                         <></>
                                     }
                                     <div
-                                        className={`cursor-pointer hover:text-blue-700 flex items-center rounded flex-col dark:hover:bg-gray-400 hover:bg-gray-200 ${currentDay === day ? "bg-red-200 text-white" : ""}`}
+                                        className={`cursor-pointer flex items-center rounded flex-col dark:hover:bg-gray-400 hover:bg-gray-200 ${currentDay === day ? "bg-red-200 text-white dark:bg-red-400" : ""}`}
                                         onClick={() => handleClickDay(index)}
                                     >
                                         {

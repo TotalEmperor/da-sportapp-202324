@@ -18,40 +18,34 @@ export default function Account() {
             </div>
             <div className="flex w-full flex-col border-b-2 border-gray-300 mt-[1.5rem] pb-[1.5rem]">
                 <h1 className="font-bold text-2xl">Personal Information</h1>
-                <div className="flex flex-row justify-center items-center hover:bg-gray-200 rounded-xl overflow-hidden p-2">
-                    <Link
-                        href="/settings/yourSportFit/account"
-                        className="w-[100vw] text-xl h-[4em] flex items-center hover:bg-gray-200">
-                        <PermIdentityOutlinedIcon/>
-                        <span className="flex flex-row ms-3">
+                <Link
+                    href="/settings/yourSportFit/account"
+                    className="w-full text-xl flex h-[4em] items-center p-4 hover:bg-gray-200 rounded-xl dark:hover:bg-gray-400">
+                    <PermIdentityOutlinedIcon/>
+                    <span className="flex flex-row ms-3">
                             Personal Information
                         </span>
-                    </Link>
-                    <ArrowForwardIosIcon/>
-                </div>
-                <div className="flex flex-row justify-center items-center hover:bg-gray-200 rounded-xl overflow-hidden p-2">
-                    <Link
-                        href="/settings/password"
-                        className="w-[100vw] text-xl flex flex-row h-[4em] items-center">
-                        <PasswordIcon/>
-                        <span className="flex flex-row ms-3">
+                    <ArrowForwardIosIcon className="ms-auto w-full"/>
+                </Link>
+                <Link
+                    href="/settings/password"
+                    className="w-full text-xl flex h-[4em] items-center p-4 hover:bg-gray-200 rounded-xl dark:hover:bg-gray-400">
+                    <PasswordIcon/>
+                    <span className="flex flex-row ms-3">
                                 Password
                         </span>
-                    </Link>
-                    <ArrowForwardIosIcon/>
-                </div>
-                <div className="flex flex-row justify-center items-center hover:bg-gray-200 rounded-xl overflow-hidden p-2">
-                    <Link
-                        href="/settings/delete"
-                        className="w-[100vw] text-xl h-[4em] flex items-center hover:bg-gray-200">
-                        <PersonRemoveIcon/>
-                        <span className="flex flex-row ms-3">
+                    <ArrowForwardIosIcon className="ms-auto w-full"/>
+                </Link>
+                <Link
+                    href="/settings/delete"
+                    className="w-full text-xl flex h-[4em] items-center p-4 hover:bg-gray-200 rounded-xl dark:hover:bg-gray-400">
+                    <PersonRemoveIcon/>
+                    <span className="flex flex-row ms-3">
                             Delete Account
                         </span>
-                    </Link>
-                    <ArrowForwardIosIcon/>
+                    <ArrowForwardIosIcon className="ms-auto w-full"/>
+                </Link>
 
-                </div>
             </div>
         </div>
     )

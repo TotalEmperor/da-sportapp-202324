@@ -65,7 +65,8 @@ export default function ExerciseManager(props: {
                         <span className="text-[1.2rem] font-bold me-6">Collapsible Tab</span>
                     </div>
                     {isContentVisible && (
-                        <div className="flex justify-center items-center mt-4">
+                        <div
+                            className="flex justify-center items-center mt-4">
                             <p>Test</p>
                             {/* Add any additional content here */}
                         </div>

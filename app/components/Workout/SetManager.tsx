@@ -2,6 +2,7 @@ import Starfilled from '@/icons/stars.png';
 import Image from "next/image";
 import Link from "next/link"
 import React from "react"
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import {getAuth} from "firebase/auth";
 
 
@@ -17,7 +18,7 @@ export default function SetManager(props: {
 
     return (
         <>
-            <div className={"rounded-xl border-2 border-[#9a9d93] w-full my-3 bg-white dark:bg-neutral-700 " + style}>
+            <div className={"rounded-xl border-2 border-[#9a9d93] w-full my-3 dark:shadow-neutral-600 shadow-md bg-white dark:bg-neutral-700 " + style}>
                 <div
                     className="w-full justify-center flex-col mx-auto flex px-4 pt-8 py-4">
                     <div className="flex w-fit flex-row min-h-fit">
@@ -28,9 +29,9 @@ export default function SetManager(props: {
                             </div>
                         ))}
                     </div>
-                    <div className="relative h-[1.8rem] mb-3">
-                        <Link href={link} className="absolute right-0 text-green-800" prefetch={true}><span
-                            className="text-[1.8rem] font-bold">View</span>
+                    <div className="relative h-[2rem] mb-3">
+                        <Link href={link} className="absolute right-0" prefetch={true}>
+                            <VisibilityIcon className={"hover:text-blue-400"} sx={{fontSize:"2rem"}}/>
                         </Link>
                     </div>
                     <div className="text-[1rem] font-bold">
