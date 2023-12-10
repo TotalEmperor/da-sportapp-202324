@@ -7,42 +7,55 @@ import {getAuth, updateEmail} from "firebase/auth";
 import createUser from "@/firebase/auth/createUser";
 import updateFirestoreDocument from "@/firebase/firestore/updateData";
 import {useRouter} from "next/navigation";
+import UserData from "@/firebase/firestore/firestoreClasses/Userdata"
 
 export default function PersonalInformation() {
 
     const [email, setEmail] = React.useState('');
     const [firstName, setFirstName] = React.useState('');
-    const [weight, setWeight] = useState<number>(0);
+    const [weight, setWeight] = useState<number>(null);
     const [birthday, setBirthday] = React.useState<string>('');
     const [lastName, setLastName] = React.useState('');
     const [heightUnit, setHeightUnit] = useState<string>("");
     const [weightUnit, setWeightUnit] = useState<string>("");
-    const [height, setHeight] = useState<number>(0);
-    const [userData, setUserdata] = useState<UserData>();
+    const [height, setHeight] = useState<number>(null);
+    const [userData, setUserdata] = useState<UserData>(new UserData());
     const [isFormValid, setIsFormValid] = useState(false);
-
-
     const router = useRouter();
     const user = getAuth().currentUser;
-
-
 
     useEffect(() => {
         getFirestoreDocument("userdata", getAuth().currentUser.uid).then((res) => {
             if (res.result) {
                 setUserdata(res.result);
-                setFirstName(res.result.personaldata.firstName);
-                setLastName(res.result.personaldata.lastName);
-                setEmail(getAuth().currentUser.email);
-                setBirthday(res.result.personaldata.birthday);
-                setHeight(res.result.personaldata.height);
-                setWeight(res.result.personaldata.weight);
-                setWeightUnit(res.result.settingsdata.weightUnit);
-                setHeightUnit(res.result.settingsdata.heightUnit);
+                setEmail(getAuth().currentUser.email
+                );
             }
-
+            console.log(userData)
         });
     }, [user]);
+
+
+    useEffect(() => {
+
+    }, [user]);
+
+    useEffect(() => {
+        if(heightUnit=="CM"){
+            setHeight(height/0.0328);
+        }else {
+            setHeight(height*0.0328);
+        }
+    }, [heightUnit]);
+
+    useEffect(() => {
+        if(weightUnit=="KG"){
+            setWeight(weight/2.2);
+        }else {
+            setWeight(weight*2.2);
+        }
+    }, [weightUnit]);
+
 
     useEffect(() => {
         if (firstName !== "" || lastName !== "" || email !== "" || birthday !== "" || height !== 0 || weight !== 0 || heightUnit !== "" || weightUnit !== "") {
@@ -52,7 +65,7 @@ export default function PersonalInformation() {
         }
     }, [firstName, lastName, email, birthday, height, weight, heightUnit, weightUnit]);
 
-    const handleForm = async (event)=>{
+    const handleForm = async (event) => {
         event.preventDefault();
         userData.personaldata.firstName = firstName;
         userData.personaldata.lastName = lastName;
@@ -69,7 +82,7 @@ export default function PersonalInformation() {
 
 
     return (
-        <div className="w-full flex-grow flex-shrink pt-1 flex-col flex px-3">
+        <div className="w-full flex-grow flex-shrink pt-1 flex-col flex px-3 dark:text-white text-neutral-800">
             <div className="flex w-full items-center border-b-2 border-gray-300 pb-[1.5rem]">
                 <Link
                     className="hover:bg-gray-200 rounded-full w-fit p-2"
@@ -78,7 +91,7 @@ export default function PersonalInformation() {
                 </Link>
                 <span className="font-bold text-xl ms-4">Personal Information</span>
             </div>
-            <form className={"flex flex-col group"} noValidate onSubmit={handleForm}>
+            <form className={"flex flex-col group px-10"} noValidate onSubmit={handleForm}>
                 <div className="flex w-full flex-col border-b-2 border-gray-300 mt-[1.5rem] pb-[1.5rem]">
                     <h1 className="font-bold text-2xl">Information</h1>
                     <div className="flex flex-row mb-5">
@@ -90,8 +103,8 @@ export default function PersonalInformation() {
                                     name="firstName"
                                     id="firstName"
                                     pattern="^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
-                                    className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
-                                    placeholder={firstName}
+                                    className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                                    placeholder={userData.personaldata.firstName}
                                     onChange={(e) => setFirstName(e.target.value)}
                                 />
                                 <span
@@ -106,8 +119,8 @@ export default function PersonalInformation() {
                                     name="lastName"
                                     id="lastName"
                                     pattern="^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
-                                    className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
-                                    placeholder={lastName}
+                                    className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                                    placeholder={userData.personaldata.lastName}
                                     onChange={(e) => setLastName(e.target.value)}
                                 />
                                 <span
@@ -124,7 +137,7 @@ export default function PersonalInformation() {
                             type="email"
                             name="email"
                             id="email"
-                            className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                            className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                             placeholder={email}
                             pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
                             onChange={(e) => setEmail(e.target.value)}
@@ -138,8 +151,8 @@ export default function PersonalInformation() {
                     <label htmlFor="birthday" className="mb-5 sm:w-fit flex flex-col">
                         <span>Birthday</span>
                         <input type="text"
-                               placeholder={dateFormat(birthday)}
-                               className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                               placeholder={dateFormat(userData.personaldata.birthday)}
+                               className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                                onChange={(e) => setBirthday(e.target.value)}
                                onBlur={(e) => {
                                    e.target.type = "text"
@@ -150,7 +163,7 @@ export default function PersonalInformation() {
                                onFocus={(e) => {
                                    e.target.type = "date"
                                }}
-                               
+
                         />
                     </label>
                 </div>
@@ -160,25 +173,48 @@ export default function PersonalInformation() {
                     <div className="flex flex-row mb-5">
                         <label htmlFor="height" className="me-5">
                             <span>Height</span>
-                            <input type="number"
-                                   min={heightUnit=="CM" ? 121:3.96982}
-                                   max={heightUnit=="CM" ? 219:7.18504}
-                                   placeholder={height.toString()}
-                                   className="w-full rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
-                                   onChange={(e) => setHeight(e.target.valueAsNumber)}>
-                            </input>
+                            <div
+                                className="flex flex-row w-full dark:bg-neutral-800 shadow mt-2 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
+
+                                <input type="number"
+                                       id={"heightInput"}
+                                       min={heightUnit == "CM" ? 121 : 3.96982}
+                                       max={heightUnit == "CM" ? 219 : 7.18504}
+                                       placeholder={userData.personaldata.height.toString()}
+                                       className="bg-inherit p-3 outline-none w-[5vw]"
+                                       onChange={(e) => setHeight(e.target.valueAsNumber)}>
+                                </input>
+                                <select
+                                    className="border-s-2 border-black dark:border-neutral-400 p-2 bg-inherit min-w-fit w-[15%] text-md text-center outline-0 appearance-none"
+                                    onChange={(e) => setHeightUnit(e.target.value)} placeholder={userData.settingsdata.heightUnit}>
+                                    <option value="CM">cm</option>
+                                    <option value="FEET">feet</option>
+                                </select>
+                            </div>
                         </label>
 
                         <label htmlFor="weight">
                             <span>Weight</span>
-                                <input type="number"
-                                       min={weightUnit=="KG" ? 30 : 66.1387}
-                                       max={weightUnit=="KG" ? 250 : 551.156}
-                                       placeholder={weight.toString()}
-                                       className="w-full rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                            <div
+                                className="flex flex-row w-full dark:bg-neutral-800 shadow mt-2 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
+                            <input type="number"
+                                   id={"weightInput"}
+                                       min={weightUnit == "KG" ? 30 : 66.1387}
+                                       max={weightUnit == "KG" ? 250 : 551.156}
+                                       placeholder={userData.personaldata.weight.toString()}
+                                       className="bg-inherit p-3 outline-none w-[5vw]"
+                                       value={weight? weight : null}
                                        onChange={(e) => setWeight(e.target.valueAsNumber)}>
                                 </input>
+                                <select
+                                    className="border-s-2 border-black dark:border-neutral-400 p-2 bg-inherit min-w-fit w-[15%] text-md text-center outline-0 appearance-none"
+                                    onChange={(e) => setWeightUnit(e.target.value)} placeholder={userData.settingsdata.weightUnit}>
+                                    <option value="KG">kg</option>
+                                    <option value="POUND">pounds</option>
+                                </select>
+                            </div>
                         </label>
+
                     </div>
                 </div>
 

@@ -86,8 +86,8 @@ export default function Page() {
                                 <select
                                     className="border-s-2 border-black p-2 w-[15%] text-md text-center outline-0 appearance-none"
                                     onChange={(e) => setWeightUnit(e.target.value)}>
-                                    <option value="kg">kg</option>
-                                    <option value="pounds">pounds</option>
+                                    <option value="KG">kg</option>
+                                    <option value="POUNDS">pounds</option>
                                 </select>
                             </div>
                         </label>

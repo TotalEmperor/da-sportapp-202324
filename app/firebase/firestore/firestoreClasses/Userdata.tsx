@@ -1,4 +1,4 @@
-class UserData {
+export default class UserData {
     personaldata: {
         birthday: string;
         firstName: string;

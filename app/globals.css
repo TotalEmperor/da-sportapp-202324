@@ -8,7 +8,7 @@ body{
   background-color: #fff;
 }
 
-html.dark body{
+html.dark #rootElement{
   color: #ffffff;
   background-color: rgb(38 38 38);}
 

@@ -15,7 +15,7 @@ export default function DashboardLayout({children,}: {
     return (
         <CheckEmailVerification>
             <ContextDataProvider>
-                <body className={"flex flex-col min-h-fit h-screen bg-[#F8FAF7] dark:bodyScreen"}>
+                <div id={"rootElement"} className={"flex flex-col min-h-fit h-screen bg-[#F8FAF7] dark:bodyScreen"}>
                     <Head>
                         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="icon"/>
                     </Head>
@@ -25,7 +25,7 @@ export default function DashboardLayout({children,}: {
                             {children}
                         </>
                     </div>
-                </body>
+                </div>
             </ContextDataProvider>
         </CheckEmailVerification>
     )
