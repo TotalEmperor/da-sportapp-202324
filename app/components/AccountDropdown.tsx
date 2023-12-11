@@ -55,14 +55,14 @@ export default function AccountDropdown() {
                             aria-expanded="true"
                             onClick={() => setIsOpen(!isOpen)}
                         >
-                            <span className="hidden sm:inline font-medium text-[1.5rem] w-full">
+                            <span className="sm:inline font-medium text-[1.5rem] w-full">
                                 <AccountCircleOutlinedIcon className={styles["icons"] + " sm:mx-2 mx-4 inline"}></AccountCircleOutlinedIcon>{username}
                             </span>
                         </button>
                     </div>
 
                     <div
-                        className={`origin-bottom-right absolute right-0 bottom-full dark:text-gray-300 text-gray-700 dark:bg-gray-800 mt-2 min-w-fit w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-in-out transform ${isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+                        className={`origin-bottom-right absolute right-0 bottom-full dark:text-gray-300 text-gray-700 dark:bg-gray-800 mt-2 min-w-fit w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-in-out transform ${isOpen ? 'opacity-100 scale-100 absolute' : 'opacity-0 scale-95 hidden'}`}
                         role="menu"
                         aria-orientation="vertical"
                         aria-labelledby="options-menu"
