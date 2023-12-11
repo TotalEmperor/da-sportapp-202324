@@ -45,7 +45,7 @@ export default function SideNav() {
     return (
         <>
             <nav
-                className={styles["w-left-fixed"] + ` flex-shrink flex-grow-0 mb-2 sm:px-4 z-[2] ${menuVisible ? 'fixed top-0 left-0 h-full min-w-fit w-[80%]' : 'w-full px-4'}`}>
+                className={styles["w-left-fixed"] + ` flex-shrink flex-grow-0 mb-2 sm:px-4 z-[2] ${menuVisible ? 'fixed top-0 left-0 h-full min-w-fit w-[60%]' : 'w-full px-4'}`}>
                 <div
                     className={styles["w-left-panel"] + ` sm:sticky sm:top-0 sm:p-4 rounded-xl w-full h-full bg-[#F3F6EB] min-w-fit dark:bg-neutral-950 flex flex-col dark:text-neutral-300 z-10`}>
                     <div className="flex flex-row justify-center" >
@@ -69,27 +69,27 @@ export default function SideNav() {
                                 <Link href="/workout" prefetch onClick={() => setMenuVisible(false)}>
                                     <TimerIcon
                                         className={styles["icons"] + " fill-black sm:mx-2 mx-4 inline"}></TimerIcon>
-                                    <span className="sm:inline font-medium text-[1.5rem]">Workout</span>
+                                    <span className="sm:inline font-medium ">Workout</span>
                                 </Link>
                             </li>
                             <li className={`py-2 my-1 rounded-3xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] ${activeButton === '/modifying' ? 'dark:bg-gray-700 bg-[#d9e7cb]' : ''}`}>
                                 <Link className="truncate" href="/modifying" onClick={() => setMenuVisible(false)}>
                                     <FitnessCenterIcon
                                         className={styles["icons"] + " sm:mx-2 mx-4 inline"}></FitnessCenterIcon>
-                                    <span className="sm:inline font-medium text-[1.5rem]">Modifying</span>
+                                    <span className="sm:inline font-medium ">Modifying</span>
                                 </Link>
                             </li>
                             <li className={`py-2 my-1 rounded-3xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] ${activeButton === '/calculate' ? 'dark:bg-gray-700 bg-[#d9e7cb]' : ''}`}>
                                 <Link className="" href="#" prefetch onClick={() => setMenuVisible(false)}>
                                     <BarChartIcon className={styles["icons"] + " sm:mx-2 mx-4 inline"}></BarChartIcon>
-                                    <span className="sm:inline font-medium text-[1.5rem] w-fit">Calc. Counter</span>
+                                    <span className="sm:inline font-medium  w-fit">Calc. Counter</span>
                                 </Link>
                             </li>
                             <li className={`py-2 my-1 rounded-3xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] ${activeButton === '/settings' ? 'dark:bg-gray-700 bg-[#d9e7cb]' : ''}`}>
                                 <Link href={`/settings/${"Account"}`} prefetch={true}
                                       onClick={() => setMenuVisible(false)}>
                                     <SettingsOutlinedIcon className={styles["icons"] + " sm:mx-2 mx-4 inline"}/>
-                                    <span className="sm:inline font-medium text-[1.5rem]">Settings</span>
+                                    <span className="sm:inline font-medium ">Settings</span>
                                 </Link>
                             </li>
                             <li className="mt-[50%]">
