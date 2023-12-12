@@ -22,7 +22,6 @@ export default function SideNav() {
 
     useEffect(() => {
         const parts = path.split('/');
-        console.log("Parts: "+parts)
 
         // Check the length of parts array
         const result = parts.length >= 3 ? parts.slice(0, 3) : parts.slice(0, 2);

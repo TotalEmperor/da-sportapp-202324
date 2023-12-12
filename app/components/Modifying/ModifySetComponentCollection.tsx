@@ -11,6 +11,7 @@ import Link from "next/link";
 import LaunchIcon from '@mui/icons-material/Launch';
 import CreateIcon from '@mui/icons-material/Create';
 import AddIcon from '@mui/icons-material/Add';
+import AddModal from "@/components/Modifying/AddModal";
 import LoadingModule from "@/components/loadingModule";
 
 export default function ModifySetComponentCollection() {
@@ -26,6 +27,11 @@ export default function ModifySetComponentCollection() {
     const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
     const { day, week, setDay, setWeek } = useContextData();
+
+    const [isModalOpen, setModalOpen] = useState(false);
+
+    const openModal = () => setModalOpen(true);
+    const closeModal = () => setModalOpen(false);
 
 
 // keeps `userdata` up to date
@@ -84,7 +90,7 @@ export default function ModifySetComponentCollection() {
                                 {(
                                     userdata.map((data: any, index) => (
                                         <SetManager key={index}
-                                                    data={data} link={`/workout/${data[0]}`}
+                                                    data={data} link={`/modifying/${data[0]}`}
                                                     time={getSetTime(data)}
                                                     exerciseNum={data[1] ? Object.entries(data[1]).length : 0}
                                                     stars={getAverageDifficulty(data)}/>
@@ -97,9 +103,11 @@ export default function ModifySetComponentCollection() {
                                     <CreateIcon/>
                                 </button>
                                 <button
+                                    onClick={openModal}
                                     className={"p-5 ms-auto border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
                                     <AddIcon/>
                                 </button>
+                                <AddModal isOpen={isModalOpen} onClose={closeModal}/>
                             </div>
                         </>
                     }

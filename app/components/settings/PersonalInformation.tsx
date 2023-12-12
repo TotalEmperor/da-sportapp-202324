@@ -142,10 +142,9 @@ export default function PersonalInformation() {
                             pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
                             onChange={(e) => setEmail(e.target.value)}
                         />
-                        <span
-                            className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
-                        Please enter a valid email address
-                    </span>
+                        <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                            Please enter a valid email address
+                        </span>
                     </label>
 
                     <label htmlFor="birthday" className="mb-5 sm:w-fit flex flex-col">
@@ -170,7 +169,7 @@ export default function PersonalInformation() {
 
                 <div className="flex w-full flex-col border-b-2 border-gray-300 mt-[1.5rem] pb-[1.5rem]">
                     <h1 className="font-bold text-2xl">Body specific Stats</h1>
-                    <div className="flex flex-row mb-5">
+                    <div className="flex sm:flex-row mb-5 flex-col">
                         <label htmlFor="height" className="me-5">
                             <span>Height</span>
                             <div
