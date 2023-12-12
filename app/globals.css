@@ -27,8 +27,34 @@ body{
 
 @media (max-width: 640px) {
 
-  h3{
+  h1 {
+    font-size: 28px;
+    max-width: none; /* Reset max-width for larger screens */
+  }
+
+  h2 {
+    font-size: 24px;
+    max-width: none;
+  }
+
+  h3 {
+    font-size: 22px;
+    max-width: none;
+  }
+
+  h4 {
+    font-size: 20px;
+    max-width: none;
+  }
+
+  h5 {
     font-size: 18px;
+    max-width: none;
+  }
+
+  h6 {
+    font-size: 16px;
+    max-width: none;
   }
 
   #navLogo{
