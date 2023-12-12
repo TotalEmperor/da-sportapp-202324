@@ -49,7 +49,7 @@ export default function AccountDropdown() {
                     <div>
                         <button
                             type="button"
-                            className="inline-flex justify-center dark:hover:bg-gray-700 hover:bg-[#d9e7cb] w-full rounded-3xl shadow-sm p-3 hover:opacity-200 text-sm font-medium"
+                            className="inline-flex justify-center dark:hover:bg-gray-700 hover:bg-[#d9e7cb] w-full rounded-2xl shadow-sm p-3 hover:opacity-200 text-sm font-medium"
                             id="options-menu"
                             aria-haspopup="true"
                             aria-expanded="true"
