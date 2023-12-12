@@ -83,7 +83,7 @@ export default function CreateExercise() {
                                 return (
                                     <>
                                         <StarRoundedIcon key={index}
-                                                         className={`${index<=difficulty ? "text-yellow-300": ""} ${index<=hoverDifficulty ? "text-blue-200": ""} hover:cursor-pointer me-2`} sx={{fontSize:"3.5rem"}}
+                                                         className={`${index<=hoverDifficulty ? "text-blue-200": ""} ${index<=difficulty ? "text-yellow-300": ""} hover:cursor-pointer me-2`} sx={{fontSize:"3.5rem"}}
                                                          onClick={()=>{setDifficulty(index)}}
                                                          onMouseEnter={()=>{setHoverDifficulty(index)}}
                                                          onMouseLeave={()=>{setHoverDifficulty(-1)}}/>

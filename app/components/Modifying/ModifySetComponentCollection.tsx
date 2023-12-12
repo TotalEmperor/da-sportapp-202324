@@ -27,6 +27,12 @@ export default function ModifySetComponentCollection() {
     const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
     const { day, week, setDay, setWeek } = useContextData();
+    try {
+        setDay(localStorage.getItem("day"));
+        setWeek(localStorage.getItem("week"))
+    }catch (e){
+
+    }
 
     const [isModalOpen, setModalOpen] = useState(false);
 
@@ -50,7 +56,7 @@ export default function ModifySetComponentCollection() {
 
         getFirestoreDocument("exercises", user).then((res: any) => {
             if (res.result) {
-                getSets(res.result, day, week).then((exercisesData) => {
+                getSets(res.result, localStorage.getItem("day"), localStorage.getItem("week")).then((exercisesData) => {
                     if (exercisesData) {
                         setuserdata(exercisesData.objArray);
                         setTime(exercisesData.time)

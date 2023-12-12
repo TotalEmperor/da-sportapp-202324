@@ -8,7 +8,7 @@ import SetComponentCollection from "@/components/Workout/SetComponentCollection"
 import ConfPanel from "@/components/MainComponents/confPanel";
 import ExerciseComponentCollection from "@/components/Workout/ExerciseComponentCollection";
 import {ContextDataProvider} from "@/context/ContextData";
-export default function DashboardLayout({children,}: {
+export default async function DashboardLayout({children,}: {
     children: React.ReactNode
 }) {
 
