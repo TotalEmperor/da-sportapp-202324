@@ -24,6 +24,13 @@ export default function SetComponentCollection() {
     const [numSets, setNumSets] = useState(0);
     const { day, week, setDay, setWeek } = useContextData();
 
+    try {
+        setDay(localStorage.getItem("day"));
+        setWeek(localStorage.getItem("week"))
+    }catch (e){
+
+    }
+
 
 // keeps `userdata` up to date
 

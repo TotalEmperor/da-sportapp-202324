@@ -21,7 +21,7 @@ export default function CreateExercise() {
                     </Link>
                     <span className="font-bold text-xl ms-4">Create Exercise</span>
                 </div>
-                <form className={"flex flex-col group px-10"} noValidate>
+                <form className={"flex flex-col group px-10 mt-5 w-fit"} noValidate>
                     <label htmlFor="exerciseName" className="mb-5 sm:w-[50%] flex flex-col">
                         <span>Name</span>
                         <input
@@ -29,7 +29,9 @@ export default function CreateExercise() {
                             name="exerciseName"
                             id="exerciseName"
                             placeholder={"e.g Pull Ups"}
-                            className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                            pattern={`^[A-Za-z0-9\\s\\-_]+$`}
+                            className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"
+                            required
                         />
                     </label>
                     <label htmlFor="exerciseDescription" className="mb-5 sm:w-[50%] flex flex-col">
@@ -39,6 +41,7 @@ export default function CreateExercise() {
                             id="exerciseDescription"
                             placeholder={"Move your sorry ass"}
                             className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                            required
                         />
                     </label>
                     <div className="flex sm:flex-row mb-5 flex-col">
@@ -53,7 +56,8 @@ export default function CreateExercise() {
                                 </select>
                                 <input type="number"
                                        id={"modeInput"}
-                                       className="bg-inherit p-3 outline-none w-[5vw]">
+                                       className="bg-inherit p-3 outline-none w-[5vw]"
+                                       required>
                                 </input>
                             </div>
                         </label>
@@ -69,7 +73,8 @@ export default function CreateExercise() {
                                 </select>
                                 <input type="number"
                                        id={"secInput"}
-                                       className="bg-inherit p-3 outline-none w-[5vw]">
+                                       className="bg-inherit p-3 outline-none w-[5vw]"
+                                       required>
                                 </input>
                             </div>
                         </label>
@@ -77,6 +82,8 @@ export default function CreateExercise() {
                     <label>
                         <span>Difficulty</span>
                         <div className={"flex flex-row"}>
+                            <input value={difficulty} hidden type={"number"} required>
+                            </input>
                             {[...Array(4)].map((_, index) => {
                                 const starCount = index + 1;
 
@@ -92,6 +99,9 @@ export default function CreateExercise() {
                             })}
                         </div>
                     </label>
+                    <button type="submit" className="mt-5 bg-green-500 dark:bg-green-800 py-3 rounded-md text-white group-invalid:pointer-events-none group-invalid:opacity-50" >
+                        Create Exercise
+                    </button>
                 </form>
             </div>
         </>

@@ -8,7 +8,6 @@ export default function Page({params: {params}}) {
 
 
 const getComponent=(params)=>{
-    console.log(params)
     if(params=="createExercise"){
         return(
             <CreateExercise/>
