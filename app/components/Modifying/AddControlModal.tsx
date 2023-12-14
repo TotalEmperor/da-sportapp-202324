@@ -8,28 +8,13 @@ import {useRouter} from "next/navigation";
 import {getAuth} from "firebase/auth";
 
 
-export default function AddModal({style, isOpen, onClose}: {
+export default function AddControlModal({style, isOpen, onClose}: {
     style?: string,
     isOpen: boolean,
-    onClose: () => void
+    onClose: () => void,
 }) {
     const router = useRouter();
     if (!isOpen) return null;
-
-
-    const handleDelete = async (event) => {
-        event.preventDefault()
-
-        const res = await deleteCurrentUser();
-        console.log(res)
-
-        if (res) {
-            await getAuth().signOut();
-            router.push("/")
-        } else {
-            router.push("/settings/delete?deleteError=true")
-        }
-    }
 
     return (
         <div

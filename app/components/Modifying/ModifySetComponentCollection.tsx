@@ -11,7 +11,7 @@ import Link from "next/link";
 import LaunchIcon from '@mui/icons-material/Launch';
 import CreateIcon from '@mui/icons-material/Create';
 import AddIcon from '@mui/icons-material/Add';
-import AddModal from "@/components/Modifying/AddModal";
+import AddControlModal from "@/components/Modifying/AddControlModal";
 import LoadingModule from "@/components/loadingModule";
 
 export default function ModifySetComponentCollection() {
@@ -26,13 +26,20 @@ export default function ModifySetComponentCollection() {
     const [userdata, setuserdata] = useState([]);
     const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
-    const { day, week, setDay, setWeek } = useContextData();
-    try {
-        setDay(localStorage.getItem("day"));
-        setWeek(localStorage.getItem("week"))
-    }catch (e){
+    const { day, week, setDay, setWeek } = useContextData()
 
-    }
+    useEffect(() => {
+        if(localStorage.getItem("day")){
+            try {
+                setDay(localStorage.getItem("day"));
+                setWeek(localStorage.getItem("week"))
+            }catch (e){
+
+            }
+            console.log("Test")
+        }    }, []);
+
+
 
     const [isModalOpen, setModalOpen] = useState(false);
 
@@ -56,7 +63,7 @@ export default function ModifySetComponentCollection() {
 
         getFirestoreDocument("exercises", user).then((res: any) => {
             if (res.result) {
-                getSets(res.result, localStorage.getItem("day"), localStorage.getItem("week")).then((exercisesData) => {
+                getSets(res.result, day, week).then((exercisesData) => {
                     if (exercisesData) {
                         setuserdata(exercisesData.objArray);
                         setTime(exercisesData.time)
@@ -113,7 +120,7 @@ export default function ModifySetComponentCollection() {
                                     className={"p-5 ms-auto border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
                                     <AddIcon/>
                                 </button>
-                                <AddModal isOpen={isModalOpen} onClose={closeModal}/>
+                                <AddControlModal isOpen={isModalOpen} onClose={closeModal}/>
                             </div>
                         </>
                     }

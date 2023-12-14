@@ -2,12 +2,79 @@
 import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import React, {useEffect, useState} from "react";
+import AddModal from "@/components/Modifying/AddingExerciseModal";
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
+import {useContextData} from "@/context/ContextData";
+import getFirestoreDocument from "@/firebase/firestore/getData";
+import {getAuth} from "firebase/auth";
 
 export default function CreateExercise() {
+    const [user, setuser] = useState(() => {
+        // if a user is already logged in, use the current user object, or `undefined` otherwise.
+        try {
+            return getAuth().currentUser.uid || undefined;
+        } catch (e) {
+            console.log(e)
+        }
+    });
 
     const [difficulty, setDifficulty] = useState<number>(0)
-    const [hoverDifficulty, setHoverDifficulty] = useState<number>(-1)
+    const [hoverDifficulty, setHoverDifficulty] = useState<number>(-1);
+    const [userdata, setUserdata]= useState([])
+    const { day, week, setDay, setWeek } = useContextData();
+
+
+    useEffect(() => {
+        if(localStorage.getItem("day")){
+            try {
+                setDay(localStorage.getItem("day"));
+                setWeek(localStorage.getItem("week"))
+            }catch (e){
+
+            }
+            console.log("Test")
+        }    }, []);
+
+
+
+    const [isModalOpen, setModalOpen] = useState(false);
+
+    const openModal = (e) => {
+        e.preventDefault();
+        setModalOpen(true);
+    }
+    const closeModal = () => setModalOpen(false);
+
+
+// keeps `userdata` up to date
+
+    useEffect(() => {
+        if (user === null) {
+            setUserdata(null); // <-- clear data when not logged in
+
+            return;
+        }
+
+        if (!user) {
+            // user still loading, do nothing yet
+            return;
+        }
+
+        getFirestoreDocument("exercises", user).then((res: any) => {
+            if (res.result) {
+                getSets(res.result, day, week).then((exercisesData) => {
+                    console.log("REs: "+res)
+                    if (exercisesData) {
+                        setUserdata(exercisesData.objArray);
+                    }
+
+                })
+            }
+        });
+
+
+    }, [user, day, week]); // <-- rerun when user changes
+
 
 
     return (
@@ -21,7 +88,7 @@ export default function CreateExercise() {
                     </Link>
                     <span className="font-bold text-xl ms-4">Create Exercise</span>
                 </div>
-                <form className={"flex flex-col group px-10 mt-5 w-fit"} noValidate>
+                <form className={"flex flex-col group px-10 mt-5 w-fit"} onSubmit={(e)=>{openModal(e)}}>
                     <label htmlFor="exerciseName" className="mb-5 sm:w-[50%] flex flex-col">
                         <span>Name</span>
                         <input
@@ -99,12 +166,39 @@ export default function CreateExercise() {
                             })}
                         </div>
                     </label>
-                    <button type="submit" className="mt-5 bg-green-500 dark:bg-green-800 py-3 rounded-md text-white group-invalid:pointer-events-none group-invalid:opacity-50" >
+                    <button type="submit" className="mt-5 bg-green-500 dark:bg-green-800 py-3 rounded-md text-white group-invalid:pointer-events-none group-invalid:opacity-50"
+                        onSubmit={(e)=>{openModal(e)}}>
                         Create Exercise
                     </button>
+
+                    <AddModal isOpen={isModalOpen} onClose={closeModal} userData={userdata}/>
                 </form>
             </div>
         </>
     )
-
 }
+
+const getSets = async (data: any, day: string, week: string) => {
+
+    let objArray: any[] = [];
+    let exerciseNum = 0;
+    let time = 0;
+
+
+    if (day) {
+        for (const setName in data.exercises[week][day]) {
+            const exerciseSet = data.exercises[week][day][setName];
+            exerciseNum += Object.entries(exerciseSet).length;
+            for (const exerciseName in exerciseSet) {
+                time += parseInt(exerciseSet[exerciseName].time);
+            }
+        }
+
+        objArray = objArray.concat(Object.entries(data.exercises[week][day]));
+
+    }
+
+
+    return {objArray, exerciseNum, time};
+
+};
