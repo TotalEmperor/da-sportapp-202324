@@ -32,10 +32,10 @@ export default function SideNav() {
     }, [path]);
 
     useEffect(() => {
-        if(!activeButton && localStorage.getItem("currentPage")){
-            setActiveButton(localStorage.getItem("currentPage"))
+        if(!activeButton && sessionStorage.getItem("currentPage")){
+            setActiveButton(sessionStorage.getItem("currentPage"))
         }
-        localStorage.setItem("currentPage", activeButton);
+        sessionStorage.setItem("currentPage", activeButton);
     }, [activeButton]);
 
     const toggleMenu = () => {

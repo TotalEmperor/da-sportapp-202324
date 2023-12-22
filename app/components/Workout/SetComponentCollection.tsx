@@ -25,8 +25,8 @@ export default function SetComponentCollection() {
     const { day, week, setDay, setWeek } = useContextData();
 
     try {
-        setDay(localStorage.getItem("day"));
-        setWeek(localStorage.getItem("week"))
+        setDay(sessionStorage.getItem("day"));
+        setWeek(sessionStorage.getItem("week"))
     }catch (e){
 
     }

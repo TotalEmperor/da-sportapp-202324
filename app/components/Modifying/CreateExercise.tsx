@@ -7,6 +7,7 @@ import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import {useContextData} from "@/context/ContextData";
 import getFirestoreDocument from "@/firebase/firestore/getData";
 import {getAuth} from "firebase/auth";
+import addData from "@/firebase/firestore/addData";
 
 export default function CreateExercise() {
     const [user, setuser] = useState(() => {
@@ -20,21 +21,44 @@ export default function CreateExercise() {
 
     const [difficulty, setDifficulty] = useState<number>(0)
     const [hoverDifficulty, setHoverDifficulty] = useState<number>(-1);
-    const [userdata, setUserdata]= useState([])
-    const { day, week, setDay, setWeek } = useContextData();
+
+    const [exerciseName, setExerciseName] = useState<string>("");
+    const [description, setDescription] = useState<string>("");
+    const [repMode, setRepMode] = useState<boolean>(true);
+    const [rep, setRep] = useState<number>(0);
+    const [timerMode, setTimerMode] = useState<boolean>(true);
+    const [timer, setTimer] = useState<number>(0);
+    const [breakTime, setBreakTime] = useState<number>(0);
+
+
+    const [userdata, setUserdata] = useState([])
+    const [exerciseData, setExerciseData] = useState([])
+
+    const {day, week, setDay, setWeek} = useContextData();
 
 
     useEffect(() => {
-        if(localStorage.getItem("day")){
+        if (localStorage.getItem("day")) {
             try {
                 setDay(localStorage.getItem("day"));
                 setWeek(localStorage.getItem("week"))
-            }catch (e){
+            } catch (e) {
 
             }
-            console.log("Test")
-        }    }, []);
+        }
+    }, []);
 
+    useEffect(() => {
+        if (!repMode) {
+            setRep(0)
+        }
+    }, [repMode]);
+
+    useEffect(() => {
+        if (!timerMode) {
+            setTimer(0)
+        }
+    }, [timerMode]);
 
 
     const [isModalOpen, setModalOpen] = useState(false);
@@ -62,10 +86,11 @@ export default function CreateExercise() {
 
         getFirestoreDocument("exercises", user).then((res: any) => {
             if (res.result) {
+                setUserdata(res.result)
                 getSets(res.result, day, week).then((exercisesData) => {
                     console.log("REs: "+res)
                     if (exercisesData) {
-                        setUserdata(exercisesData.objArray);
+                        setExerciseData(exercisesData.objArray);
                     }
 
                 })
@@ -75,6 +100,31 @@ export default function CreateExercise() {
 
     }, [user, day, week]); // <-- rerun when user changes
 
+    const createNewSet = (setName: string) => {
+
+
+        let schedule = userdata["exercises"][week][day];
+        console.log(schedule)
+
+        schedule[setName] = {
+            [exerciseName]: {
+                "image": "",
+                "moves": rep, // Replace with the actual number of moves
+                "description": description,
+                "time": timer, // Replace with the actual time
+                "stars": difficulty, // Replace with the actual stars rating
+                "breakTime": breakTime // Replace with the actual break time
+            }
+
+        };
+
+        setUserdata(userdata["exercises"][week][day]=schedule)
+        addData("exercises", user, userdata);
+
+
+
+        //addData("exercise", user, "");
+    };
 
 
     return (
@@ -88,12 +138,17 @@ export default function CreateExercise() {
                     </Link>
                     <span className="font-bold text-xl ms-4">Create Exercise</span>
                 </div>
-                <form className={"flex flex-col group px-10 mt-5 w-fit"} onSubmit={(e)=>{openModal(e)}}>
+                <form className={"flex flex-col group px-10 mt-5 w-fit"} onSubmit={(e) => {
+                    openModal(e)
+                }}>
                     <label htmlFor="exerciseName" className="mb-5 sm:w-[50%] flex flex-col">
                         <span>Name</span>
                         <input
                             type="text"
                             name="exerciseName"
+                            onChange={(e) => {
+                                setExerciseName(e.target.value)
+                            }}
                             id="exerciseName"
                             placeholder={"e.g Pull Ups"}
                             pattern={`^[A-Za-z0-9\\s\\-_]+$`}
@@ -106,24 +161,34 @@ export default function CreateExercise() {
                         <textarea
                             name="exerciseDescription"
                             id="exerciseDescription"
+                            onChange={(e) => {
+                                setDescription(e.target.value)
+                            }}
                             placeholder={"Move your sorry ass"}
                             className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                             required
                         />
                     </label>
                     <div className="flex sm:flex-row mb-5 flex-col">
-                        <label htmlFor="mode" className="me-5">
+                        <label htmlFor="timer" className="me-5">
                             <span>Mode</span>
                             <div
                                 className="flex flex-row w-full dark:bg-neutral-800 shadow mt-2 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
                                 <select
+                                    onChange={(e) => {
+                                        setTimerMode(JSON.parse(e.target.value))
+                                    }}
                                     className="border-e-2 border-black dark:border-neutral-400 p-2 bg-inherit min-w-fit w-[15%] text-md text-center outline-0 appearance-none">
-                                    <option value="CM">Timer</option>
-                                    <option value="FEET">It should take</option>
+                                    <option value={"true"}>Timer</option>
+                                    <option value={"false"}>It should take</option>
                                 </select>
                                 <input type="number"
                                        id={"modeInput"}
-                                       className="bg-inherit p-3 outline-none w-[5vw]"
+                                       onChange={(e) => {
+                                           setTimer(e.target.valueAsNumber)
+                                       }}
+                                       className={`bg-inherit p-3 outline-none w-[5vw] ${timerMode ? "" : "text-transparent"}`}
+                                       disabled={!timerMode}
                                        required>
                                 </input>
                             </div>
@@ -134,13 +199,20 @@ export default function CreateExercise() {
                             <div
                                 className="flex flex-row w-full dark:bg-neutral-800 shadow mt-2 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
                                 <select
+                                    onChange={(e) => {
+                                        setRepMode(JSON.parse(e.target.value))
+                                    }}
                                     className="border-e-2 border-black dark:border-neutral-400 p-2 bg-inherit min-w-fit w-[15%] text-md text-center outline-0 appearance-none">
-                                    <option value="x. Times">x. Times</option>
-                                    <option value="∞">∞</option>
+                                    <option value="true">x. Times</option>
+                                    <option value="false">∞</option>
                                 </select>
                                 <input type="number"
                                        id={"secInput"}
-                                       className="bg-inherit p-3 outline-none w-[5vw]"
+                                       onChange={(e) => {
+                                           setRep(e.target.valueAsNumber)
+                                       }}
+                                       className={`bg-inherit p-3 outline-none w-[5vw] ${repMode ? "" : "text-transparent"}`}
+                                       disabled={!repMode}
                                        required>
                                 </input>
                             </div>
@@ -157,26 +229,54 @@ export default function CreateExercise() {
                                 return (
                                     <>
                                         <StarRoundedIcon key={index}
-                                                         className={`${index<=hoverDifficulty ? "text-blue-200": ""} ${index<=difficulty ? "text-yellow-300": ""} hover:cursor-pointer me-2`} sx={{fontSize:"3.5rem"}}
-                                                         onClick={()=>{setDifficulty(index)}}
-                                                         onMouseEnter={()=>{setHoverDifficulty(index)}}
-                                                         onMouseLeave={()=>{setHoverDifficulty(-1)}}/>
+                                                         className={`${index <= hoverDifficulty ? "text-blue-200" : ""} ${index <= difficulty ? "text-yellow-300" : ""} hover:cursor-pointer me-2`}
+                                                         sx={{fontSize: "3.5rem"}}
+                                                         onClick={() => {
+                                                             setDifficulty(index)
+                                                         }}
+                                                         onMouseEnter={() => {
+                                                             setHoverDifficulty(index)
+                                                         }}
+                                                         onMouseLeave={() => {
+                                                             setHoverDifficulty(-1)
+                                                         }}/>
                                     </>
                                 );
                             })}
                         </div>
                     </label>
-                    <button type="submit" className="mt-5 bg-green-500 dark:bg-green-800 py-3 rounded-md text-white group-invalid:pointer-events-none group-invalid:opacity-50"
-                        onSubmit={(e)=>{openModal(e)}}>
+                    <label htmlFor="breakTime" className="mb-5 sm:w-[50%] flex flex-col">
+                        <span>Break Time.</span>
+                        <input
+                            type="number"
+                            name="exerciseName"
+                            onChange={(e) => {
+                                setBreakTime(e.target.valueAsNumber)
+                            }}
+                            id="exerciseName"
+                            min={1}
+                            placeholder={"time (s.)"}
+                            className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"
+                            required
+                        />
+                    </label>
+                    <button type="submit"
+                            className="mt-5 bg-green-500 dark:bg-green-800 py-3 rounded-md text-white group-invalid:pointer-events-none group-invalid:opacity-50"
+                            onSubmit={(e) => {
+                                openModal(e)
+                            }}>
                         Create Exercise
                     </button>
 
-                    <AddModal isOpen={isModalOpen} onClose={closeModal} userData={userdata}/>
+                    <AddModal isOpen={isModalOpen} onClose={closeModal} userData={exerciseData}
+                              createNewSet={createNewSet}/>
                 </form>
             </div>
         </>
     )
 }
+
+
 
 const getSets = async (data: any, day: string, week: string) => {
 
@@ -200,5 +300,4 @@ const getSets = async (data: any, day: string, week: string) => {
 
 
     return {objArray, exerciseNum, time};
-
 };

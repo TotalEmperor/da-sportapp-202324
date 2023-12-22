@@ -1,0 +1,13 @@
+{
+  "setNamePlaceholder": {
+    "exerciseNamePlaceholder": {
+      "image": "",
+      "moves": 0,
+      "description": "",
+      "time": 0,
+      "stars": 0,
+      "breakTime": 0,
+      "met": 0
+    }
+  }
+}

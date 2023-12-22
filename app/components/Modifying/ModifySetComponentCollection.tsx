@@ -29,10 +29,10 @@ export default function ModifySetComponentCollection() {
     const { day, week, setDay, setWeek } = useContextData()
 
     useEffect(() => {
-        if(localStorage.getItem("day")){
+        if(sessionStorage.getItem("day")){
             try {
-                setDay(localStorage.getItem("day"));
-                setWeek(localStorage.getItem("week"))
+                setDay(sessionStorage.getItem("day"));
+                setWeek(sessionStorage.getItem("week"))
             }catch (e){
 
             }
@@ -91,11 +91,14 @@ export default function ModifySetComponentCollection() {
                         </div>
                     </div>
                     {userdata.length == 0 ?
-                        <div className={"mt-auto w-[80%] flex mb-20"}>
-                            <button
-                                className={"p-5 ms-auto border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
-                                <LaunchIcon/>
-                            </button>
+                        <div className={`w-[80%] h-full flex justify-center items-center relative`}>
+                            <div className={`dark:bg-neutral-500 hover:bg-neutral-200 opacity-20 rounded-xl z-10`}>
+                                <button
+                                    onClick={openModal}
+                                    className={"w-[5vw] h-[5vw] flex items-center justify-center  z-[5]"}>
+                                    <AddIcon/>
+                                </button>
+                            </div>
                         </div>
                         :
                         <>
@@ -120,7 +123,6 @@ export default function ModifySetComponentCollection() {
                                     className={"p-5 ms-auto border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
                                     <AddIcon/>
                                 </button>
-                                <AddControlModal isOpen={isModalOpen} onClose={closeModal}/>
                             </div>
                         </>
                     }
@@ -131,6 +133,7 @@ export default function ModifySetComponentCollection() {
                     <LoadingModule/>
                 </>
             }
+            <AddControlModal isOpen={isModalOpen} onClose={closeModal}/>
         </>
     )
 }
@@ -186,5 +189,3 @@ const getAverageDifficulty = (data: any): number => {
 
     return totalStars / exerciseCount;
 }
-
-

@@ -12,20 +12,22 @@ import {useRouter} from "next/navigation";
 import SetManager from "@/components/Workout/SetManager";
 
 
-export default function AddModal({isOpen, onClose, userData}:{isOpen: boolean; onClose: ()=>void, userData:any}){
+export default function AddModal({isOpen, onClose, userData, createNewSet}:{isOpen: boolean; onClose: ()=>void, userData:any, createNewSet:(setName:string)=>void}){
 
     const { day, week, setDay, setWeek } = useContextData();
+    const [ newSetName, setNewSetName ] = useState<string>();
+
     const [isFormValid, setIsFormValid] = useState(null);
     const names = userData.map((exercise) =>{
         return exercise[0]
     })
 
     const onSetNameChange=(name)=>{
-        console.log(name)
-        console.log(names)
         if(!names.includes(name)){
+            setNewSetName(name);
             setIsFormValid(true);
         }else {
+            setNewSetName(name);
             setIsFormValid(false);
         }
     }
@@ -79,6 +81,7 @@ export default function AddModal({isOpen, onClose, userData}:{isOpen: boolean; o
                                     </input>
                                     <button
                                         className="border-s-2 border-black dark:border-neutral-400 p-3 bg-gray-300 text-md text-center outline-0 appearance-none"
+                                        onClick={()=>{createNewSet(newSetName)}}
                                         disabled={!isFormValid}>
                                         <AddIcon/>
                                     </button>

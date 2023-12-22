@@ -10,7 +10,7 @@ import emptySchedule from "@/scheduleTemplates/emptySchedule.json"
 import * as fs from 'fs';
 import addData from "@/firebase/firestore/addData";
 import Head from "next/head";
-import userdata from "@/templates/userdata.json";
+import templateUserData from "@/templates/userdata.json";
 import signIn from "@/firebase/auth/signin";
 
 export default function SignUp() {
@@ -25,26 +25,23 @@ export default function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
     const router  = useRouter();
 
-    if(getAuth().currentUser && getAuth().currentUser.emailVerified){
-        router.push("/Verification")
-    }
-
-
     const handleTogglePassword = () => {
         setShowPassword((prevShowPassword) => !prevShowPassword);
     };
 
-    async function editSchedule(){
+    async function editSchedule(userCredential){
         const userData = await reformateTemplate(firstName, lastName);
         await addData("userdata", getAuth().currentUser.uid, userData);
+
+        router.push("/configureAccount")
     }
 
     const handleForm = async (event) => {
         event.preventDefault()
 
         createUser(email, password, firstName+" "+lastName).then((userCredential)=>{
-            editSchedule();
-            router.push("/configureAccount")        }
+            editSchedule(userCredential);
+        }
         ).catch((error)=>{
             const errorCode = error.code;
             const errorMessage = error.message;
@@ -114,7 +111,6 @@ export default function SignUp() {
                                 className="w-full rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                                 placeholder="yourFit@email.com"
                                 required
-                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                             <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
@@ -157,7 +153,7 @@ export default function SignUp() {
 }
 
 const reformateTemplate = (firstName:string, lastName:string):any=>{
-    const userData = userdata;
+    const userData = templateUserData;
     userData.personaldata.firstName = firstName;
     userData.personaldata.lastName = lastName;
     return userData;
