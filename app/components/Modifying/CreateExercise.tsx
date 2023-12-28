@@ -8,6 +8,7 @@ import {useContextData} from "@/context/ContextData";
 import getFirestoreDocument from "@/firebase/firestore/getData";
 import {getAuth} from "firebase/auth";
 import addData from "@/firebase/firestore/addData";
+import {useRouter} from "next/navigation";
 
 export default function CreateExercise() {
     const [user, setuser] = useState(() => {
@@ -35,6 +36,7 @@ export default function CreateExercise() {
     const [exerciseData, setExerciseData] = useState([])
 
     const {day, week, setDay, setWeek} = useContextData();
+    const router = useRouter();
 
 
     useEffect(() => {
@@ -119,7 +121,9 @@ export default function CreateExercise() {
         };
 
         setUserdata(userdata["exercises"][week][day]=schedule)
-        addData("exercises", user, userdata);
+        addData("exercises", user, userdata).then(r => {
+            router.push(`/modifying/${setName}`)
+        });
 
 
 
@@ -142,7 +146,10 @@ export default function CreateExercise() {
 
 
         setUserdata(userdata["exercises"][week][day]=schedule)
-        addData("exercises", user, userdata);    }
+        addData("exercises", user, userdata).then(r => {
+            router.push(`/modifying/${setName}`)
+        });
+    }
 
 
     return (

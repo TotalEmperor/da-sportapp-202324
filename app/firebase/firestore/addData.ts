@@ -5,6 +5,6 @@ export default async function addData(collection, id, data){
     const db = getFirestore(firebase_app)
 
     let docRef = doc(db, collection, id);
-    await setDoc(docRef, data);
+    return await setDoc(docRef, data);
 }
 

@@ -10,6 +10,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import LoadingModule from "@/components/loadingModule";
+import {loadWebpackHook} from "next/dist/server/config-utils";
 
 export default function DateConfig() {
 
@@ -69,12 +70,8 @@ export default function DateConfig() {
     }, [user]); // <-- rerun when user changes
 
     useEffect(() => {
-        checkExerciseStatus().then()
-    }, [week]);
-
-
-    const checkExerciseStatus = async () => {
-        const unsubscribe = getFirestoreDocument('userdata', 'userId', (data) => {
+        const unsubscribe = getFirestoreDocument('userdata', user, (data) => {
+            console.log("DATA: "+data)
             if (data.weeks[week]) {
                 days.forEach((day) => {
                     setExerciseStatusAtIndex(days.indexOf(day), getExerciseStatus(day, data.weeks[week]));
@@ -84,7 +81,8 @@ export default function DateConfig() {
 
         return () => {
             unsubscribe();
-        };    }
+        };
+        }, [week, day, user]);
 
 
     const handleClickDay = (i: number) => {
