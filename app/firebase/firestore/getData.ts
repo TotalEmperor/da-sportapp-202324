@@ -1,21 +1,23 @@
 import firebase_app from "@/firebase/config";
-import {getFirestore, doc, getDocs, getDoc, collection, orderBy, onSnapshot} from "firebase/firestore";
+import {doc, getFirestore, onSnapshot} from "firebase/firestore";
 
 
 const db = getFirestore(firebase_app)
-export default async function getFirestoreDocument(collection, id) {
 
-    let docRef = doc(db, collection, id);
-    let docS = await getDoc(docRef);
 
-    let result = null;
-    let error = null;
 
-    try {
-        result = docS.data();
-    } catch (e) {
-        error = e;
-    }
-    return { result, error };
+export default function getFirestoreDocument(
+    collectionName: string,
+    userId: string,
+    callback: (data: any) => void
+) {
+    const docRef = doc(db, collectionName, userId);
+
+    return onSnapshot(docRef, (docSnapshot) => {
+        if (docSnapshot.exists()) {
+            callback(docSnapshot.data());
+        } else {
+            console.log("No such document!");
+        }
+    });
 }
-

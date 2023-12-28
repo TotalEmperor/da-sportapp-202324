@@ -9,7 +9,7 @@ import {param} from "ts-interface-checker";
 import {useContextData} from "@/context/ContextData";
 import LoadingModule from "@/components/loadingModule";
 
-export default function ModifyExerciseComponentCollection(setName:any) {
+export default function ModifyExerciseComponentCollection(setName: any) {
     const [user, setuser] = useState(() => {
         // if a user is already logged in, use the current user object, or `undefined` otherwise.
         try {
@@ -21,8 +21,7 @@ export default function ModifyExerciseComponentCollection(setName:any) {
     const [userdata, setuserdata] = useState([]);
     const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
-    const { day, week, setDay, setWeek } = useContextData();
-
+    const {day, week, setDay, setWeek} = useContextData();
 
 
 // keeps `userdata` up to date
@@ -37,20 +36,26 @@ export default function ModifyExerciseComponentCollection(setName:any) {
         if (!user) {
             // user still loading, do nothing yet
             return;
+        }else {
+            const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
+                if (data) {
+                    getExercises(data, setName.setName, day, week).then((exercisesData) => {
+                        if (exercisesData) {
+                            setuserdata(exercisesData.objArray);
+                            setTime(exercisesData.time)
+                            setNumSets(exercisesData.numSets)
+                        }
+
+                    })
+                }
+            });
+
+            console.log(userdata)
+
+            return () => {
+                unsubscribe();
+            };
         }
-
-        getFirestoreDocument("exercises", user).then((res: any) => {
-            if (res.result) {
-                getExercises(res.result, setName.setName, day, week).then((exercisesData) => {
-                    if (exercisesData) {
-                        setuserdata(exercisesData.objArray);
-                        setTime(exercisesData.time)
-                        setNumSets(exercisesData.numSets)
-                    }
-
-                })
-            }
-        });
 
 
     }, [user, day, week]); // <-- rerun when user changes
@@ -58,11 +63,7 @@ export default function ModifyExerciseComponentCollection(setName:any) {
 
     return (
         <>
-            {userdata.length == 0 ?
-                <>
-                    <LoadingModule/>
-                </>
-                :
+            <Suspense>
                 <>
                     <div className={"w-full overflow-y-scroll flex flex-col items-center my-2 px-3"}>
                         <div className="flex w-full bg-gray-100 dark:bg-gray-700 rounded-2xl mb-4 p-3 items-center">
@@ -73,11 +74,12 @@ export default function ModifyExerciseComponentCollection(setName:any) {
                                     <ArrowBackIcon/>
                                 </Link>
                             </span>
-                            <span className="font-bold ms-4 w-full justify-center flex text-4xl">{setName.setName}</span>
+                            <span
+                                className="font-bold ms-4 w-full justify-center flex text-4xl">{setName.setName}</span>
                             <span className={"w-[20%]"}></span>
                         </div>
                         <div className="w-full md:w-[80%] bg-gray-200 dark:bg-gray-400 rounded-2xl">
-                            <Suspense>
+                            <Suspense fallback={<LoadingModule/>}>
                                 {(
                                     userdata.map((data: any, index) => (
                                         <React.Fragment key={index}>
@@ -104,12 +106,12 @@ export default function ModifyExerciseComponentCollection(setName:any) {
                         </div>
                     </div>
                 </>
-            }
+            </Suspense>
         </>
     )
 }
 
-const getExercises = async (data: any, setName:string, day:string, week:string) => {
+const getExercises = async (data: any, setName: string, day: string, week: string) => {
 
     let objArray: any[] = [];
     let time = 0;

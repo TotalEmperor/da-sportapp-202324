@@ -12,7 +12,6 @@ import LaunchIcon from '@mui/icons-material/Launch';
 import CreateIcon from '@mui/icons-material/Create';
 import AddIcon from '@mui/icons-material/Add';
 import AddControlModal from "@/components/Modifying/AddControlModal";
-import LoadingModule from "@/components/loadingModule";
 
 export default function ModifySetComponentCollection() {
     const [user, setuser] = useState(() => {
@@ -26,19 +25,19 @@ export default function ModifySetComponentCollection() {
     const [userdata, setuserdata] = useState([]);
     const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
-    const { day, week, setDay, setWeek } = useContextData()
+    const {day, week, setDay, setWeek} = useContextData()
 
     useEffect(() => {
-        if(sessionStorage.getItem("day")){
+        if (sessionStorage.getItem("day")) {
             try {
                 setDay(sessionStorage.getItem("day"));
                 setWeek(sessionStorage.getItem("week"))
-            }catch (e){
+                console.log(day)
+            } catch (e) {
 
             }
-            console.log("Test")
-        }    }, []);
-
+        }
+    }, []);
 
 
     const [isModalOpen, setModalOpen] = useState(false);
@@ -60,10 +59,9 @@ export default function ModifySetComponentCollection() {
             // user still loading, do nothing yet
             return;
         }
-
-        getFirestoreDocument("exercises", user).then((res: any) => {
-            if (res.result) {
-                getSets(res.result, day, week).then((exercisesData) => {
+        const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
+            if (data) {
+                getSets(data, day, week).then((exercisesData) => {
                     if (exercisesData) {
                         setuserdata(exercisesData.objArray);
                         setTime(exercisesData.time)
@@ -74,65 +72,63 @@ export default function ModifySetComponentCollection() {
             }
         });
 
+        return () => {
+            unsubscribe();
+        };
 
     }, [user, day, week]); // <-- rerun when user changes
 
     return (
         <>
-            {userdata!=null ?
-                <>
-                    <div
-                        className="flex flex-col text-4xl font-bold w-full bg-gray-100 dark:bg-gray-700 justify-center items-center rounded-2xl">
-                        <h1>{day}</h1>
-                        <div className="flex felx-row border-b-2 border-black dark:border-white justify-center items-center">
-                            <h2 className="text-sm me-[1rem]">{userdata.length ? userdata.length : "0"}x Sets</h2>
-                            <h1 className="text-xl font-bold">{userdata.length ? numSets : "0"}x. Exercises</h1>
-                            <h2 className="text-sm ms-[1rem]">{userdata.length ? time : "0"} Min.</h2>
-                        </div>
-                    </div>
-                    {userdata.length == 0 ?
-                        <div className={`w-[80%] h-full flex justify-center items-center relative`}>
-                            <div className={`dark:bg-neutral-500 hover:bg-neutral-200 opacity-20 rounded-xl z-10`}>
-                                <button
-                                    onClick={openModal}
-                                    className={"w-[5vw] h-[5vw] flex items-center justify-center  z-[5]"}>
-                                    <AddIcon/>
-                                </button>
-                            </div>
-                        </div>
-                        :
-                        <>
-                            <div className={"w-full overflow-y-auto flex flex-col items-center my-2 md:w-[80%]"}>
-                                {(
-                                    userdata.map((data: any, index) => (
-                                        <SetManager key={index}
-                                                    data={data} link={`/modifying/${data[0]}`}
-                                                    time={getSetTime(data)}
-                                                    exerciseNum={data[1] ? Object.entries(data[1]).length : 0}
-                                                    stars={getAverageDifficulty(data)}/>
-                                    ))
-                                )}
-                            </div>
-                            <div className={"mt-auto w-[80%] flex mb-20"}>
-                                <button
-                                    className={"p-5 me-auto border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
-                                    <CreateIcon/>
-                                </button>
-                                <button
-                                    onClick={openModal}
-                                    className={"p-5 ms-auto border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
-                                    <AddIcon/>
-                                </button>
-                            </div>
-                        </>
-                    }
 
-                </>
+            <div
+                className="flex flex-col text-4xl font-bold w-full bg-gray-100 dark:bg-gray-700 justify-center items-center rounded-2xl">
+                <h1>{day}</h1>
+                <div
+                    className="flex felx-row border-b-2 border-black dark:border-white justify-center items-center">
+                    <h2 className="text-sm me-[1rem]">{userdata.length ? userdata.length : "0"}x Sets</h2>
+                    <h1 className="text-xl font-bold">{userdata.length ? numSets : "0"}x. Exercises</h1>
+                    <h2 className="text-sm ms-[1rem]">{userdata.length ? time : "0"} Min.</h2>
+                </div>
+            </div>
+            {userdata.length == 0 ?
+                <div className={`w-[80%] h-full flex justify-center items-center relative`}>
+                    <div className={`dark:bg-neutral-500 hover:bg-neutral-200 opacity-20 rounded-xl z-10`}>
+                        <button
+                            onClick={openModal}
+                            className={"w-[5vw] h-[5vw] flex items-center justify-center  z-[5]"}>
+                            <AddIcon/>
+                        </button>
+                    </div>
+                </div>
                 :
                 <>
-                    <LoadingModule/>
+                    <div className={"w-full overflow-y-auto flex flex-col items-center my-2 sm:px-[10%]"}>
+                        {(
+                            userdata.map((data: any, index) => (
+                                <SetManager key={index}
+                                            data={data} link={`/modifying/${data[0]}`}
+                                            time={getSetTime(data)}
+                                            exerciseNum={data[1] ? Object.entries(data[1]).length : 0}
+                                            stars={getAverageDifficulty(data)}/>
+                            ))
+                        )}
+                    </div>
+                    <div className={"mt-auto w-[80%] flex mb-20"}>
+                        <button
+                            className={"p-5 me-auto border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
+                            <CreateIcon/>
+                        </button>
+                        <button
+                            onClick={openModal}
+                            className={"p-5 ms-auto border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
+                            <AddIcon/>
+                        </button>
+                    </div>
                 </>
             }
+
+
             <AddControlModal isOpen={isModalOpen} onClose={closeModal}/>
         </>
     )

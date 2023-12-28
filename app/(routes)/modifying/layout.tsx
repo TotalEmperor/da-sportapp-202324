@@ -14,9 +14,7 @@ export default async function DashboardLayout({children,}: {
     return (
         <>
             <MainComponent>
-                <Suspense fallback={<LoadingModule/>}>
                     <ModifySetComponentCollection/>
-                </Suspense>
             </MainComponent>
 
             <ConfPanel>

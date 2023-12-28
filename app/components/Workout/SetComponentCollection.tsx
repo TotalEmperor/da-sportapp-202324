@@ -24,12 +24,17 @@ export default function SetComponentCollection() {
     const [numSets, setNumSets] = useState(0);
     const { day, week, setDay, setWeek } = useContextData();
 
-    try {
-        setDay(sessionStorage.getItem("day"));
-        setWeek(sessionStorage.getItem("week"))
-    }catch (e){
+    useEffect(() => {
+        if (sessionStorage.getItem("day")) {
+            try {
+                setDay(sessionStorage.getItem("day"));
+                setWeek(sessionStorage.getItem("week"))
+                console.log(day)
+            } catch (e) {
 
-    }
+            }
+        }
+    }, []);
 
 
 // keeps `userdata` up to date
@@ -46,10 +51,11 @@ export default function SetComponentCollection() {
             return;
         }
 
-        getFirestoreDocument("exercises", user).then((res: any) => {
-            if (res.result) {
-                getSets(res.result, day, week).then((exercisesData) => {
+        const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
+            if (data) {
+                getSets(data, day, week).then((exercisesData) => {
                     if (exercisesData) {
+                        console.log(exercisesData)
                         setuserdata(exercisesData.objArray);
                         setTime(exercisesData.time)
                         setNumSets(exercisesData.exerciseNum)
@@ -59,6 +65,9 @@ export default function SetComponentCollection() {
             }
         });
 
+        return () => {
+            unsubscribe();
+        };
 
     }, [user, day, week]); // <-- rerun when user changes
 
@@ -97,7 +106,7 @@ export default function SetComponentCollection() {
                             <h2 className="text-sm ms-[1rem]">{userdata.length ? time : "0"} Min.</h2>
                         </div>
                     </div>
-                    <div className={"w-full overflow-y-auto flex flex-col items-center my-2 md:w-[80%]"}>
+                    <div className={"w-full overflow-y-auto flex flex-col items-center my-2 sm:px-[10%]"}>
                         {(
                             userdata.map((data: any, index) => (
                                 <SetManager key={index}

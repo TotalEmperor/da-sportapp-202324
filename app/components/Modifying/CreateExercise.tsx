@@ -84,11 +84,10 @@ export default function CreateExercise() {
             return;
         }
 
-        getFirestoreDocument("exercises", user).then((res: any) => {
-            if (res.result) {
-                setUserdata(res.result)
-                getSets(res.result, day, week).then((exercisesData) => {
-                    console.log("REs: "+res)
+        const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
+            if (data) {
+                setUserdata(data)
+                getSets(data, day, week).then((exercisesData) => {
                     if (exercisesData) {
                         setExerciseData(exercisesData.objArray);
                     }
@@ -97,12 +96,13 @@ export default function CreateExercise() {
             }
         });
 
+        return () => {
+            unsubscribe();
+        };
 
     }, [user, day, week]); // <-- rerun when user changes
 
     const createNewSet = (setName: string) => {
-
-
         let schedule = userdata["exercises"][week][day];
         console.log(schedule)
 
@@ -112,7 +112,7 @@ export default function CreateExercise() {
                 "moves": rep, // Replace with the actual number of moves
                 "description": description,
                 "time": timer, // Replace with the actual time
-                "stars": difficulty, // Replace with the actual stars rating
+                "stars": difficulty+1, // Replace with the actual stars rating
                 "breakTime": breakTime // Replace with the actual break time
             }
 
@@ -125,6 +125,24 @@ export default function CreateExercise() {
 
         //addData("exercise", user, "");
     };
+
+    const addExerciseToSet = (setName:string)=>{
+        let schedule = userdata["exercises"][week][day];
+        console.log(exerciseName)
+
+        schedule[setName][exerciseName] = {
+                "image": "",
+                "moves": rep, // Replace with the actual number of moves
+                "description": description,
+                "time": timer, // Replace with the actual time
+                "stars": difficulty+1, // Replace with the actual stars rating
+                "breakTime": breakTime // Replace with the actual break time
+
+        };
+
+
+        setUserdata(userdata["exercises"][week][day]=schedule)
+        addData("exercises", user, userdata);    }
 
 
     return (
@@ -269,7 +287,7 @@ export default function CreateExercise() {
                     </button>
 
                     <AddModal isOpen={isModalOpen} onClose={closeModal} userData={exerciseData}
-                              createNewSet={createNewSet}/>
+                              createNewSet={createNewSet} addExerciseToSet={addExerciseToSet}/>
                 </form>
             </div>
         </>

@@ -31,6 +31,7 @@ export default function DateConfig() {
     const user = getAuth().currentUser.uid;
 
 // keeps `userdata` up to date
+
     useEffect(() => {
 
         if (!user) {
@@ -40,14 +41,14 @@ export default function DateConfig() {
             setCheckedWeek(0)
             return;
         } else {
-            getFirestoreDocument("userdata", user).then((res: any) => {
-                if (res.result.weeks) {
-                    sortDates(Object.keys(res.result.weeks)).then((date: [string]) => {
+            const unsubscribe = getFirestoreDocument('userdata', getAuth().currentUser.uid, (data) => {
+                if (data.weeks) {
+                    sortDates(Object.keys(data.weeks)).then((date: [string]) => {
                         if (!day) {
                             setWeek(date[0]);
-                            sessionStorage.setItem("week", date[0])
+                            localStorage.setItem("week", date[0])
                             setDay(days[0].toUpperCase());
-                            sessionStorage.setItem("day", days[0].toUpperCase())
+                            localStorage.setItem("day", days[0].toUpperCase())
                             setCheckedDay(0);
                             setCheckedWeek(0);
                         } else {
@@ -60,6 +61,10 @@ export default function DateConfig() {
                 }
             });
 
+            // Unsubscribe when the component unmounts
+            return () => {
+                unsubscribe();
+            };
         }
     }, [user]); // <-- rerun when user changes
 
@@ -68,18 +73,24 @@ export default function DateConfig() {
     }, [week]);
 
 
-    const checkExerciseStatus = async () => await getFirestoreDocument("userdata", user).then((res: any) => {
-        if (res.result.weeks[week]) {
-            days.forEach((day) => {
-                setExerciseStatusAtIndex(days.indexOf(day), getExerciseStatus(day, res.result.weeks[week]));
-            });
-        }
-    });
+    const checkExerciseStatus = async () => {
+        const unsubscribe = getFirestoreDocument('userdata', 'userId', (data) => {
+            if (data.weeks[week]) {
+                days.forEach((day) => {
+                    setExerciseStatusAtIndex(days.indexOf(day), getExerciseStatus(day, data.weeks[week]));
+                });
+            }
+        });
+
+        return () => {
+            unsubscribe();
+        };    }
+
 
     const handleClickDay = (i: number) => {
         if (checkedDay !== i) {
             setDay(days[i].toUpperCase());
-            sessionStorage.setItem("day", days[i].toUpperCase())
+            localStorage.setItem("day", days[i].toUpperCase())
             setCheckedDay(i);
         }
     };
@@ -87,15 +98,20 @@ export default function DateConfig() {
     const handleClickWeek = (i: number) => {
 
         if (checkedWeek + i >= 0 && checkedWeek + i <= 3) {
-            getFirestoreDocument("exercises", user).then((res: any) => {
-                if (res.result) {
-                    sortDates(Object.keys(res.result.exercises)).then((date: [string]) => {
+            const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
+                if (data) {
+                    sortDates(Object.keys(data.exercises)).then((date: [string]) => {
                         setWeek(date[checkedWeek + i]);
-                        sessionStorage.setItem("week",date[checkedWeek+i])
+                        localStorage.setItem("week", date[checkedWeek + i])
                         setCheckedWeek(checkedWeek + i);
                     });
                 }
             });
+
+            return () => {
+                unsubscribe();
+            };
+
         }
     };
 

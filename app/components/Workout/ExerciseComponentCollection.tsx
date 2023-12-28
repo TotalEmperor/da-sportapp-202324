@@ -39,9 +39,9 @@ export default function ExerciseComponentCollection(setName:any) {
             return;
         }
 
-        getFirestoreDocument("exercises", user).then((res: any) => {
-            if (res.result) {
-                getExercises(res.result, setName.setName, day, week).then((exercisesData) => {
+        const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
+            if (data) {
+                getExercises(data, setName.setName, day, week).then((exercisesData) => {
                     if (exercisesData) {
                         setuserdata(exercisesData.objArray);
                         setTime(exercisesData.time)
@@ -52,6 +52,9 @@ export default function ExerciseComponentCollection(setName:any) {
             }
         });
 
+        return () => {
+            unsubscribe();
+        };
 
     }, [user, day, week]); // <-- rerun when user changes
 

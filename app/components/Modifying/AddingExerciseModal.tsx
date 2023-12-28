@@ -1,24 +1,19 @@
 "use client"
-import deleteCurrentUser from "@/firebase/auth/deleteCurrentUser";
 import {getAuth} from "firebase/auth";
-import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
-import Link from "next/link";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import AddIcon from '@mui/icons-material/Add';
 import React, {useEffect, useState} from "react";
-import getFirestoreDocument from "@/firebase/firestore/getData";
 import {useContextData} from "@/context/ContextData";
 import {useRouter} from "next/navigation";
-import SetManager from "@/components/Workout/SetManager";
 
-
-export default function AddModal({isOpen, onClose, userData, createNewSet}:{isOpen: boolean; onClose: ()=>void, userData:any, createNewSet:(setName:string)=>void}){
+export default function AddModal({isOpen, onClose, userData, createNewSet, addExerciseToSet}:{isOpen: boolean; onClose: ()=>void, userData:any, createNewSet:(setName:string)=>void, addExerciseToSet:(setName:string)=>void}){
 
     const { day, week, setDay, setWeek } = useContextData();
     const [ newSetName, setNewSetName ] = useState<string>();
 
     const [isFormValid, setIsFormValid] = useState(null);
     const names = userData.map((exercise) =>{
+        console.log(exercise[0])
         return exercise[0]
     })
 
@@ -95,9 +90,9 @@ export default function AddModal({isOpen, onClose, userData, createNewSet}:{isOp
                         <div className={`mt-5 flex flex-col w-full`}>
                             <h6>Or add Exercise to existing Set</h6>
                             {(
-                                names.map((exerciseName: any, index) => (
+                                names.map((setName: any, index) => (
                                     <>
-                                        <button key={index} className={`p-4 my-2 bg-green-500 dark:bg-green-800 w-4rem rounded-md`}>{exerciseName}</button>
+                                        <button value={setName} key={index} onClick={(e)=>{addExerciseToSet(setName)}} className={`p-4 my-2 bg-green-500 dark:bg-green-800 w-4rem rounded-md`}>{setName}</button>
                                     </>
                                     )
                                 )
