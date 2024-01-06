@@ -2,7 +2,7 @@
 import getFirestoreDocument from "@/firebase/firestore/getData";
 import {useEffect, useState} from "react";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
-import SetManager from "@/components/SetManager"
+import SetManager from "@/components/MainComponents/SetManager"
 import {useContextData} from "@/context/ContextData";
 import CreateIcon from '@mui/icons-material/Create';
 import AddIcon from '@mui/icons-material/Add';

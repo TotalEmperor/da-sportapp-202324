@@ -25,14 +25,18 @@ export default function PersonalInformation() {
     const user = getAuth().currentUser;
 
     useEffect(() => {
-        getFirestoreDocument("userdata", getAuth().currentUser.uid).then((res) => {
-            if (res.result) {
-                setUserdata(res.result);
-                setEmail(getAuth().currentUser.email
-                );
+        const unsubscribe = getFirestoreDocument('userdata', getAuth().currentUser.uid, (data) => {
+            if (data) {
+                console.log(data)
+                setUserdata(data);
+                setEmail(getAuth().currentUser.email);
             }
-            console.log(userData)
         });
+
+        return () => {
+            unsubscribe();
+        };
+
     }, [user]);
 
 

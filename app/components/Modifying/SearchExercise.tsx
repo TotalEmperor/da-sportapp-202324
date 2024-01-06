@@ -4,7 +4,7 @@ import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import AddModal from "@/components/Modifying/AddingExerciseModal";
-import SetManager from "@/components/SetManager";
+import SetManager from "@/components/MainComponents/SetManager";
 import {getAuth} from "firebase/auth";
 import getFirestoreDocument from "@/firebase/firestore/getData";
 import {doc, getFirestore, onSnapshot} from "firebase/firestore";
