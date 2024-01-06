@@ -71,7 +71,6 @@ export default function DateConfig() {
 
     useEffect(() => {
         const unsubscribe = getFirestoreDocument('userdata', user, (data) => {
-            console.log("DATA: "+data)
             if (data.weeks[week]) {
                 days.forEach((day) => {
                     setExerciseStatusAtIndex(days.indexOf(day), getExerciseStatus(day, data.weeks[week]));

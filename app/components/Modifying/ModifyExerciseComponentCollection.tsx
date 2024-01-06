@@ -50,7 +50,6 @@ export default function ModifyExerciseComponentCollection(setName: any) {
                 }
             });
 
-            console.log(userdata)
 
             return () => {
                 unsubscribe();
@@ -126,7 +125,6 @@ const getExercises = async (data: any, setName: string, day: string, week: strin
         }
     }
 
-    console.log(objArray)
 
     return {objArray, time, numSets};
 

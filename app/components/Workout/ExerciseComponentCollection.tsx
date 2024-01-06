@@ -127,7 +127,6 @@ const getExercises = async (data: any, setName:string, day:string, week:string) 
         }
     }
 
-    console.log(objArray)
 
     return {objArray, time, numSets};
 
