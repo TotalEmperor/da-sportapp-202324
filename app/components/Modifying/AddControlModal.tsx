@@ -1,11 +1,7 @@
-"use client"
 import React from "react";
 import Link from "next/link";
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import deleteCurrentUser from "@/firebase/auth/deleteCurrentUser";
-import {useRouter} from "next/navigation";
-import {getAuth} from "firebase/auth";
 
 
 export default function AddControlModal({style, isOpen, onClose}: {
@@ -13,7 +9,6 @@ export default function AddControlModal({style, isOpen, onClose}: {
     isOpen: boolean,
     onClose: () => void,
 }) {
-    const router = useRouter();
     if (!isOpen) return null;
 
     return (

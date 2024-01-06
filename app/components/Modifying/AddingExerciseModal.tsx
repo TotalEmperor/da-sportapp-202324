@@ -1,10 +1,7 @@
-"use client"
-import {getAuth} from "firebase/auth";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import AddIcon from '@mui/icons-material/Add';
 import React, {useEffect, useState} from "react";
 import {useContextData} from "@/context/ContextData";
-import {useRouter} from "next/navigation";
 
 export default function AddModal({isOpen, onClose, userData, createNewSet, addExerciseToSet}:{isOpen: boolean; onClose: ()=>void, userData:any, createNewSet:(setName:string)=>void, addExerciseToSet:(setName:string)=>void}){
 
@@ -27,14 +24,6 @@ export default function AddModal({isOpen, onClose, userData, createNewSet, addEx
         }
     }
 
-
-
-    const router = useRouter();
-    const user = getAuth().currentUser;
-
-    useEffect(() => {
-
-    }, [user, day, week]);
 
 
     if (!isOpen) return null;

@@ -2,7 +2,7 @@
 import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import React, {useEffect} from "react";
-import DeleteModal from "@/components/DeleteModal"
+import DeleteModal from "@/components/settings/DeleteModal"
 import {useRouter, useSearchParams} from "next/navigation";
 import {router} from "next/client";
 

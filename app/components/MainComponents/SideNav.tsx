@@ -10,7 +10,7 @@ import AccountDropdown from "@/components/AccountDropdown";
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import React, {useEffect, useState} from "react";
-import {usePathname} from "next/navigation";
+import {useParams, usePathname} from "next/navigation";
 import {useContextData} from "@/context/ContextData";
 import MenuIcon from '@mui/icons-material/Menu';
 
@@ -30,13 +30,6 @@ export default function SideNav() {
 
         setActiveButton("/"+result[1])
     }, [path]);
-
-    useEffect(() => {
-        if(!activeButton && sessionStorage.getItem("currentPage")){
-            setActiveButton(sessionStorage.getItem("currentPage"))
-        }
-        sessionStorage.setItem("currentPage", activeButton);
-    }, [activeButton]);
 
     const toggleMenu = () => {
         setMenuVisible(!menuVisible);

@@ -2,7 +2,7 @@
 import getFirestoreDocument from "@/firebase/firestore/getData";
 import {useEffect, useState} from "react";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
-import SetManager from "@/components/Workout/SetManager"
+import SetManager from "@/components/SetManager"
 import {useRouter} from "next/navigation";
 import addData from "@/firebase/firestore/addData";
 import {useContextData} from "@/context/ContextData";

@@ -2,13 +2,8 @@
 import getFirestoreDocument from "@/firebase/firestore/getData";
 import {useEffect, useState} from "react";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
-import SetManager from "@/components/Workout/SetManager"
-import {useRouter} from "next/navigation";
-import addData from "@/firebase/firestore/addData";
+import SetManager from "@/components/SetManager"
 import {useContextData} from "@/context/ContextData";
-import EditCalendarIcon from "@mui/icons-material/EditCalendar";
-import Link from "next/link";
-import LaunchIcon from '@mui/icons-material/Launch';
 import CreateIcon from '@mui/icons-material/Create';
 import AddIcon from '@mui/icons-material/Add';
 import AddControlModal from "@/components/Modifying/AddControlModal";
@@ -25,6 +20,7 @@ export default function ModifySetComponentCollection() {
     const [userdata, setuserdata] = useState([]);
     const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
+    const [editMode, setEditMode] = useState<boolean>(false);
     const {day, week, setDay, setWeek} = useContextData()
 
     useEffect(() => {
@@ -116,6 +112,7 @@ export default function ModifySetComponentCollection() {
                     </div>
                     <div className={"mt-auto w-[80%] flex mb-20"}>
                         <button
+                            onClick={()=>{setEditMode(!editMode)}}
                             className={"p-5 me-auto border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
                             <CreateIcon/>
                         </button>

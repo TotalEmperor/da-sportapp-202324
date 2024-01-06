@@ -7,7 +7,7 @@ import SideNav from "@/components/MainComponents/SideNav";
 import MainComponent from "@/components/MainComponents/mainComponent";
 import SetComponentCollection from "@/components/Workout/SetComponentCollection";
 import ConfPanel from "@/components/MainComponents/confPanel";
-import DateConfig from "@/components/dateConfig";
+import DateConfig from "@/components/settings/dateConfig";
 
 export default function Page({params: {setName}}) {
     return (

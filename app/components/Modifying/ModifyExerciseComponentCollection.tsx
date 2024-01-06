@@ -2,7 +2,7 @@
 import getFirestoreDocument from "@/firebase/firestore/getData";
 import React, {Suspense, useEffect, useState} from "react";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
-import ExerciseManager from "@/components/Workout/ExerciseManager";
+import ExerciseManager from "@/components/ExerciseManager";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
 import {param} from "ts-interface-checker";

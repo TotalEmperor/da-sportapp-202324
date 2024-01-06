@@ -4,7 +4,7 @@ import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import AddModal from "@/components/Modifying/AddingExerciseModal";
-import SetManager from "@/components/Workout/SetManager";
+import SetManager from "@/components/SetManager";
 import {getAuth} from "firebase/auth";
 import getFirestoreDocument from "@/firebase/firestore/getData";
 import {doc, getFirestore, onSnapshot} from "firebase/firestore";
@@ -20,7 +20,6 @@ export default function SearchExercise() {
     const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
     const user = getAuth().currentUser.uid;
-    const db = getFirestore(firebase_app)
 
 
     useEffect(() => {
@@ -114,7 +113,7 @@ export default function SearchExercise() {
                         {(
                             selectedExercises.map((data: any, index) => (
                                 <SetManager key={index}
-                                            data={data} link={`/workout/${data[0]}`}
+                                            data={data} link={`/modify/searchExercise/${data[0]}`}
                                             time={getSetTime(data)}
                                             exerciseNum={data[1] ? Object.entries(data[1]).length : 0}
                                             stars={getAverageDifficulty(data)}/>
