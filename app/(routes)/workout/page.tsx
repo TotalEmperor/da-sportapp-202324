@@ -1,5 +1,5 @@
 import React, {Suspense} from "react";
-import DateConfig from "@/components/settings/dateConfig";
+import DateConfig from "@/components/MainComponents/dateConfig";
 
 export default async function page() {
 

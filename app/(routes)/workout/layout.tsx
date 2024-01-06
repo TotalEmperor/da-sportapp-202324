@@ -7,7 +7,7 @@ import React, {Suspense} from "react";
 import SetComponentCollection from "@/components/Workout/SetComponentCollection";
 import ConfPanel from "@/components/MainComponents/confPanel";
 import ExerciseComponentCollection from "@/components/Workout/ExerciseComponentCollection";
-import DateConfig from "@/components/settings/dateConfig";
+import DateConfig from "@/components/MainComponents/dateConfig";
 export default function DashboardLayout({children,}: {
     children: React.ReactNode
 }) {

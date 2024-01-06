@@ -1,5 +1,5 @@
 import styles from "../../(routes)/workout/workout.module.css";
-import DateConfig from "@/components/settings/dateConfig";
+import DateConfig from "@/components/MainComponents/dateConfig";
 
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';

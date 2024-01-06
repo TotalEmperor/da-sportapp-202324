@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import getFirestoreDocument from "@/firebase/firestore/getData";
 import {getAuth} from "firebase/auth";
-import DateConfig from "@/components/settings/dateConfig";
+import DateConfig from "@/components/MainComponents/dateConfig";
 
 
 export default function Page() {

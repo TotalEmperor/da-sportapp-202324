@@ -47,9 +47,9 @@ export default function DateConfig() {
                     sortDates(Object.keys(data.weeks)).then((date: [string]) => {
                         if (!day) {
                             setWeek(date[0]);
-                            localStorage.setItem("week", date[0])
+                            sessionStorage.setItem("week", date[0])
                             setDay(days[0].toUpperCase());
-                            localStorage.setItem("day", days[0].toUpperCase())
+                            sessionStorage.setItem("day", days[0].toUpperCase())
                             setCheckedDay(0);
                             setCheckedWeek(0);
                         } else {
@@ -87,7 +87,7 @@ export default function DateConfig() {
     const handleClickDay = (i: number) => {
         if (checkedDay !== i) {
             setDay(days[i].toUpperCase());
-            localStorage.setItem("day", days[i].toUpperCase())
+            sessionStorage.setItem("day", days[i].toUpperCase())
             setCheckedDay(i);
         }
     };
@@ -99,7 +99,7 @@ export default function DateConfig() {
                 if (data) {
                     sortDates(Object.keys(data.exercises)).then((date: [string]) => {
                         setWeek(date[checkedWeek + i]);
-                        localStorage.setItem("week", date[checkedWeek + i])
+                        sessionStorage.setItem("week", date[checkedWeek + i])
                         setCheckedWeek(checkedWeek + i);
                     });
                 }
