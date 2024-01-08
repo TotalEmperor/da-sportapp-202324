@@ -1,17 +1,15 @@
 "use client"
-import React, {createContext, useContext} from 'react';
-import {
-    onAuthStateChanged,
-    getAuth,
-} from 'firebase/auth';
+import React, {useEffect} from 'react';
+import {getAuth, onAuthStateChanged,} from 'firebase/auth';
 import firebase_app from '@/firebase/config';
 import {redirect, useRouter} from 'next/navigation'
+import {RedirectType} from "next/dist/client/components/redirect";
 
 const auth = getAuth(firebase_app);
 
 export const AuthContext = React.createContext({});
 
-export const UseAuthContext = () => useContext(AuthContext);
+//export const UseAuthContext = () => useContext(AuthContext);
 
 export const AuthContextProvider = ({children,}) => {
     const [user, setUser] = React.useState(null);
@@ -45,10 +43,10 @@ export const AuthContextProvider = ({children,}) => {
 export const CheckEmailVerification = ({children,}) => {
     const router = useRouter();
 
-    React.useEffect(() => {
+    useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (!user || !user.emailVerified) {
-                router.push("/")
+                redirect("/",RedirectType.replace)
             }
         });
 

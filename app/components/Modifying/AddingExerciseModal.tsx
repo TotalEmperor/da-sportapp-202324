@@ -10,7 +10,6 @@ export default function AddModal({isOpen, onClose, userData, createNewSet, addEx
 
     const [isFormValid, setIsFormValid] = useState(null);
     const names = userData.map((exercise) =>{
-        console.log(exercise[0])
         return exercise[0]
     })
 

@@ -9,6 +9,8 @@ import getFirestoreDocument from "@/firebase/firestore/getData";
 import {getAuth} from "firebase/auth";
 import addData from "@/firebase/firestore/addData";
 import {useRouter} from "next/navigation";
+import {getStorage, ref, listAll, getDownloadURL} from "firebase/storage";
+import Image from "next/image";
 
 export default function CreateExercise() {
     const [user, setuser] = useState(() => {
@@ -22,7 +24,6 @@ export default function CreateExercise() {
 
     const [difficulty, setDifficulty] = useState<number>(0)
     const [hoverDifficulty, setHoverDifficulty] = useState<number>(-1);
-
     const [exerciseName, setExerciseName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [repMode, setRepMode] = useState<boolean>(true);
@@ -30,10 +31,10 @@ export default function CreateExercise() {
     const [timerMode, setTimerMode] = useState<boolean>(true);
     const [timer, setTimer] = useState<number>(0);
     const [breakTime, setBreakTime] = useState<number>(0);
-
-
-    const [userdata, setUserdata] = useState([])
-    const [exerciseData, setExerciseData] = useState([])
+    const [selectedImage, setSelectedImage] = useState("");
+    const [images, setImages] = useState([]);
+    const [userdata, setUserdata] = useState([]);
+    const [exerciseData, setExerciseData] = useState([]);
 
     const {day, week, setDay, setWeek} = useContextData();
     const router = useRouter();
@@ -86,6 +87,21 @@ export default function CreateExercise() {
             return;
         }
 
+        const storage = getStorage();
+
+        const listRef = ref(storage, 'images');
+
+        listAll(listRef)
+            .then((res) => {
+                res.items.forEach((itemRef) => {
+                    images.push(getDownloadURL(itemRef))
+                });
+            }).catch((error) => {
+            // Uh-oh, an error occurred!
+        });
+
+        listAll(listRef);
+
         const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
             if (data) {
                 setUserdata(data)
@@ -106,7 +122,6 @@ export default function CreateExercise() {
 
     const createNewSet = (setName: string) => {
         let schedule = userdata["exercises"][week][day];
-        console.log(schedule)
 
         schedule[setName] = {
             [exerciseName]: {
@@ -132,7 +147,6 @@ export default function CreateExercise() {
 
     const addExerciseToSet = (setName:string)=>{
         let schedule = userdata["exercises"][week][day];
-        console.log(exerciseName)
 
         schedule[setName][exerciseName] = {
                 "image": "",
@@ -200,6 +214,7 @@ export default function CreateExercise() {
                             <div
                                 className="flex flex-row w-full dark:bg-neutral-800 shadow mt-2 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
                                 <select
+                                    id={"timer"}
                                     onChange={(e) => {
                                         setTimerMode(JSON.parse(e.target.value))
                                     }}
@@ -224,6 +239,7 @@ export default function CreateExercise() {
                             <div
                                 className="flex flex-row w-full dark:bg-neutral-800 shadow mt-2 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
                                 <select
+                                    id={"repMode"}
                                     onChange={(e) => {
                                         setRepMode(JSON.parse(e.target.value))
                                     }}
@@ -243,6 +259,17 @@ export default function CreateExercise() {
                             </div>
                         </label>
                     </div>
+                    <label>
+                        {(
+                            images.map((url: any, index) => (
+                                    <>
+                                        <Image key={index} src={url} alt={"image"}/>
+                                        <label>{url}</label>
+                                    </>
+                                )
+                            )
+                        )}
+                    </label>
                     <label>
                         <span>Difficulty</span>
                         <div className={"flex flex-row"}>
@@ -274,11 +301,11 @@ export default function CreateExercise() {
                         <span>Break Time.</span>
                         <input
                             type="number"
-                            name="exerciseName"
+                            name="breakTime"
                             onChange={(e) => {
                                 setBreakTime(e.target.valueAsNumber)
                             }}
-                            id="exerciseName"
+                            id="breakTime"
                             min={1}
                             placeholder={"time (s.)"}
                             className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"
