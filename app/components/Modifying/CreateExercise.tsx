@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import React, {useEffect, useState} from "react";
+import React, {Suspense, useEffect, useState} from "react";
 import AddModal from "@/components/Modifying/AddingExerciseModal";
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import {useContextData} from "@/context/ContextData";
@@ -11,6 +11,7 @@ import addData from "@/firebase/firestore/addData";
 import {useRouter} from "next/navigation";
 import {getStorage, ref, listAll, getDownloadURL} from "firebase/storage";
 import Image from "next/image";
+import ImageSelectModal from "@/components/Modifying/ImageSelectModal";
 
 export default function CreateExercise() {
     const [user, setuser] = useState(() => {
@@ -36,15 +37,18 @@ export default function CreateExercise() {
     const [userdata, setUserdata] = useState([]);
     const [exerciseData, setExerciseData] = useState([]);
 
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [isImageSelectModalOpen, setIsImageSelectModalOpen] = useState(false);
+
     const {day, week, setDay, setWeek} = useContextData();
     const router = useRouter();
 
 
     useEffect(() => {
-        if (localStorage.getItem("day")) {
+        if (sessionStorage.getItem("day")) {
             try {
-                setDay(localStorage.getItem("day"));
-                setWeek(localStorage.getItem("week"))
+                setDay(sessionStorage.getItem("day"));
+                setWeek(sessionStorage.getItem("week"))
             } catch (e) {
 
             }
@@ -64,13 +68,21 @@ export default function CreateExercise() {
     }, [timerMode]);
 
 
-    const [isModalOpen, setModalOpen] = useState(false);
 
     const openModal = (e) => {
         e.preventDefault();
         setModalOpen(true);
     }
     const closeModal = () => setModalOpen(false);
+
+    const openImageSelectModal = (e)=>{
+        e.preventDefault();
+        setIsImageSelectModalOpen(true);
+    }
+
+    const closeImageSelectModal = ()=>{
+        setIsImageSelectModalOpen(false);
+    }
 
 
 // keeps `userdata` up to date
@@ -94,7 +106,10 @@ export default function CreateExercise() {
         listAll(listRef)
             .then((res) => {
                 res.items.forEach((itemRef) => {
-                    images.push(getDownloadURL(itemRef))
+                    getDownloadURL(itemRef).then((imageURL:string)=>{
+                        const imageData = [imageURL, itemRef.name];
+                        images.push(imageData)
+                    });
                 });
             }).catch((error) => {
             // Uh-oh, an error occurred!
@@ -120,12 +135,15 @@ export default function CreateExercise() {
 
     }, [user, day, week]); // <-- rerun when user changes
 
+
+
+
     const createNewSet = (setName: string) => {
         let schedule = userdata["exercises"][week][day];
 
         schedule[setName] = {
             [exerciseName]: {
-                "image": "",
+                "image": selectedImage,
                 "moves": rep, // Replace with the actual number of moves
                 "description": description,
                 "time": timer, // Replace with the actual time
@@ -149,7 +167,7 @@ export default function CreateExercise() {
         let schedule = userdata["exercises"][week][day];
 
         schedule[setName][exerciseName] = {
-                "image": "",
+                "image": selectedImage,
                 "moves": rep, // Replace with the actual number of moves
                 "description": description,
                 "time": timer, // Replace with the actual time
@@ -163,6 +181,11 @@ export default function CreateExercise() {
         addData("exercises", user, userdata).then(r => {
             router.push(`/modifying/${setName}`)
         });
+    }
+
+    const setSelectedExerciseImage = (imageURL:string) =>{
+        setIsImageSelectModalOpen(false);
+        setSelectedImage(imageURL);
     }
 
 
@@ -259,16 +282,15 @@ export default function CreateExercise() {
                             </div>
                         </label>
                     </div>
-                    <label>
-                        {(
-                            images.map((url: any, index) => (
-                                    <>
-                                        <Image key={index} src={url} alt={"image"}/>
-                                        <label>{url}</label>
-                                    </>
-                                )
-                            )
-                        )}
+                    <label htmlFor={"exerciseImage"}>
+                        <div className={'bg-lime-800 hover:bg-lime-700 rounded flex flex-col justify-center w-fit mb-2'}>
+                            <Image src={selectedImage} alt={"image"} height={200} width={200} className={`${selectedImage ? "":"hidden"} rounded hover:scale-150 transition delay-300`}/>
+                            <button
+                                className={'p-2'}
+                                onClick={(e) => {
+                                    openImageSelectModal(e)
+                                }}>Select Image</button>
+                        </div>
                     </label>
                     <label>
                         <span>Difficulty</span>
@@ -322,6 +344,7 @@ export default function CreateExercise() {
 
                     <AddModal isOpen={isModalOpen} onClose={closeModal} userData={exerciseData}
                               createNewSet={createNewSet} addExerciseToSet={addExerciseToSet}/>
+                    <ImageSelectModal isOpen={isImageSelectModalOpen} onClose={closeImageSelectModal} images={images} setSelectedExerciseImage={setSelectedExerciseImage}/>
                 </form>
             </div>
         </>
