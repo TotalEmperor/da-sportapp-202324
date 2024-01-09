@@ -55,9 +55,8 @@ export default function ExerciseManager(props: {
                 </div>
                 {
                     data[1].image ?
-                        <div onClick={toggleContent}
-                             className="w-full justify-center flex-col mx-auto flex items-center ">
-                            <div className="flex w-full hover:cursor-pointer items-center justify-center hover:bg-neutral-600 rounded-xl p-2">
+                        <div className="w-full justify-center flex-col mx-auto flex items-center ">
+                            <div className="flex w-full hover:cursor-pointer items-center justify-center hover:bg-neutral-600 rounded-xl p-2" onClick={toggleContent}>
                                 <div className="flex flex-col pe-2 justify-center">
                                     {isContentVisible ? (
                                         <ExpandLess/>
