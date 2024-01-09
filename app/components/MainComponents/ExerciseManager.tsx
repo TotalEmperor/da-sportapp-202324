@@ -64,7 +64,7 @@ export default function ExerciseManager(props: {
                                         <ExpandMore/>
                                     )}
                                 </div>
-                                <span className="text-[1.2rem] font-bold me-6">Collapsible Tab</span>
+                                <label className="text-[1.2rem] hover:cursor-pointer font-bold me-6">Collapsible Tab</label>
                             </div>
                             {isContentVisible && (
                                 <div
