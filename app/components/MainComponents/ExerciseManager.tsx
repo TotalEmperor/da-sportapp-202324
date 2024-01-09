@@ -53,25 +53,30 @@ export default function ExerciseManager(props: {
                         </div>
                     </div>
                 </div>
-                <div className="w-full justify-center flex-col mx-auto flex px-4 py-4 items-center">
-                    <div className="flex items-center">
-                        <div className="flex flex-col pe-2 justify-center">
-                            {isContentVisible ? (
-                                <ExpandLess onClick={toggleContent} />
-                            ) : (
-                                <ExpandMore onClick={toggleContent} />
+                {
+                    data[1].image ?
+                        <div onClick={toggleContent}
+                             className="w-full justify-center flex-col mx-auto flex items-center ">
+                            <div className="flex w-full hover:cursor-pointer items-center justify-center hover:bg-neutral-600 rounded-xl p-2">
+                                <div className="flex flex-col pe-2 justify-center">
+                                    {isContentVisible ? (
+                                        <ExpandLess/>
+                                    ) : (
+                                        <ExpandMore/>
+                                    )}
+                                </div>
+                                <span className="text-[1.2rem] font-bold me-6">Collapsible Tab</span>
+                            </div>
+                            {isContentVisible && (
+                                <div
+                                    className="flex justify-center items-center my-4">
+                                    <Image src={data[1].image} width={300} height={300} alt={"image"} className={"rounded"}/>
+                                </div>
                             )}
                         </div>
-                        <span className="text-[1.2rem] font-bold me-6">Collapsible Tab</span>
-                    </div>
-                    {isContentVisible && (
-                        <div
-                            className="flex justify-center items-center mt-4">
-                            <p>Test</p>
-                            {/* Add any additional content here */}
-                        </div>
-                    )}
-                </div>
+                        :
+                        ""
+                }
             </div>
         </>
     )
