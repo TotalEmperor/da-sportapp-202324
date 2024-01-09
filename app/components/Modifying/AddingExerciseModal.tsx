@@ -54,21 +54,22 @@ export default function AddModal({isOpen, onClose, userData, createNewSet, addEx
                         <div className={`w-full border-b-2 border-gray-500 mt-5`}>
                             <label htmlFor="height" className="me-5">
                                 <h4>Create new Set</h4>
-                                <div
+                                <form
+                                    onSubmit={()=>{createNewSet(newSetName)}}
                                     className="flex flex-row w-full dark:bg-neutral-800 shadow overflow-hidden mt-2 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
                                     <input type="text"
-                                           id={"exerciseName"}
+                                           id={"setName"}
                                            onChange={(e)=>{onSetNameChange(e.target.value)}}
-                                           pattern={"^[a-zA-Z0-9_]+$"}
+                                           pattern={"[^\\s]*[^\\s]"}
+                                           title="Must contain at least one character and no spaces"
                                            className="bg-inherit p-3 outline-none w-full">
                                     </input>
                                     <button
-                                        className="border-s-2 border-black dark:border-neutral-400 p-3 bg-gray-300 text-md text-center outline-0 appearance-none"
-                                        onClick={()=>{createNewSet(newSetName)}}
-                                        disabled={!isFormValid}>
+                                        className="border-s-2 border-black dark:border-neutral-400 p-3 disabled:bg-gray-300 bg-lime-800 text-md text-center outline-0 appearance-none"
+                                        >
                                         <AddIcon/>
                                     </button>
-                                </div>
+                                </form>
                                 <span className={`mt-2 text-sm p-3 rounded-md text-white bg-red-500 border-red-700 ${isFormValid==false && isFormValid!=null? "block": "hidden"}`}>
                                 This exercise already exists!
                                 </span>
