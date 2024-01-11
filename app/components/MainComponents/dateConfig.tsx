@@ -116,7 +116,7 @@ export default function DateConfig() {
     return (
         <>
             {day && week ?
-                <div className="rounded-xl border-2 border-[#9a9d93] w-[80%] min-w-fit">
+                <div className="px-[2vw] w-full min-w-fit">
                     <div className="w-fit justify-center flex-col mx-auto flex mb-3 px-4 pt-8 py-4">
                         <div className="flex w-full mb-[1rem] font-bold text-3xl flex-row">
                             <span className="w-full flex items-center">
@@ -162,7 +162,7 @@ export default function DateConfig() {
                                                 <CheckCircleOutlineIcon sx={{fontSize: '4rvh', color: "#b7f397"}}/>
                                             ) : (<RadioButtonUncheckedIcon sx={{fontSize: '4vh'}}/>)
                                         }
-                                        <h2 key={index} className="flex justify-center">{day}</h2>
+                                        <h2 key={index} className="flex justify-center text-xl">{day}</h2>
                                         <div className={`${checkedDay === index ? "h-[1vh]" : ""}`}>
 
                                         </div>

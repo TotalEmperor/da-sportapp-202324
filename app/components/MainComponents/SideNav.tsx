@@ -3,7 +3,6 @@ import "app/globals.css"
 import Link from 'next/link'
 import Image from 'next/image'
 import Logo from '@/images/hope.svg';
-import styles from "../../(routes)/workout/workout.module.css";
 import TimerIcon from "@mui/icons-material/Timer";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import AccountDropdown from "@/components/AccountDropdown";
@@ -38,11 +37,11 @@ export default function SideNav() {
     return (
         <>
             <nav
-                className={styles["w-left-fixed"] + ` flex-shrink flex-grow-0 mb-2 sm:px-4 z-[2] ${menuVisible ? 'fixed top-0 left-0 h-full min-w-fit w-[60%]' : 'w-full px-4'}`}>
+                className={`${menuVisible ? 'fixed top-0 left-0 h-full min-w-fit w-[60%]' : 'w-full'} w-left-fixed flex-shrink flex-grow-0 mb-2 z-10 bg-black bg-opacity-20`}>
                 <div
-                    className={styles["w-left-panel"] + ` sm:sticky sm:top-0 sm:p-4 rounded-xl w-full h-full bg-[#F3F6EB] min-w-fit dark:bg-neutral-950 flex flex-col dark:text-neutral-300 z-10`}>
+                    className={'sm:sticky sm:top-0 sm:p-4 w-full h-full min-w-fit flex flex-col dark:text-neutral-300 z-10'}>
                     <div className="flex flex-row justify-center" >
-                        <button className="me-auto ms-5 p-3 m-1 rounded-xl min-w-fit w-[5vw] flex sm:hidden" onClick={toggleMenu}>
+                        <button className="me-auto ms-5 p-3 m-1 min-w-fit w-[5vw] flex sm:hidden" onClick={toggleMenu}>
                             <MenuIcon/>
                         </button>
                         <div className={`${menuVisible ? 'hidden' : 'w-full flex me-[75%] sm:hidden items-center'}`}>
@@ -61,27 +60,27 @@ export default function SideNav() {
                             <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] ${activeButton === '/workout' ? 'bg-[#d9e7cb] dark:bg-gray-700' : ''}`}>
                                 <Link href="/workout" prefetch onClick={() => setMenuVisible(false)}>
                                     <TimerIcon
-                                        className={styles["icons"] + " fill-black sm:mx-2 mx-4 inline"}></TimerIcon>
+                                        className={"icons fill-black sm:mx-2 mx-4 inline"}></TimerIcon>
                                     <span className="sm:inline">Workout</span>
                                 </Link>
                             </li>
                             <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] ${activeButton === '/modifying' ? 'dark:bg-gray-700 bg-[#d9e7cb]' : ''}`}>
                                 <Link className="truncate" href="/modifying" onClick={() => setMenuVisible(false)}>
                                     <FitnessCenterIcon
-                                        className={styles["icons"] + " sm:mx-2 mx-4 inline"}></FitnessCenterIcon>
+                                        className={"icons sm:mx-2 mx-4 inline"}></FitnessCenterIcon>
                                     <span className="sm:inline font-medium ">Modifying</span>
                                 </Link>
                             </li>
                             <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] ${activeButton === '/calculate' ? 'dark:bg-gray-700 bg-[#d9e7cb]' : ''}`}>
                                 <Link className="" href="#" prefetch onClick={() => setMenuVisible(false)}>
-                                    <BarChartIcon className={styles["icons"] + " sm:mx-2 mx-4 inline"}></BarChartIcon>
+                                    <BarChartIcon className={"icons sm:mx-2 mx-4 inline"}></BarChartIcon>
                                     <span className="sm:inline font-medium w-fit">Calc. Counter</span>
                                 </Link>
                             </li>
                             <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] ${activeButton === '/settings' ? 'dark:bg-gray-700 bg-[#d9e7cb]' : ''}`}>
                                 <Link href={`/settings/${"Account"}`} prefetch={true}
                                       onClick={() => setMenuVisible(false)}>
-                                    <SettingsOutlinedIcon className={styles["icons"] + " sm:mx-2 mx-4 inline"}/>
+                                    <SettingsOutlinedIcon className={"icons sm:mx-2 mx-4 inline"}/>
                                     <span className="sm:inline font-medium ">Settings</span>
                                 </Link>
                             </li>

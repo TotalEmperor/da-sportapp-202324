@@ -1,6 +1,5 @@
 "use client"
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import styles from "../(routes)/workout/workout.module.css"
 import React, {useEffect, useState} from "react";
 import logOut from "@/firebase/auth/logOut";
 import {useRouter} from "next/navigation";
@@ -56,7 +55,7 @@ export default function AccountDropdown() {
                             onClick={() => setIsOpen(!isOpen)}
                         >
                             <span className="sm:inline font-medium text-[1.5rem] w-full">
-                                <AccountCircleOutlinedIcon className={styles["icons"] + " sm:mx-2 mx-4 inline"}></AccountCircleOutlinedIcon>{username}
+                                <AccountCircleOutlinedIcon className={"icons sm:mx-2 mx-4 inline"}></AccountCircleOutlinedIcon>{username}
                             </span>
                         </button>
                     </div>
@@ -73,14 +72,14 @@ export default function AccountDropdown() {
                                 className="block px-4 py-2 text-sm  hover:bg-gray-100 hover:text-gray-900 text-center rounded"
                                 role="menuitem"
                             >
-                                <span><ManageAccountsOutlinedIcon className={styles["icons"] + " sm:mx-2 mx-4 inline"}/> Account settings</span>
+                                <span><ManageAccountsOutlinedIcon className={"icons sm:mx-2 mx-4 inline"}/> Account settings</span>
                             </Link>
                             <Link
                                 href="#"
                                 className="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900 text-center rounded"
                                 role="menuitem"
                             >
-                                <span><SwitchAccountOutlinedIcon className={styles["icons"] + " sm:mx-2 mx-4 inline"}/>Change Account</span>
+                                <span><SwitchAccountOutlinedIcon className={"icons sm:mx-2 mx-4 inline"}/>Change Account</span>
                             </Link>
                             <button
                                 onClick={handleLogOut}
