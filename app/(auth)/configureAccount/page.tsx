@@ -24,35 +24,42 @@ export default function Page() {
         const [year, month, day] = birthday.split('-');
         const formattedDateString = `${day}.${month}.${year}`;
 
-        let userData = await getFirestoreDocument("userdata", getAuth().currentUser.uid);
-        console.log(userData)
-        userData.result.personaldata.birthday = formattedDateString;
-        userData.result.personaldata.height = height;
-        userData.result.personaldata.weight = weight;
-        userData.result.settingsdata.heightUnit = heightUnit;
-        userData.result.settingsdata.weightUnit = weightUnit;
-        userData.result.settingsdata.language = language;
-        userData.result.personaldata.gender = gender;
 
-        const next4Weeks = getNext4WeeksDates();
+        const unsubscribe = getFirestoreDocument('userdata', getAuth().currentUser.uid, async (data) => {
+            if (data) {
+                data.personaldata.birthday = formattedDateString;
+                data.personaldata.height = height;
+                data.personaldata.weight = weight;
+                data.settingsdata.heightUnit = heightUnit;
+                data.settingsdata.weightUnit = weightUnit;
+                data.settingsdata.language = language;
+                data.personaldata.gender = gender;
 
-        let week = userData.result.weeks.placeholder;
-        delete userData.result.weeks.placeholder;
+                const next4Weeks = getNext4WeeksDates();
 
-        let workoutSchedule = exercise;
-        let scheduleWeek = workoutSchedule.exercises.placeholder1;
-        delete workoutSchedule.exercises.placeholder1;
+                let week = data.weeks.placeholder;
+                delete data.weeks.placeholder;
 
-        next4Weeks.forEach((date)=>{
-            const dateString = date.startDate+"-"+date.endDate;
-            userData.result.weeks[dateString] = week;
-            workoutSchedule.exercises[dateString] = scheduleWeek;
+                let workoutSchedule = exercise;
+                let scheduleWeek = workoutSchedule.exercises.placeholder1;
+                delete workoutSchedule.exercises.placeholder1;
+
+                next4Weeks.forEach((date)=>{
+                    const dateString = date.startDate+"-"+date.endDate;
+                    data.weeks[dateString] = week;
+                    workoutSchedule.exercises[dateString] = scheduleWeek;
+                });
+
+                await updateFirestoreDocument("userdata", data.result);
+                await addData("exercises", getAuth().currentUser.uid, workoutSchedule);
+                await addData("caloriecounter", getAuth().currentUser.uid, {});
+                router.push("/Verification");
+            }
         });
 
-        await updateFirestoreDocument("userdata", userData.result);
-        await addData("exercises", getAuth().currentUser.uid, workoutSchedule);
-        await addData("caloriecounter", getAuth().currentUser.uid, {});
-        router.push("/Verification");
+        return () => {
+            unsubscribe();
+        };
     }
 
     const handleForm = async (event)=> {
