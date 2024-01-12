@@ -106,7 +106,7 @@ export default function SetComponentCollection() {
                             <h2 className="text-sm ms-[1rem]">{userdata.length ? time : "0"} Min.</h2>
                         </div>
                     </div>
-                    <div className={"w-full overflow-y-auto flex flex-col items-center my-2 sm:px-[10%]"}>
+                    <div className={"w-[80%] overflow-y-auto flex flex-col items-center my-2 sm:px-5 mx-10"}>
                         {(
                             userdata.map((data: any, index) => (
                                 <SetManager key={index}
