@@ -4,7 +4,7 @@ export default function mainComponent({children, style}: { children: React.React
     return (
 
         <main role="main"
-              className={"w-full flex-grow flex-shrink p-5 m-10 items-center my-5 bg-white bg-opacity-5 rounded-md flex-col flex bg-inherit "+style}>
+              className={"w-auto sm:w-full flex-grow  p-5 items-center m-5 bg-white bg-opacity-5 rounded-md flex-col flex bg-inherit "+style}>
             {children}
         </main>
     )

@@ -6,6 +6,7 @@ import React, {useState} from "react"
 import {getAuth} from "firebase/auth";
 import {ExpandLess} from "@mui/icons-material";
 import {ExpandMore} from "@mui/icons-material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export default function ExerciseManager(props: {
     data: any;
@@ -26,7 +27,7 @@ export default function ExerciseManager(props: {
 
     return (
         <>
-            <div className={"rounded-xl border-2 border-[#9a9d93] w-full bg-white dark:bg-neutral-700 " + style}>
+            <div className={"rounded-xl w-full my-3 dark:shadow-neutral-600 shadow-md bg-white dark:bg-white dark:bg-opacity-10 hover:bg-green-300 " + style}>
                 <div
                     className="w-full justify-center flex-col mx-auto flex px-4 pt-8 py-4">
                     <div className="flex w-fit flex-row min-h-fit">
@@ -46,7 +47,7 @@ export default function ExerciseManager(props: {
                             {
                                 moves!=0 ?
                                     <span className="me-3">x{moves}</span>
-                                :
+                                    :
                                     <></>
                             }
                             <span>Time: {time} Min.</span>
