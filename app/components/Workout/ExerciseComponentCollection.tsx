@@ -80,20 +80,22 @@ export default function ExerciseComponentCollection(setName:any) {
                             <span className="font-bold ms-4 w-full justify-center flex text-4xl">{setName.setName}</span>
                             <span className={"w-[20%]"}></span>
                         </div>
-                        <div className={"w-[80%] overflow-y-auto flex flex-col items-center my-2 sm:px-5 mx-10"}>
-                            {(
-                                userdata.map((data: any, index) => (
-                                    <ExerciseManager data={data}
-                                                     time={data[1].time}
-                                                     stars={data[1].stars}
-                                                     description={data[1].description}
-                                                     style={"m-0 p-0"}
-                                                     key={index}
-                                                     image={data[1].image}
-                                                     moves={data[1].moves}
-                                    />
-                                ))
-                            )}
+                        <div className={'w-[80%] my-2 mx-10 flex overflow-y-scroll'}>
+                            <div className={"w-full h-fit flex flex-col items-center rounded-2xl sm:px-1 z-50 dark:bg-white dark:bg-opacity-40"}>
+                                {(
+                                    userdata.map((data: any, index) => (
+                                        <ExerciseManager data={data}
+                                                         time={data[1].time}
+                                                         stars={data[1].stars}
+                                                         description={data[1].description}
+                                                         style={"m-0 p-0"}
+                                                         key={index}
+                                                         image={data[1].image}
+                                                         moves={data[1].moves}
+                                        />
+                                    ))
+                                )}
+                            </div>
                         </div>
                     </div>
                 </>

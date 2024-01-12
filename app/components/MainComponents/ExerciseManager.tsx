@@ -27,7 +27,7 @@ export default function ExerciseManager(props: {
 
     return (
         <>
-            <div className={"rounded-xl w-full my-3 dark:shadow-neutral-600 shadow-md bg-white dark:bg-white dark:bg-opacity-10 hover:bg-green-300 " + style}>
+            <div className={"rounded-xl w-full my-3 dark:shadow-neutral-600 shadow-md bg-dark dark:bg-black dark:bg-opacity-[40%] hover:bg-green-300" + style}>
                 <div
                     className="w-full justify-center flex-col mx-auto flex px-4 pt-8 py-4">
                     <div className="flex w-fit flex-row min-h-fit">
