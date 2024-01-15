@@ -106,19 +106,15 @@ export default function ModifySetComponentCollection() {
                                             data={data} link={`/modifying/${data[0]}`}
                                             time={getSetTime(data)}
                                             exerciseNum={data[1] ? Object.entries(data[1]).length : 0}
-                                            stars={getAverageDifficulty(data)}/>
+                                            stars={getAverageDifficulty(data)}
+                                            modify={true}/>
                             ))
                         )}
                     </div>
                     <div className={"mt-auto w-[80%] flex mb-20"}>
                         <button
-                            onClick={()=>{setEditMode(!editMode)}}
-                            className={"p-5 me-auto border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
-                            <CreateIcon/>
-                        </button>
-                        <button
                             onClick={openModal}
-                            className={"p-5 ms-auto border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
+                            className={"p-5 ms-auto rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
                             <AddIcon/>
                         </button>
                     </div>

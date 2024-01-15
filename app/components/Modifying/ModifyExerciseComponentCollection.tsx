@@ -5,9 +5,9 @@ import {getAuth, onAuthStateChanged} from "firebase/auth";
 import ExerciseManager from "@/components/MainComponents/ExerciseManager";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
-import {param} from "ts-interface-checker";
 import {useContextData} from "@/context/ContextData";
 import LoadingModule from "@/components/loadingModule";
+import {useRouter} from "next/navigation";
 
 export default function ModifyExerciseComponentCollection(setName: any) {
     const [user, setuser] = useState(() => {
@@ -22,6 +22,9 @@ export default function ModifyExerciseComponentCollection(setName: any) {
     const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
     const {day, week, setDay, setWeek} = useContextData();
+
+    const router = useRouter();
+
 
 
 // keeps `userdata` up to date
@@ -46,6 +49,8 @@ export default function ModifyExerciseComponentCollection(setName: any) {
                             setNumSets(exercisesData.numSets)
                         }
 
+                    }).catch(()=>{
+                        router.push("/modifying")
                     })
                 }
             });
@@ -58,7 +63,6 @@ export default function ModifyExerciseComponentCollection(setName: any) {
 
 
     }, [user, day, week]); // <-- rerun when user changes
-
 
     return (
         <>
@@ -106,7 +110,7 @@ export default function ModifyExerciseComponentCollection(setName: any) {
                     </div>
                 </>
             </Suspense>
-        </>
+            </>
     )
 }
 

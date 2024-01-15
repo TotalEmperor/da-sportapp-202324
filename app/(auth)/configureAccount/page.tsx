@@ -50,7 +50,7 @@ export default function Page() {
                     workoutSchedule.exercises[dateString] = scheduleWeek;
                 });
 
-                await updateFirestoreDocument("userdata", data.result);
+                await updateFirestoreDocument("userdata", data);
                 await addData("exercises", getAuth().currentUser.uid, workoutSchedule);
                 await addData("caloriecounter", getAuth().currentUser.uid, {});
                 router.push("/Verification");

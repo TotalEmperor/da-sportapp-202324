@@ -1,20 +1,32 @@
+"use client"
 import Starfilled from '@/icons/stars.png';
 import Image from "next/image";
 import Link from "next/link"
-import React from "react"
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import {getAuth} from "firebase/auth";
-
+import React, {useState} from "react"
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import ModifyDeleteModal from "@/components/Modifying/ModifyDeleteModal";
 
 export default function SetManager(props: {
     data: any;
     link: string;
     time: number;
     stars: number;
+    modify?: boolean;
     exerciseNum: number;
     style?: string;
 }) {
-    const {data, link, time, stars, exerciseNum, style} = props;
+    const {data, link, time, stars, modify, exerciseNum, style} = props;
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+
+    const openDeleteModal = (e)=>{
+        e.preventDefault();
+        setIsDeleteModalOpen(true);
+    }
+
+    const closeDeleteModal = ()=>{
+        setIsDeleteModalOpen(false);
+    }
 
     return (
         <>
@@ -30,11 +42,25 @@ export default function SetManager(props: {
                             </div>
                         ))}
                     </div>
-                    <div className="relative h-[2rem] mb-3">
-                        <Link href={link} className="absolute right-0" prefetch={true}>
-                            <VisibilityIcon className={"hover:text-blue-400"} sx={{fontSize: "2rem"}}/>
-                        </Link>
+                    <div className="flex justify-end items-end h-[2rem] mb-3 ">
+
+                    {
+                        modify?
+                            <>
+                                <button onClick={openDeleteModal}>
+                                    <DeleteIcon className={"hover:text-blue-400 me-2 text-red-600 rounded"} sx={{fontSize: "2rem"}}/>
+                                </button>
+                                    <Link href={link} prefetch={true}>
+                                        <EditRoundedIcon className={"hover:text-blue-400 icon rounded-full hover:bg-opacity-5 hover:bg-white text-lime-600"} sx={{fontSize: "2rem"}}/>
+                                    </Link>
+                                <ModifyDeleteModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal} targetName={data[0]}/>
+                            </>
+                            :
+                                <>
+                                </>
+                    }
                     </div>
+
                     <div className="text-[1rem] font-bold">
                         <span className="me-3">Time: {time} Min.</span>
                         <span>Exercises: {exerciseNum}</span>
