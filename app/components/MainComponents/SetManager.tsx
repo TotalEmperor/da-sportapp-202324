@@ -19,19 +19,19 @@ export default function SetManager(props: {
     const {data, link, time, stars, modify, exerciseNum, style} = props;
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
-    const openDeleteModal = (e)=>{
+    const openDeleteModal = (e) => {
         e.preventDefault();
         setIsDeleteModalOpen(true);
     }
 
-    const closeDeleteModal = ()=>{
+    const closeDeleteModal = () => {
         setIsDeleteModalOpen(false);
     }
 
     return (
         <>
             <Link href={link} prefetch={true}
-                  className={"rounded-xl w-full my-3 dark:shadow-neutral-600 shadow-md bg-white dark:bg-white dark:bg-opacity-10 hover:bg-green-300 " + style}>
+                  className={"z-10 rounded-xl w-full my-3 dark:shadow-neutral-600 shadow-md bg-white dark:bg-white dark:bg-opacity-10 hover:bg-green-300 " + style}>
                 <div
                     className="w-full justify-center flex-col mx-auto flex px-4 pt-8 py-4">
                     <div className="flex w-fit flex-row min-h-fit">
@@ -42,23 +42,26 @@ export default function SetManager(props: {
                             </div>
                         ))}
                     </div>
-                    <div className="flex justify-end items-end h-[2rem] mb-3 ">
+                    <div className="flex justify-end items-end h-[2rem] mb-3">
 
-                    {
-                        modify?
-                            <>
-                                <button onClick={openDeleteModal}>
-                                    <DeleteIcon className={"hover:text-blue-400 me-2 text-red-600 rounded"} sx={{fontSize: "2rem"}}/>
-                                </button>
-                                    <Link href={link} prefetch={true}>
-                                        <EditRoundedIcon className={"hover:text-blue-400 icon rounded-full hover:bg-opacity-5 hover:bg-white text-lime-600"} sx={{fontSize: "2rem"}}/>
+                        {
+                            modify ?
+                                <>
+                                    <button onClick={openDeleteModal}
+                                            className={'p-2 rounded-full dark:hover:bg-opacity-5 me-2 dark:hover:bg-white'}>
+                                        <DeleteIcon className={"z-10 hover:text-blue-400 text-red-600 rounded"}
+                                                    sx={{fontSize: "2rem"}}/>
+                                    </button>
+                                    <Link href={link} prefetch={true} className={'p-2 rounded-full dark:hover:bg-gray-500 me-2'}>
+                                        <EditRoundedIcon
+                                            className={"hover:text-blue-400 icon rounded-full text-lime-600"}
+                                            sx={{fontSize: "2rem"}}/>
                                     </Link>
-                                <ModifyDeleteModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal} targetName={data[0]}/>
-                            </>
-                            :
+                                </>
+                                :
                                 <>
                                 </>
-                    }
+                        }
                     </div>
 
                     <div className="text-[1rem] font-bold">
@@ -67,6 +70,8 @@ export default function SetManager(props: {
                     </div>
                 </div>
             </Link>
+            <ModifyDeleteModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal}
+                               targetName={data[0]}/>
         </>
     )
 }
