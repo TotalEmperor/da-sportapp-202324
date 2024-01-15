@@ -71,7 +71,7 @@ export default function SetManager(props: {
                 </div>
             </Link>
             <ModifyDeleteModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal}
-                               targetName={data[0]}/>
+                               setName={data[0]}/>
         </>
     )
 }

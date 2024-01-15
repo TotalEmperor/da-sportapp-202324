@@ -10,7 +10,7 @@ import {useContextData} from "@/context/ContextData";
 import updateFirestoreDocument from "@/firebase/firestore/updateData";
 
 
-export default function ModifyDeleteModal({isOpen, onClose, targetName}: { isOpen: boolean; onClose: () => void, targetName:string }) {
+export default function ModifyDeleteModal({isOpen, onClose, setName, exerciseName}: { isOpen: boolean; onClose: () => void, setName:string, exerciseName?:string }) {
     const router = useRouter();
     const { day, week, setDay, setWeek } = useContextData();
 
@@ -29,8 +29,17 @@ export default function ModifyDeleteModal({isOpen, onClose, targetName}: { isOpe
 
         const unsubscribe = getFirestoreDocument('exercises', getAuth().currentUser.uid, async (data) => {
             if (data) {
-                delete data.exercises[week][day][targetName]
+                if(exerciseName){
+                    if(Object.keys(data).length<=1){
+                        delete data.exercises[week][day][setName];
+                    }else {
+                        delete data.exercises[week][day][setName][exerciseName];
+                    }
+                }else {
+                    delete data.exercises[week][day][setName];
+                }
 
+                console.log(data)
                 await updateFirestoreDocument("exercises", data);
             }
         });
@@ -46,7 +55,7 @@ export default function ModifyDeleteModal({isOpen, onClose, targetName}: { isOpe
 
     return (
         <div
-            className="fixed z-10 inset-0 overflow-y-auto"
+            className="fixed z-20 inset-0 overflow-y-auto"
             id="delete-modal"
             aria-labelledby="modal-title"
             role="dialog"

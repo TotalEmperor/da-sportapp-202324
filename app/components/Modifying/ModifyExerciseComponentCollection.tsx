@@ -93,6 +93,8 @@ export default function ModifyExerciseComponentCollection(setName: any) {
                                                              style={"m-0 p-0"}
                                                              image={data[1].image}
                                                              moves={data[1].moves}
+                                                             setName={setName.setName}
+                                                             modify={true}
                                             />
 
                                             {
