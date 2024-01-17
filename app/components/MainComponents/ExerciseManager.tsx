@@ -43,7 +43,7 @@ export default function ExerciseManager(props: {
     return (
         <>
             <div
-                className={"rounded-xl w-full my-3 dark:shadow-neutral-600 shadow-md bg-dark dark:bg-black dark:bg-opacity-[40%] hover:bg-green-300" + style}>
+                className={"rounded-xl w-full dark:shadow-neutral-600 shadow-md bg-dark dark:bg-black dark:bg-opacity-[50%] hover:bg-green-300" + style}>
                 <div
                     className="w-full justify-center flex-col mx-auto flex px-4 pt-8 py-4">
                     <div className="flex w-fit flex-row min-h-fit">
@@ -68,7 +68,10 @@ export default function ExerciseManager(props: {
                                         <DeleteIcon className={"z-10 hover:text-blue-400 text-red-600 rounded"}
                                                     sx={{fontSize: "2rem"}}/>
                                     </button>
-                                    <Link href={"#"} prefetch={true} className={'p-2 rounded-full dark:hover:bg-gray-500 me-2'}>
+                                    <Link  href={{
+                                        pathname: '/modifying/editExercises',
+                                        query: { exerciseName:data[0]} // Add your search parameters here
+                                    }} prefetch={true} className={'p-2 rounded-full dark:hover:bg-gray-500 me-2'}>
                                         <EditRoundedIcon
                                             className={"hover:text-blue-400 icon rounded-full text-lime-600"}
                                             sx={{fontSize: "2rem"}}/>

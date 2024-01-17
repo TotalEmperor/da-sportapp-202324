@@ -52,7 +52,7 @@ export default function SetManager(props: {
                                         <DeleteIcon className={"z-10 hover:text-blue-400 text-red-600 rounded"}
                                                     sx={{fontSize: "2rem"}}/>
                                     </button>
-                                    <Link href={link} prefetch={true} className={'p-2 rounded-full dark:hover:bg-gray-500 me-2'}>
+                                    <Link href={"/modifying/editingSet"} prefetch={true} className={'p-2 rounded-full dark:hover:bg-gray-500 me-2'}>
                                         <EditRoundedIcon
                                             className={"hover:text-blue-400 icon rounded-full text-lime-600"}
                                             sx={{fontSize: "2rem"}}/>

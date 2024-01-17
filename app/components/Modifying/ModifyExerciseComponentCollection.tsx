@@ -69,7 +69,7 @@ export default function ModifyExerciseComponentCollection(setName: any) {
             <Suspense>
                 <>
                     <div className={"w-full overflow-y-scroll flex flex-col items-center my-2 px-3"}>
-                        <div className="flex w-full bg-gray-100 dark:bg-gray-700 rounded-2xl mb-4 p-3 items-center">
+                        <div className="flex w-full bg-gray-100 dark:bg-gray-700 rounded-xl mb-4 p-3 items-center">
                             <span className={"w-[20%]"}>
                                 <Link
                                     className="hover:bg-gray-200 rounded-full p-3 dark:hover:bg-gray-400"
@@ -81,11 +81,11 @@ export default function ModifyExerciseComponentCollection(setName: any) {
                                 className="font-bold ms-4 w-full justify-center flex text-4xl">{setName.setName}</span>
                             <span className={"w-[20%]"}></span>
                         </div>
-                        <div className="w-full md:w-[80%] bg-gray-200 dark:bg-gray-400 rounded-2xl">
-                            <Suspense fallback={<LoadingModule/>}>
+                        <div className={'w-[80%] my-2 mx-10 flex overflow-y-scroll'}>
+                            <div className={"w-full h-fit flex flex-col items-center justify-center p-[2px] rounded-xl z-50 dark:bg-gray-400 dark:bg-opacity-80"}>
                                 {(
                                     userdata.map((data: any, index) => (
-                                        <React.Fragment key={index}>
+                                        <>
                                             <ExerciseManager data={data}
                                                              time={data[1].time}
                                                              stars={data[1].stars}
@@ -96,7 +96,6 @@ export default function ModifyExerciseComponentCollection(setName: any) {
                                                              setName={setName.setName}
                                                              modify={true}
                                             />
-
                                             {
                                                 data[1].break != 0 ?
                                                     <span
@@ -104,10 +103,10 @@ export default function ModifyExerciseComponentCollection(setName: any) {
                                                     :
                                                     <></>
                                             }
-                                        </React.Fragment>
+                                        </>
                                     ))
                                 )}
-                            </Suspense>
+                            </div>
                         </div>
                     </div>
                 </>
