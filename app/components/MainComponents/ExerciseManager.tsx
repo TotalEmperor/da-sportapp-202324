@@ -75,7 +75,7 @@ export default function ExerciseManager(props: {
                                                 exerciseName: data[0],
                                             }
                                         }}
-                                          className={'p-2 rounded-full dark:hover:bg-gray-500 me-2'}>
+                                          className={'p-2 rounded-full dark:hover:bg-opacity-5 me-2 dark:hover:bg-white'}>
                                         <EditRoundedIcon
                                             className={"hover:text-blue-400 icon rounded-full text-lime-600"}
                                             sx={{fontSize: "2rem"}}/>
