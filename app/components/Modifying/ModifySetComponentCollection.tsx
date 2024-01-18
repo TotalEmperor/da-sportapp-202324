@@ -60,7 +60,7 @@ export default function ModifySetComponentCollection() {
                 setuserdata(data.exercises[week][day]);
                 let newExerciseKeys: string[]= [];
                 newExerciseKeys = newExerciseKeys.concat(Object.keys(data.exercises[week][day]));
-                newExerciseKeys.sort();
+                newExerciseKeys.sort((a, b) => a.localeCompare(b));
                 setExerciseSetKeys(newExerciseKeys);
                 getSets(data, day, week).then((exercisesData) => {
                     if (exercisesData) {
