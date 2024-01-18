@@ -17,8 +17,8 @@ export default function ExerciseManager(props: {
     stars: number;
     moves: number;
     description: string;
-    modify?:boolean;
-    setName?:string;
+    modify?: boolean;
+    setName?: string;
     image;
     style?: string;
 }) {
@@ -68,10 +68,14 @@ export default function ExerciseManager(props: {
                                         <DeleteIcon className={"z-10 hover:text-blue-400 text-red-600 rounded"}
                                                     sx={{fontSize: "2rem"}}/>
                                     </button>
-                                    <Link  href={{
-                                        pathname: '/modifying/editExercises',
-                                        query: { exerciseName:data[0]} // Add your search parameters here
-                                    }} prefetch={true} className={'p-2 rounded-full dark:hover:bg-gray-500 me-2'}>
+                                    <Link href={{
+                                            pathname: "/modifying/editExercise",
+                                            query: {
+                                                setName: setName,
+                                                exerciseName: data[0],
+                                            }
+                                        }}
+                                          className={'p-2 rounded-full dark:hover:bg-gray-500 me-2'}>
                                         <EditRoundedIcon
                                             className={"hover:text-blue-400 icon rounded-full text-lime-600"}
                                             sx={{fontSize: "2rem"}}/>
@@ -88,7 +92,7 @@ export default function ExerciseManager(props: {
                                     :
                                     <></>
                             }
-                            <span>Time: {time} Min.</span>
+                            <span>Time: {time<60? time+" sec." : Math.floor(time / 60) +":"+(time%60)+" Min."}</span>
                         </div>
                     </div>
                 </div>

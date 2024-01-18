@@ -1,12 +1,13 @@
 "use client"
 import getFirestoreDocument from "@/firebase/firestore/getData";
-import {useEffect, useState} from "react";
+import {Suspense, useEffect, useState} from "react";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import SetManager from "@/components/MainComponents/SetManager"
 import {useContextData} from "@/context/ContextData";
 import CreateIcon from '@mui/icons-material/Create';
 import AddIcon from '@mui/icons-material/Add';
 import AddControlModal from "@/components/Modifying/AddControlModal";
+import LoadingModule from "@/components/loadingModule";
 
 export default function ModifySetComponentCollection() {
     const [user, setuser] = useState(() => {
@@ -76,54 +77,62 @@ export default function ModifySetComponentCollection() {
 
     return (
         <>
+            {
+                userdata.length>0?
+                    <>
+                        <div
+                            className="flex flex-col text-4xl font-bold w-full dark:bg-transparent justify-center items-center rounded-2xl">
+                            <h1>{day}</h1>
+                            <div
+                                className="flex felx-row border-b-2 border-black dark:border-white justify-center items-center">
+                                <h2 className="text-sm me-[1rem]">{userdata.length ? userdata.length : "0"}x Sets</h2>
+                                <h1 className="text-xl font-bold">{userdata.length ? numSets : "0"}x. Exercises</h1>
+                                <h2 className="text-sm ms-[1rem]">{userdata.length ? time : "0"} Min.</h2>
+                            </div>
+                        </div>
+                        {userdata.length == 0 ?
+                            <div className={`w-[80%] h-full flex justify-center items-center relative`}>
+                                <div className={`dark:bg-neutral-500 hover:bg-neutral-200 opacity-20 rounded-xl z-10`}>
+                                    <button
+                                        onClick={openModal}
+                                        className={"w-[5vw] h-[5vw] flex items-center justify-center  z-[5]"}>
+                                        <AddIcon/>
+                                    </button>
+                                </div>
+                            </div>
+                            :
+                            <>
+                                <div
+                                    className={"w-[80%] overflow-y-auto flex flex-col items-center my-2 sm:px-5 mx-10"}>
+                                    {(
+                                        userdata.map((data: any, index) => (
+                                            <SetManager key={index}
+                                                        data={data} link={`/modifying/${data[0]}`}
+                                                        time={getSetTime(data)}
+                                                        exerciseNum={data[1] ? Object.entries(data[1]).length : 0}
+                                                        stars={getAverageDifficulty(data)}
+                                                        modify={true}/>
+                                        ))
+                                    )}
+                                </div>
+                                <div className={"mt-auto w-[80%] flex mb-20"}>
+                                    <button
+                                        onClick={openModal}
+                                        className={"p-5 ms-auto rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
+                                        <AddIcon/>
+                                    </button>
+                                </div>
+                            </>
+                        }
 
-            <div
-                className="flex flex-col text-4xl font-bold w-full dark:bg-transparent justify-center items-center rounded-2xl">
-                <h1>{day}</h1>
-                <div
-                    className="flex felx-row border-b-2 border-black dark:border-white justify-center items-center">
-                    <h2 className="text-sm me-[1rem]">{userdata.length ? userdata.length : "0"}x Sets</h2>
-                    <h1 className="text-xl font-bold">{userdata.length ? numSets : "0"}x. Exercises</h1>
-                    <h2 className="text-sm ms-[1rem]">{userdata.length ? time : "0"} Min.</h2>
-                </div>
-            </div>
-            {userdata.length == 0 ?
-                <div className={`w-[80%] h-full flex justify-center items-center relative`}>
-                    <div className={`dark:bg-neutral-500 hover:bg-neutral-200 opacity-20 rounded-xl z-10`}>
-                        <button
-                            onClick={openModal}
-                            className={"w-[5vw] h-[5vw] flex items-center justify-center  z-[5]"}>
-                            <AddIcon/>
-                        </button>
-                    </div>
-                </div>
-                :
-                <>
-                    <div className={"w-[80%] overflow-y-auto flex flex-col items-center my-2 sm:px-5 mx-10"}>
-                        {(
-                            userdata.map((data: any, index) => (
-                                <SetManager key={index}
-                                            data={data} link={`/modifying/${data[0]}`}
-                                            time={getSetTime(data)}
-                                            exerciseNum={data[1] ? Object.entries(data[1]).length : 0}
-                                            stars={getAverageDifficulty(data)}
-                                            modify={true}/>
-                            ))
-                        )}
-                    </div>
-                    <div className={"mt-auto w-[80%] flex mb-20"}>
-                        <button
-                            onClick={openModal}
-                            className={"p-5 ms-auto rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
-                            <AddIcon/>
-                        </button>
-                    </div>
-                </>
+
+                        <AddControlModal isOpen={isModalOpen} onClose={closeModal}/>
+                    </>
+                    :
+                    <LoadingModule/>
             }
-
-
-            <AddControlModal isOpen={isModalOpen} onClose={closeModal}/>
         </>
+
     )
 }
 

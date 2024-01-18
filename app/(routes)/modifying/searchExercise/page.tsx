@@ -2,17 +2,11 @@
 import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import StarRoundedIcon from "@mui/icons-material/StarRounded";
-import AddModal from "@/components/Modifying/AddingExerciseModal";
 import SetManager from "@/components/MainComponents/SetManager";
 import {getAuth} from "firebase/auth";
 import getFirestoreDocument from "@/firebase/firestore/getData";
-import {doc, getFirestore, onSnapshot} from "firebase/firestore";
-import firebase_app from "@/firebase/config";
 
-
-export default function SearchExercise() {
-
+export default function Page(){
     const [searchValue, setSearchValue] = useState<string>("");
     const [templateExercises, setTemplateExercises] = useState([]);
     const [selectedExercises, setSelectedExercises] = useState([]);
@@ -108,8 +102,7 @@ export default function SearchExercise() {
                                 placeholder="Search something.."/>
                         </div>
                     </div>
-
-                    <div className={`w-full px-[10%]`}>
+                    <div className={"w-[80%] overflow-y-auto flex flex-col items-center my-2 sm:px-5 mx-10"}>
                         {(
                             selectedExercises.map((data: any, index) => (
                                 <SetManager key={index}
@@ -134,25 +127,22 @@ const getSets = async (data: any) => {
     let time = 0;
 
 
-        for (const setName in data) {
-            const exerciseSet = data[setName];
-            exerciseNum += Object.entries(exerciseSet).length;
-            for (const exerciseName in exerciseSet) {
-                time += parseInt(exerciseSet[exerciseName].time);
-            }
+    for (const setName in data) {
+        const exerciseSet = data[setName];
+        exerciseNum += Object.entries(exerciseSet).length;
+        for (const exerciseName in exerciseSet) {
+            time += parseInt(exerciseSet[exerciseName].time);
         }
+    }
 
-        objArray = objArray.concat(Object.entries(data));
-
-
-
+    objArray = objArray.concat(Object.entries(data));
 
 
     return {objArray, exerciseNum, time};
 
 };
 
-const getSetTime =(data: any): number =>{
+const getSetTime = (data: any): number => {
     let setTime = 0;
 
     for (const exercise in data[1]) {
@@ -178,4 +168,3 @@ const getAverageDifficulty = (data:any):number =>{
 
     return totalStars / exerciseCount;
 }
-

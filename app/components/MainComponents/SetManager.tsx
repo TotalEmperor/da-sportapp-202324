@@ -6,6 +6,7 @@ import React, {useState} from "react"
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import ModifyDeleteModal from "@/components/Modifying/ModifyDeleteModal";
+import {useRouter} from "next/navigation";
 
 export default function SetManager(props: {
     data: any;
@@ -18,6 +19,7 @@ export default function SetManager(props: {
 }) {
     const {data, link, time, stars, modify, exerciseNum, style} = props;
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+    const router = useRouter();
 
     const openDeleteModal = (e) => {
         e.preventDefault();
@@ -30,8 +32,9 @@ export default function SetManager(props: {
 
     return (
         <>
-            <Link href={link} prefetch={true}
-                  className={"z-10 rounded-xl w-full my-3 dark:shadow-neutral-600 shadow-md bg-white dark:bg-white dark:bg-opacity-10 hover:bg-green-300 " + style}>
+            <div
+                onClick={(e)=>{e.preventDefault(); router.push(link)}}
+                className={"z-10 rounded-xl w-full my-3 dark:shadow-neutral-600 shadow-md hover:cursor-pointer bg-white dark:bg-white dark:bg-opacity-10 hover:bg-green-300 " + style}>
                 <div
                     className="w-full justify-center flex-col mx-auto flex px-4 pt-8 py-4">
                     <div className="flex w-fit flex-row min-h-fit">
@@ -52,11 +55,11 @@ export default function SetManager(props: {
                                         <DeleteIcon className={"z-10 hover:text-blue-400 text-red-600 rounded"}
                                                     sx={{fontSize: "2rem"}}/>
                                     </button>
-                                    <Link href={"/modifying/editingSet"} prefetch={true} className={'p-2 rounded-full dark:hover:bg-gray-500 me-2'}>
+                                    <button onClick={(e)=>{e.stopPropagation(); router.push(`/modifying/editSet/${data[0]}`)}} className={'p-2 rounded-full dark:hover:bg-gray-500 me-2'}>
                                         <EditRoundedIcon
                                             className={"hover:text-blue-400 icon rounded-full text-lime-600"}
                                             sx={{fontSize: "2rem"}}/>
-                                    </Link>
+                                    </button>
                                 </>
                                 :
                                 <>
@@ -69,7 +72,7 @@ export default function SetManager(props: {
                         <span>Exercises: {exerciseNum}</span>
                     </div>
                 </div>
-            </Link>
+            </div>
             <ModifyDeleteModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal}
                                setName={data[0]}/>
         </>

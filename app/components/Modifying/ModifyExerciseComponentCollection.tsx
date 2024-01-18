@@ -26,7 +26,6 @@ export default function ModifyExerciseComponentCollection(setName: any) {
     const router = useRouter();
 
 
-
 // keeps `userdata` up to date
 
     useEffect(() => {
@@ -39,7 +38,7 @@ export default function ModifyExerciseComponentCollection(setName: any) {
         if (!user) {
             // user still loading, do nothing yet
             return;
-        }else {
+        } else {
             const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
                 if (data) {
                     getExercises(data, setName.setName, day, week).then((exercisesData) => {
@@ -49,7 +48,7 @@ export default function ModifyExerciseComponentCollection(setName: any) {
                             setNumSets(exercisesData.numSets)
                         }
 
-                    }).catch(()=>{
+                    }).catch(() => {
                         router.push("/modifying")
                     })
                 }
@@ -82,28 +81,30 @@ export default function ModifyExerciseComponentCollection(setName: any) {
                             <span className={"w-[20%]"}></span>
                         </div>
                         <div className={'w-[80%] my-2 mx-10 flex overflow-y-scroll'}>
-                            <div className={"w-full h-fit flex flex-col items-center justify-center p-[2px] rounded-xl z-50 dark:bg-gray-400 dark:bg-opacity-80"}>
+                            <div
+                                className={"w-full h-fit flex flex-col items-center justify-center p-[2px] rounded-xl z-50 dark:bg-gray-400 dark:bg-opacity-80"}>
                                 {(
                                     userdata.map((data: any, index) => (
-                                        <>
-                                            <ExerciseManager data={data}
-                                                             time={data[1].time}
-                                                             stars={data[1].stars}
-                                                             description={data[1].description}
-                                                             style={"m-0 p-0"}
-                                                             image={data[1].image}
-                                                             moves={data[1].moves}
-                                                             setName={setName.setName}
-                                                             modify={true}
+                                        <div key={index} className={"sm:w-[-webkit-fill-available]"}>
+                                            <ExerciseManager
+                                                data={data}
+                                                time={data[1].time}
+                                                stars={data[1].stars}
+                                                description={data[1].description}
+                                                style={"m-0 p-0"}
+                                                image={data[1].image}
+                                                moves={data[1].moves}
+                                                setName={setName.setName}
+                                                modify={true}
                                             />
                                             {
-                                                data[1].break != 0 ?
+                                                data[1].breakTime != 0 ?
                                                     <span
-                                                        className={"flex items-center rounded-2xl justify-center dark:text-black text-2xl font-bold h-20"}>{data[1].break} Sec. Break</span>
+                                                        className={"flex items-center rounded-2xl justify-center dark:text-black text-2xl font-bold h-20"}>{data[1].breakTime} Sec. Break</span>
                                                     :
                                                     <></>
                                             }
-                                        </>
+                                        </div>
                                     ))
                                 )}
                             </div>
@@ -111,7 +112,7 @@ export default function ModifyExerciseComponentCollection(setName: any) {
                     </div>
                 </>
             </Suspense>
-            </>
+        </>
     )
 }
 

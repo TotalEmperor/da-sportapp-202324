@@ -6,7 +6,7 @@ import BorderContainer from "@/components/Authentication/borderContainer";
 import createUser from "@/firebase/auth/createUser";
 import {useRouter} from "next/navigation";
 import {getAuth} from "firebase/auth";
-import emptySchedule from "@/scheduleTemplates/emptySchedule.json"
+import emptySchedule from "@/templates/emptySchedule.json"
 import * as fs from 'fs';
 import addData from "@/firebase/firestore/addData";
 import Head from "next/head";

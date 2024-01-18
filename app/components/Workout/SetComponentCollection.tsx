@@ -23,7 +23,7 @@ export default function SetComponentCollection() {
     const [userdata, setuserdata] = useState([]);
     const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
-    const { day, week, setDay, setWeek } = useContextData();
+    const {day, week, setDay, setWeek} = useContextData();
 
     useEffect(() => {
         if (sessionStorage.getItem("day")) {
@@ -74,45 +74,46 @@ export default function SetComponentCollection() {
 
     return (
         <>
-            {userdata==null ?
+            {userdata.length>0 ?
                 <>
-                    <LoadingModule/>
+                    <>
+                        <div
+                            className="flex flex-col text-4xl font-bold w-full bg-gray-100 dark:bg-transparent justify-center items-center">
+                            <h1>{day}</h1>
+                            <div
+                                className="flex felx-row border-b-2 border-black dark:border-white justify-center items-center">
+                                <h2 className="text-sm me-[1rem]">{userdata.length ? userdata.length : "0"}x Sets</h2>
+                                <h1 className="text-xl font-bold">{userdata.length ? numSets : "0"}x. Exercises</h1>
+                                <h2 className="text-sm ms-[1rem]">{userdata.length ? time : "0"} Min.</h2>
+                            </div>
+                        </div>
+                        <div className={"w-[80%] overflow-y-auto flex flex-col items-center my-2 sm:px-5 mx-10"}>
+                            {(
+                                userdata.map((data: any, index) => (
+                                    <SetManager key={index}
+                                                data={data} link={`/workout/${data[0]}`}
+                                                time={getSetTime(data)}
+                                                exerciseNum={data[1] ? Object.entries(data[1]).length : 0}
+                                                stars={getAverageDifficulty(data)}/>
+                                ))
+                            )}
+                        </div>
+                        <div className={"mt-auto w-[80%] flex"}>
+                            <Link href="/modifying" prefetch={true}
+                                  className={"p-5 mb-20 ms-auto border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
+                                <EditCalendarIcon/>
+                            </Link>
+                        </div>
+                    </>
                 </>
                 :
-                <>
-                    <div
-                        className="flex flex-col text-4xl font-bold w-full bg-gray-100 dark:bg-transparent justify-center items-center">
-                        <h1>{day}</h1>
-                        <div className="flex felx-row border-b-2 border-black dark:border-white justify-center items-center">
-                            <h2 className="text-sm me-[1rem]">{userdata.length ? userdata.length : "0"}x Sets</h2>
-                            <h1 className="text-xl font-bold">{userdata.length ? numSets : "0"}x. Exercises</h1>
-                            <h2 className="text-sm ms-[1rem]">{userdata.length ? time : "0"} Min.</h2>
-                        </div>
-                    </div>
-                    <div className={"w-[80%] overflow-y-auto flex flex-col items-center my-2 sm:px-5 mx-10"}>
-                        {(
-                            userdata.map((data: any, index) => (
-                                <SetManager key={index}
-                                            data={data} link={`/workout/${data[0]}`}
-                                            time={getSetTime(data)}
-                                            exerciseNum={data[1] ? Object.entries(data[1]).length : 0}
-                                            stars={getAverageDifficulty(data)}/>
-                            ))
-                        )}
-                    </div>
-                    <div className={"mt-auto w-[80%] flex"}>
-                        <Link href="/modifying" prefetch={true}
-                              className={"p-5 mb-20 ms-auto border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
-                            <EditCalendarIcon/>
-                        </Link>
-                    </div>
-                </>
+                <LoadingModule/>
             }
         </>
     )
 }
 
-const getSets = async (data: any, day:string, week:string) => {
+const getSets = async (data: any, day: string, week: string) => {
 
     let objArray: any[] = [];
     let exerciseNum = 0;
@@ -137,7 +138,7 @@ const getSets = async (data: any, day:string, week:string) => {
 
 };
 
-const getSetTime =(data: any): number =>{
+const getSetTime = (data: any): number => {
     let setTime = 0;
 
     for (const exercise in data[1]) {
@@ -147,7 +148,7 @@ const getSetTime =(data: any): number =>{
 
 }
 
-const getAverageDifficulty = (data:any):number =>{
+const getAverageDifficulty = (data: any): number => {
 
     let totalStars = 0;
     let exerciseCount = 0;

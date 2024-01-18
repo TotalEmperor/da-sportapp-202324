@@ -13,7 +13,8 @@ import {getStorage, ref, listAll, getDownloadURL} from "firebase/storage";
 import Image from "next/image";
 import ImageSelectModal from "@/components/Modifying/ImageSelectModal";
 
-export default function CreateExercise() {
+export default function Page(){
+
     const [user, setuser] = useState(() => {
         // if a user is already logged in, use the current user object, or `undefined` otherwise.
         try {
@@ -33,7 +34,7 @@ export default function CreateExercise() {
     const [timer, setTimer] = useState<number>(0);
     const [breakTime, setBreakTime] = useState<number>(0);
     const [selectedImage, setSelectedImage] = useState("");
-    const [images, setImages] = useState([]);
+    const [images, setImages] = useState<{imageURL:string, imageName: string}[]>([]);
     const [userdata, setUserdata] = useState([]);
     const [exerciseData, setExerciseData] = useState([]);
 
@@ -107,7 +108,7 @@ export default function CreateExercise() {
             .then((res) => {
                 res.items.forEach((itemRef) => {
                     getDownloadURL(itemRef).then((imageURL:string)=>{
-                        const imageData = [imageURL, itemRef.name];
+                        const imageData = {imageURL: imageURL, imageName: itemRef.name};
                         images.push(imageData)
                     });
                 });
@@ -167,12 +168,12 @@ export default function CreateExercise() {
         let schedule = userdata["exercises"][week][day];
 
         schedule[setName][exerciseName] = {
-                "image": selectedImage,
-                "moves": rep, // Replace with the actual number of moves
-                "description": description,
-                "time": timer, // Replace with the actual time
-                "stars": difficulty+1, // Replace with the actual stars rating
-                "breakTime": breakTime // Replace with the actual break time
+            "image": selectedImage,
+            "moves": rep, // Replace with the actual number of moves
+            "description": description,
+            "time": timer, // Replace with the actual time
+            "stars": difficulty+1, // Replace with the actual stars rating
+            "breakTime": breakTime // Replace with the actual break time
 
         };
 
