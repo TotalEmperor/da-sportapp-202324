@@ -29,6 +29,12 @@ export default function PersonalInformation() {
             if (data) {
                 console.log(data)
                 setUserdata(data);
+                setFirstName(data.personaldata.firstName);
+                setLastName(data.personaldata.lastName);
+                setWeight(data.personaldata.weight);
+                setHeight(data.personaldata.height);
+                setWeightUnit(data.settingsdata.weightUnit);
+                setHeightUnit(data.settingsdata.heightUnit);
                 setEmail(getAuth().currentUser.email);
             }
         });
@@ -38,36 +44,6 @@ export default function PersonalInformation() {
         };
 
     }, [user]);
-
-
-    useEffect(() => {
-
-    }, [user]);
-
-    useEffect(() => {
-        if(heightUnit=="CM"){
-            setHeight(height/0.0328);
-        }else {
-            setHeight(height*0.0328);
-        }
-    }, [heightUnit]);
-
-    useEffect(() => {
-        if(weightUnit=="KG"){
-            setWeight(weight/2.2);
-        }else {
-            setWeight(weight*2.2);
-        }
-    }, [weightUnit]);
-
-
-    useEffect(() => {
-        if (firstName !== "" || lastName !== "" || email !== "" || birthday !== "" || height !== 0 || weight !== 0 || heightUnit !== "" || weightUnit !== "") {
-            setIsFormValid(true);
-        } else {
-            setIsFormValid(false);
-        }
-    }, [firstName, lastName, email, birthday, height, weight, heightUnit, weightUnit]);
 
     const handleForm = async (event) => {
         event.preventDefault();
@@ -84,6 +60,26 @@ export default function PersonalInformation() {
 
     }
 
+    const changeHeightUnit = (newHeightUnit: string) =>{
+        if(newHeightUnit=="CM" && newHeightUnit!=heightUnit){
+            setHeight(height / 0.0328);
+        }else if(newHeightUnit!=heightUnit){
+            setHeight(height * 0.0328);
+        }
+
+        setHeightUnit(newHeightUnit);
+    }
+
+    const changeWeightUnit = (newWeightUnit:string)=>{
+        if (newWeightUnit == "KG" && newWeightUnit!=weightUnit) {
+            setWeight(weight / 2.2);
+        } else if(newWeightUnit!=weightUnit){
+            setWeight(weight * 2.2);
+        }
+
+        setWeightUnit(newWeightUnit);
+    }
+
 
     return (
         <div className="w-full flex-grow flex-shrink pt-1 flex-col flex px-3 dark:text-white text-neutral-800">
@@ -95,7 +91,7 @@ export default function PersonalInformation() {
                 </Link>
                 <span className="font-bold text-xl ms-4">Personal Information</span>
             </div>
-            <form className={"flex flex-col group px-10"} noValidate onSubmit={handleForm}>
+            <form className={"flex flex-col group px-10"}>
                 <div className="flex w-full flex-col border-b-2 border-gray-300 mt-[1.5rem] pb-[1.5rem]">
                     <h1 className="font-bold text-2xl">Information</h1>
                     <div className="flex flex-row mb-5">
@@ -106,10 +102,10 @@ export default function PersonalInformation() {
                                     type="text"
                                     name="firstName"
                                     id="firstName"
-                                    pattern="^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
                                     className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
-                                    placeholder={userData.personaldata.firstName}
+                                    value={firstName}
                                     onChange={(e) => setFirstName(e.target.value)}
+                                    required
                                 />
                                 <span
                                     className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
@@ -122,10 +118,10 @@ export default function PersonalInformation() {
                                     type="text"
                                     name="lastName"
                                     id="lastName"
-                                    pattern="^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
                                     className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
-                                    placeholder={userData.personaldata.lastName}
+                                    value={lastName}
                                     onChange={(e) => setLastName(e.target.value)}
+                                    required
                                 />
                                 <span
                                     className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
@@ -142,11 +138,12 @@ export default function PersonalInformation() {
                             name="email"
                             id="email"
                             className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
-                            placeholder={email}
-                            pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
+                            value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            required
                         />
-                        <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                        <span
+                            className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                             Please enter a valid email address
                         </span>
                     </label>
@@ -154,7 +151,7 @@ export default function PersonalInformation() {
                     <label htmlFor="birthday" className="mb-5 sm:w-fit flex flex-col">
                         <span>Birthday</span>
                         <input type="text"
-                               placeholder={dateFormat(userData.personaldata.birthday)}
+                               value={dateFormat(birthday)}
                                className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                                onChange={(e) => setBirthday(e.target.value)}
                                onBlur={(e) => {
@@ -166,7 +163,7 @@ export default function PersonalInformation() {
                                onFocus={(e) => {
                                    e.target.type = "date"
                                }}
-
+                               required
                         />
                     </label>
                 </div>
@@ -183,13 +180,14 @@ export default function PersonalInformation() {
                                        id={"heightInput"}
                                        min={heightUnit == "CM" ? 121 : 3.96982}
                                        max={heightUnit == "CM" ? 219 : 7.18504}
-                                       placeholder={userData.personaldata.height.toString()}
+                                       value={height}
                                        className="bg-inherit p-3 outline-none w-[5vw]"
+                                       required
                                        onChange={(e) => setHeight(e.target.valueAsNumber)}>
                                 </input>
                                 <select
                                     className="border-s-2 border-black dark:border-neutral-400 p-2 bg-inherit min-w-fit w-[15%] text-md text-center outline-0 appearance-none"
-                                    onChange={(e) => setHeightUnit(e.target.value)} placeholder={userData.settingsdata.heightUnit}>
+                                    onChange={(e) => changeHeightUnit(e.target.value)} value={heightUnit}>
                                     <option value="CM">cm</option>
                                     <option value="FEET">feet</option>
                                 </select>
@@ -200,18 +198,18 @@ export default function PersonalInformation() {
                             <span>Weight</span>
                             <div
                                 className="flex flex-row w-full dark:bg-neutral-800 shadow mt-2 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
-                            <input type="number"
-                                   id={"weightInput"}
+                                <input type="number"
+                                       id={"weightInput"}
                                        min={weightUnit == "KG" ? 30 : 66.1387}
                                        max={weightUnit == "KG" ? 250 : 551.156}
-                                       placeholder={userData.personaldata.weight.toString()}
+                                       value={weight}
                                        className="bg-inherit p-3 outline-none w-[5vw]"
-                                       value={weight? weight : null}
-                                       onChange={(e) => setWeight(e.target.valueAsNumber)}>
+                                       onChange={(e) => setWeight(e.target.valueAsNumber)}
+                                       required>
                                 </input>
                                 <select
                                     className="border-s-2 border-black dark:border-neutral-400 p-2 bg-inherit min-w-fit w-[15%] text-md text-center outline-0 appearance-none"
-                                    onChange={(e) => setWeightUnit(e.target.value)} placeholder={userData.settingsdata.weightUnit}>
+                                    onChange={(e) => changeWeightUnit(e.target.value)} value={weightUnit}>
                                     <option value="KG">kg</option>
                                     <option value="POUND">pounds</option>
                                 </select>
@@ -221,9 +219,9 @@ export default function PersonalInformation() {
                     </div>
                 </div>
 
-                <button type="submit" onClick={handleForm}
-                        className="mt-5 bg-blue-500 py-3 w-fit hover:bg-blue-300 px-2 rounded-md text-white group-invalid:pointer-events-none group-invalid::opacity-50"
-                        disabled={!isFormValid}>
+                <button type="submit"
+                        onClick={handleForm}
+                        className="mt-5 bg-blue-500 py-3 w-fit hover:bg-blue-300 px-2 rounded-md text-white group-invalid::opacity-50">
                     Save Changes
                 </button>
             </form>

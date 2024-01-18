@@ -10,6 +10,7 @@ import {usePathname, useRouter, useSearchParams} from "next/navigation";
 
 export default function SetManager(props: {
     data: any;
+    setName: string;
     link: string;
     time: number;
     stars: number;
@@ -17,7 +18,7 @@ export default function SetManager(props: {
     exerciseNum: number;
     style?: string;
 }) {
-    const {data, link, time, stars, modify, exerciseNum, style} = props;
+    const {data, setName, link, time, stars, modify, exerciseNum, style} = props;
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
     const [selectedSet, setSelectedSet] = useState<string>("");
     const router = useRouter();
@@ -48,11 +49,11 @@ export default function SetManager(props: {
                     e.preventDefault();
                     router.push(link)
                 }}
-                className={`z-10 rounded-xl w-full my-3 hover:bg-green-300 dark:hover:bg-opacity-20 dark:shadow-neutral-600 shadow-md hover:cursor-pointer dark:bg-white ${selectedSet == data[0] ? "dark:bg-opacity-30" : " dark:bg-white dark:bg-opacity-10"} ` + style}>
+                className={`z-10 rounded-xl w-full my-3 hover:bg-green-300 dark:hover:bg-opacity-20 dark:shadow-neutral-600 shadow-md hover:cursor-pointer dark:bg-white ${selectedSet == setName ? "dark:bg-opacity-30" : " dark:bg-white dark:bg-opacity-10"} ` + style}>
                 <div
                     className="w-full justify-center flex-col mx-auto flex px-4 pt-8 py-4">
                     <div className="flex w-fit flex-row min-h-fit">
-                        <span className="left-auto text-[1.8rem] font-bold me-6">{data[0]}</span>
+                        <span className="left-auto text-[1.8rem] font-bold me-6">{setName}</span>
                         {Array.from({length: stars}, (_, i) => (
                             <div key={i} className="flex flex-col pe-2 justify-center">
                                 <Image src={Starfilled} className="w-[2rem]" alt="starFilled"/>
@@ -71,7 +72,7 @@ export default function SetManager(props: {
                                     </button>
                                     <button onClick={(e) => {
                                         e.stopPropagation();
-                                        router.push(`/modifying/editSet/${data[0]}`)
+                                        router.push(`/modifying/editSet/${setName}`)
                                     }} className={'p-2 rounded-full dark:hover:bg-opacity-5 me-2 dark:hover:bg-white'}>
                                         <EditRoundedIcon
                                             className={"hover:text-blue-400 icon rounded-full text-lime-600"}
@@ -91,7 +92,7 @@ export default function SetManager(props: {
                 </div>
             </div>
             <ModifyDeleteModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal}
-                               setName={data[0]}/>
+                               setName={data}/>
         </>
     )
 }

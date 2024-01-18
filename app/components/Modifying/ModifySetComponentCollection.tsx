@@ -8,6 +8,7 @@ import CreateIcon from '@mui/icons-material/Create';
 import AddIcon from '@mui/icons-material/Add';
 import AddControlModal from "@/components/Modifying/AddControlModal";
 import LoadingModule from "@/components/loadingModule";
+import {usePathname, useSearchParams} from "next/navigation";
 
 export default function ModifySetComponentCollection() {
     const [user, setuser] = useState(() => {
@@ -21,8 +22,10 @@ export default function ModifySetComponentCollection() {
     const [userdata, setuserdata] = useState([]);
     const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
-    const [editMode, setEditMode] = useState<boolean>(false);
-    const {day, week, setDay, setWeek} = useContextData()
+    const [exerciseSetKeys, setExerciseSetKeys] = useState<string[]>([]);
+    const {day, week, setDay, setWeek} = useContextData();
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
 
     useEffect(() => {
         if (sessionStorage.getItem("day")) {
@@ -52,15 +55,15 @@ export default function ModifySetComponentCollection() {
             return;
         }
 
-        if (!user) {
-            // user still loading, do nothing yet
-            return;
-        }
         const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
             if (data) {
+                setuserdata(data.exercises[week][day]);
+                let newExerciseKeys: string[]= [];
+                newExerciseKeys = newExerciseKeys.concat(Object.keys(data.exercises[week][day]));
+                newExerciseKeys.sort();
+                setExerciseSetKeys(newExerciseKeys);
                 getSets(data, day, week).then((exercisesData) => {
                     if (exercisesData) {
-                        setuserdata(exercisesData.objArray);
                         setTime(exercisesData.time)
                         setNumSets(exercisesData.exerciseNum)
                     }else {
@@ -68,6 +71,8 @@ export default function ModifySetComponentCollection() {
                     }
 
                 })
+            }else {
+                setExerciseSetKeys(null)
             }
         });
 
@@ -76,6 +81,32 @@ export default function ModifySetComponentCollection() {
         };
 
     }, [user, day, week]); // <-- rerun when user changes
+
+    useEffect(() => {
+        if (searchParams.get("setName")) {
+            sortSets(searchParams.get("setName"));
+        } else {
+            sortSets(pathname.substring(pathname.lastIndexOf("/") + 1))
+        }
+
+    }, [pathname, searchParams]);
+
+    const sortSets = async (selectedSet: string) => {
+        if(exerciseSetKeys.includes(selectedSet)){
+            let sortedKeys :string[] = [];
+            let keys = exerciseSetKeys;
+
+            sortedKeys.push(selectedSet);
+            keys.splice(keys.indexOf(selectedSet), 1);
+            keys.sort((a, b) => a.localeCompare(b)); // Sort the remaining names in the array
+
+            let finalArray: string[] = [selectedSet].concat(keys); // Concatenate the selected name with the sorted array of the remaining names
+
+            if(finalArray){
+                setExerciseSetKeys(finalArray)
+            }
+        }
+    }
 
     return (
         <>
@@ -87,14 +118,14 @@ export default function ModifySetComponentCollection() {
                             <h1>{day}</h1>
                             <div
                                 className="flex felx-row border-b-2 border-black dark:border-white justify-center items-center">
-                                <h2 className="text-sm me-[1rem]">{userdata.length ? userdata.length : "0"}x Sets</h2>
-                                <h1 className="text-xl font-bold">{userdata.length ? numSets : "0"}x. Exercises</h1>
-                                <h2 className="text-sm ms-[1rem]">{userdata.length ? time : "0"} Min.</h2>
+                                <h2 className="text-sm me-[1rem]">{exerciseSetKeys.length ? exerciseSetKeys.length : "0"}x Sets</h2>
+                                <h1 className="text-xl font-bold">{exerciseSetKeys.length ? numSets : "0"}x. Exercises</h1>
+                                <h2 className="text-sm ms-[1rem]">{exerciseSetKeys.length ? time : "0"} Min.</h2>
                             </div>
                         </div>
-                        {userdata.length == 0 ?
+                        {exerciseSetKeys.length == 0 ?
                             <div className={`w-[80%] h-full flex justify-center items-center relative`}>
-                                <div className={`dark:bg-neutral-500 hover:bg-neutral-200 opacity-20 rounded-xl z-10`}>
+                                <div className={`dark:bg-neutral-500 hover:bg-neutral-200 opacity-20 hover:dark:brightness-150 rounded-xl z-10`}>
                                     <button
                                         onClick={openModal}
                                         className={"w-[5vw] h-[5vw] flex items-center justify-center  z-[5]"}>
@@ -107,12 +138,13 @@ export default function ModifySetComponentCollection() {
                                 <div
                                     className={"w-[80%] overflow-y-auto flex flex-col items-center my-2 sm:px-5 mx-10"}>
                                     {(
-                                        userdata.map((data: any, index) => (
+                                        exerciseSetKeys.map((key: any, index) => (
                                             <SetManager key={index}
-                                                        data={data} link={`/modifying/${data[0]}`}
-                                                        time={getSetTime(data)}
-                                                        exerciseNum={data[1] ? Object.entries(data[1]).length : 0}
-                                                        stars={getAverageDifficulty(data)}
+                                                        setName={key}
+                                                        data={userdata[key]} link={`/modifying/${key}`}
+                                                        time={getSetTime(userdata[key])}
+                                                        exerciseNum={userdata[key] ? Object.entries(userdata[key]).length : 0}
+                                                        stars={getAverageDifficulty(userdata[key])}
                                                         modify={true}/>
                                         ))
                                     )}
@@ -166,8 +198,8 @@ const getSets = async (data: any, day: string, week: string) => {
 const getSetTime = (data: any): number => {
     let setTime = 0;
 
-    for (const exercise in data[1]) {
-        setTime += parseInt(data[1][exercise].time);
+    for (const exercise in data) {
+        setTime += parseInt(data[exercise].time);
     }
     return setTime;
 
@@ -178,8 +210,8 @@ const getAverageDifficulty = (data: any): number => {
     let totalStars = 0;
     let exerciseCount = 0;
 
-    for (const exercise in data[1]) {
-        totalStars += parseInt(data[1][exercise].stars);
+    for (const exercise in data) {
+        totalStars += parseInt(data[exercise].stars);
         exerciseCount++;
     }
 

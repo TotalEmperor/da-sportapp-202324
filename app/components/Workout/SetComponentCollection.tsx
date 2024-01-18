@@ -3,12 +3,11 @@ import getFirestoreDocument from "@/firebase/firestore/getData";
 import {useEffect, useState} from "react";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import SetManager from "@/components/MainComponents/SetManager"
-import {usePathname, useRouter, useSearchParams} from "next/navigation";
+import {usePathname, useSearchParams} from "next/navigation";
 import addData from "@/firebase/firestore/addData";
 import {useContextData} from "@/context/ContextData";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 import Link from "next/link";
-import AddIcon from "@mui/icons-material/Add";
 import LoadingModule from "@/components/loadingModule";
 
 export default function SetComponentCollection() {
@@ -21,9 +20,9 @@ export default function SetComponentCollection() {
         }
     });
     const [userdata, setuserdata] = useState([]);
+    const [exerciseSetKeys, setExerciseSetKeys] = useState<string[]>([]);
     const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
-    const [selectedSet, setSelectedSet] = useState<string>("");
     const {day, week, setDay, setWeek} = useContextData();
     const searchParams = useSearchParams();
     const pathname = usePathname();
@@ -39,9 +38,6 @@ export default function SetComponentCollection() {
         }
     }, []);
 
-
-// keeps `userdata` up to date
-
     useEffect(() => {
         if (user === null) {
             setuserdata(null); // <-- clear data when not logged in
@@ -49,23 +45,24 @@ export default function SetComponentCollection() {
             return;
         }
 
-        if (!user) {
-            // user still loading, do nothing yet
-            return;
-        }
-
         const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
             if (data) {
+                setuserdata(data.exercises[week][day]);
+                let newExerciseKeys: string[]= [];
+                newExerciseKeys = newExerciseKeys.concat(Object.keys(data.exercises[week][day]));
+                newExerciseKeys.sort((a, b) => a.localeCompare(b));
+                setExerciseSetKeys(newExerciseKeys);
                 getSets(data, day, week).then((exercisesData) => {
                     if (exercisesData) {
-                        setuserdata(exercisesData.objArray);
                         setTime(exercisesData.time)
                         setNumSets(exercisesData.exerciseNum)
+                    }else {
+                        setuserdata(null);
                     }
 
                 })
-            } else {
-                setuserdata(null);
+            }else {
+                setExerciseSetKeys(null)
             }
         });
 
@@ -77,34 +74,29 @@ export default function SetComponentCollection() {
 
     useEffect(() => {
         if (searchParams.get("setName")) {
-            setSelectedSet(searchParams.get("setName"));
+            sortSets(searchParams.get("setName"));
         } else {
-            setSelectedSet(pathname.substring(pathname.lastIndexOf("/") + 1));
+            sortSets(pathname.substring(pathname.lastIndexOf("/") + 1))
         }
 
-        sortSets()
+        }, [pathname, searchParams]);
 
-    }, [pathname]);
+    const sortSets = async (selectedSet: string) => {
+        if(exerciseSetKeys.includes(selectedSet)){
+            let sortedKeys :string[] = [];
+            let keys = exerciseSetKeys;
 
-    const sortSets = async () => {
-        const setKeys = Object.keys(userdata[1])
-        console.log(userdata)
-        let sortedKeys = [];
-        sortedKeys.push(selectedSet);
+            sortedKeys.push(selectedSet);
+            keys.splice(keys.indexOf(selectedSet), 1);
+            keys.sort((a, b) => a.localeCompare(b)); // Sort the remaining names in the array
 
-        let sortedSetKeys = setKeys.slice(1).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+            let finalArray: string[] = [selectedSet].concat(keys); // Concatenate the selected name with the sorted array of the remaining names
 
-        console.log("Sort; "+sortedSetKeys)
-        sortedKeys.push(sortedSetKeys);
-
-        let sortedSets = [];
-        console.log("SortedSets: "+sortedKeys)
+            if(finalArray){
+                setExerciseSetKeys(finalArray)
+            }
+        }
     }
-
-
-
-
-
 
     return (
         <>
@@ -116,19 +108,20 @@ export default function SetComponentCollection() {
                             <h1>{day}</h1>
                             <div
                                 className="flex felx-row border-b-2 border-black dark:border-white justify-center items-center">
-                                <h2 className="text-sm me-[1rem]">{userdata.length ? userdata.length : "0"}x Sets</h2>
-                                <h1 className="text-xl font-bold">{userdata.length ? numSets : "0"}x. Exercises</h1>
-                                <h2 className="text-sm ms-[1rem]">{userdata.length ? time : "0"} Min.</h2>
+                                <h2 className="text-sm me-[1rem]">{exerciseSetKeys.length ? exerciseSetKeys.length : "0"}x Sets</h2>
+                                <h1 className="text-xl font-bold">{exerciseSetKeys.length ? numSets : "0"}x. Exercises</h1>
+                                <h2 className="text-sm ms-[1rem]">{exerciseSetKeys.length ? time : "0"} Min.</h2>
                             </div>
                         </div>
                         <div className={"w-[80%] overflow-y-auto flex flex-col items-center my-2 sm:px-5 mx-10"}>
                             {(
-                                userdata.map((data: any, index) => (
+                                exerciseSetKeys.map((key: any, index) => (
                                     <SetManager key={index}
-                                                data={data} link={`/workout/${data[0]}`}
-                                                time={getSetTime(data)}
-                                                exerciseNum={data[1] ? Object.entries(data[1]).length : 0}
-                                                stars={getAverageDifficulty(data)}/>
+                                                setName={key}
+                                                data={userdata[key]} link={`/workout/${key}`}
+                                                time={getSetTime(userdata[key])}
+                                                exerciseNum={userdata[key] ? Object.entries(userdata[key]).length : 0}
+                                                stars={getAverageDifficulty(userdata[key])}/>
                                 ))
                             )}
                         </div>
@@ -175,20 +168,19 @@ const getSets = async (data: any, day: string, week: string) => {
 const getSetTime = (data: any): number => {
     let setTime = 0;
 
-    for (const exercise in data[1]) {
-        setTime += parseInt(data[1][exercise].time);
+    for (const exercise in data) {
+        setTime += parseInt(data[exercise].time);
     }
     return setTime;
 
 }
 
 const getAverageDifficulty = (data: any): number => {
-
     let totalStars = 0;
     let exerciseCount = 0;
 
-    for (const exercise in data[1]) {
-        totalStars += parseInt(data[1][exercise].stars);
+    for (const exercise in data) {
+        totalStars += parseInt(data[exercise].stars);
         exerciseCount++;
     }
 

@@ -85,7 +85,7 @@ export default function ExerciseComponentCollection(setName:any) {
                                 className={"w-full h-fit flex flex-col items-center justify-center p-[2px] rounded-xl z-50 dark:bg-gray-400 dark:bg-opacity-80"}>
                                 {(
                                     userdata.map((data: any, index) => (
-                                        <>
+                                        <div key={index} className={'w-full'}>
                                             <ExerciseManager data={data}
                                                              time={data[1].time}
                                                              stars={data[1].stars}
@@ -94,15 +94,15 @@ export default function ExerciseComponentCollection(setName:any) {
                                                              key={index}
                                                              image={data[1].image}
                                                              moves={data[1].moves}
-                                            />
-                                            {
-                                                data[1].break != 0 ?
-                                                    <span
-                                                        className={"flex items-center rounded-2xl justify-center dark:text-black text-2xl font-bold h-20"}>{data[1].break} Sec. Break</span>
-                                                    :
-                                                    <></>
-                                            }
-                                        </>
+                                                             />
+                                                {
+                                                    data[1].break != 0 ?
+                                                        <span
+                                                            className={"flex items-center rounded-2xl justify-center dark:text-black text-2xl font-bold h-20"}>{data[1].break} Sec. Break</span>
+                                                        :
+                                                        <></>
+                                                }
+                                        </div>
                                     ))
                                 )}
                             </div>
