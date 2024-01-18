@@ -14,7 +14,7 @@ export default function PersonalInformation() {
     const [email, setEmail] = React.useState('');
     const [firstName, setFirstName] = React.useState('');
     const [weight, setWeight] = useState<number>(null);
-    const [birthday, setBirthday] = React.useState<string>('');
+    const [birthday, setBirthday] = React.useState<string>("");
     const [lastName, setLastName] = React.useState('');
     const [heightUnit, setHeightUnit] = useState<string>("");
     const [weightUnit, setWeightUnit] = useState<string>("");
@@ -151,8 +151,8 @@ export default function PersonalInformation() {
                     <label htmlFor="birthday" className="mb-5 sm:w-fit flex flex-col">
                         <span>Birthday</span>
                         <input type="text"
-                               value={dateFormat(birthday)}
                                className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                               value={"2024-10-02"}
                                onChange={(e) => setBirthday(e.target.value)}
                                onBlur={(e) => {
                                    e.target.type = "text"
@@ -232,4 +232,9 @@ export default function PersonalInformation() {
 const dateFormat = (date: string) => {
     const [year, month, day] = date.split('.');
     return `${day}-${month}-${year}`;
+}
+
+const reverseDateFormat = (date:string)=>{
+    const [year, month, day] = date.split('-');
+    return `${day}.${month}.${year}`;
 }
