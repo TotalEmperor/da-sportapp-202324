@@ -16,7 +16,6 @@ export default async function DashboardLayout({children,}: {
             <MainComponent>
                     <ModifySetComponentCollection/>
             </MainComponent>
-
             <ConfPanel>
                 {children}
             </ConfPanel>

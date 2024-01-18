@@ -81,7 +81,8 @@ export default function ExerciseComponentCollection(setName:any) {
                             <span className={"w-[20%]"}></span>
                         </div>
                         <div className={'w-[80%] my-2 mx-10 flex overflow-y-scroll'}>
-                            <div className={"w-full h-fit flex flex-col items-center rounded-2xl z-50 dark:bg-white dark:bg-opacity-40"}>
+                            <div
+                                className={"w-full h-fit flex flex-col items-center justify-center p-[2px] rounded-xl z-50 dark:bg-gray-400 dark:bg-opacity-80"}>
                                 {(
                                     userdata.map((data: any, index) => (
                                         <>
@@ -113,7 +114,7 @@ export default function ExerciseComponentCollection(setName:any) {
     )
 }
 
-const getExercises = async (data: any, setName:string, day:string, week:string) => {
+const getExercises = async (data: any, setName: string, day: string, week: string) => {
 
     let objArray: any[] = [];
     let time = 0;

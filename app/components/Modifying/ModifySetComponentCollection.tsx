@@ -63,6 +63,8 @@ export default function ModifySetComponentCollection() {
                         setuserdata(exercisesData.objArray);
                         setTime(exercisesData.time)
                         setNumSets(exercisesData.exerciseNum)
+                    }else {
+                        setuserdata(null);
                     }
 
                 })
@@ -78,7 +80,7 @@ export default function ModifySetComponentCollection() {
     return (
         <>
             {
-                userdata.length>0?
+                userdata!== null?
                     <>
                         <div
                             className="flex flex-col text-4xl font-bold w-full dark:bg-transparent justify-center items-center rounded-2xl">

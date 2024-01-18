@@ -3,7 +3,7 @@ import getFirestoreDocument from "@/firebase/firestore/getData";
 import {useEffect, useState} from "react";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import SetManager from "@/components/MainComponents/SetManager"
-import {useRouter} from "next/navigation";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import addData from "@/firebase/firestore/addData";
 import {useContextData} from "@/context/ContextData";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
@@ -23,14 +23,16 @@ export default function SetComponentCollection() {
     const [userdata, setuserdata] = useState([]);
     const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
+    const [selectedSet, setSelectedSet] = useState<string>("");
     const {day, week, setDay, setWeek} = useContextData();
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
 
     useEffect(() => {
         if (sessionStorage.getItem("day")) {
             try {
                 setDay(sessionStorage.getItem("day"));
                 setWeek(sessionStorage.getItem("week"))
-                console.log(day)
             } catch (e) {
 
             }
@@ -56,13 +58,14 @@ export default function SetComponentCollection() {
             if (data) {
                 getSets(data, day, week).then((exercisesData) => {
                     if (exercisesData) {
-                        console.log(exercisesData)
                         setuserdata(exercisesData.objArray);
                         setTime(exercisesData.time)
                         setNumSets(exercisesData.exerciseNum)
                     }
 
                 })
+            } else {
+                setuserdata(null);
             }
         });
 
@@ -72,9 +75,40 @@ export default function SetComponentCollection() {
 
     }, [user, day, week]); // <-- rerun when user changes
 
+    useEffect(() => {
+        if (searchParams.get("setName")) {
+            setSelectedSet(searchParams.get("setName"));
+        } else {
+            setSelectedSet(pathname.substring(pathname.lastIndexOf("/") + 1));
+        }
+
+        sortSets()
+
+    }, [pathname]);
+
+    const sortSets = async () => {
+        const setKeys = Object.keys(userdata[1])
+        console.log(userdata)
+        let sortedKeys = [];
+        sortedKeys.push(selectedSet);
+
+        let sortedSetKeys = setKeys.slice(1).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+
+        console.log("Sort; "+sortedSetKeys)
+        sortedKeys.push(sortedSetKeys);
+
+        let sortedSets = [];
+        console.log("SortedSets: "+sortedKeys)
+    }
+
+
+
+
+
+
     return (
         <>
-            {userdata.length>0 ?
+            {userdata !== null ?
                 <>
                     <>
                         <div

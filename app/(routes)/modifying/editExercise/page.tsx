@@ -97,10 +97,6 @@ export default function Page() {
                 setExerciseName(exerciseName);
                 setHoverDifficulty(currentExercise.stars)
                 setSetName(setName)
-                console.log("RepMode: " + repMode.toString())
-                console.log(rep)
-                console.log("TimerMode: "+ String(timerMode))
-                console.log(timer)
             }
         });
 
@@ -138,8 +134,6 @@ export default function Page() {
 
     const handleSubmit = async ()=>{
         let newSchedule = exerciseData;
-
-        console.log(newSchedule["exercises"][week][day][setName][exerciseName])
 
         newSchedule["exercises"][week][day][setName][exerciseName] = {
             "image": selectedImage,

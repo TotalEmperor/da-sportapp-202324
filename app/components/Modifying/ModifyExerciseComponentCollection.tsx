@@ -67,8 +67,8 @@ export default function ModifyExerciseComponentCollection(setName: any) {
         <>
             <Suspense>
                 <>
-                    <div className={"w-full overflow-y-scroll flex flex-col items-center my-2 px-3"}>
-                        <div className="flex w-full bg-gray-100 dark:bg-gray-700 rounded-xl mb-4 p-3 items-center">
+                    <div className={"w-full overflow-y-scroll flex flex-col items-center px-3 bg-white bg-opacity-5 p-4 rounded-md"}>
+                        <div className="flex w-full bg-gray-100 dark:bg-transparent rounded-xl mb-4 p-3 items-center">
                             <span className={"w-[20%]"}>
                                 <Link
                                     className="hover:bg-gray-200 rounded-full p-3 dark:hover:bg-gray-400"
