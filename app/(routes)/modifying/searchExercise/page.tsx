@@ -76,7 +76,7 @@ export default function Page(){
 
     return (
         <>
-            <div className="w-full flex-grow flex-shrink pt-1 flex-col flex px-3 dark:text-white text-neutral-800">
+            <div className="w-full flex-grow overflow-y-scroll flex-shrink pt-1 flex-col flex px-3 dark:text-white text-neutral-800 dark:bg-white dark:bg-opacity-5 p-4 rounded-md">
                 <div className="flex w-full items-center border-b-2 border-gray-300 pb-[1.5rem]">
                     <Link
                         className="hover:bg-gray-200 rounded-full w-fit p-2"
