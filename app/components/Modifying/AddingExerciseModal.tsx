@@ -55,7 +55,6 @@ export default function AddModal({isOpen, onClose, userData, createNewSet, addEx
                             <label htmlFor="height" className="me-5">
                                 <h4>Create new Set</h4>
                                 <form
-                                    onSubmit={()=>{createNewSet(newSetName)}}
                                     className="flex flex-row w-full dark:bg-neutral-800 shadow overflow-hidden mt-2 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
                                     <input type="text"
                                            id={"setName"}
@@ -65,7 +64,10 @@ export default function AddModal({isOpen, onClose, userData, createNewSet, addEx
                                            className="bg-inherit p-3 outline-none w-full">
                                     </input>
                                     <button
-                                        className="border-s-2 border-black dark:border-neutral-400 p-3 disabled:bg-gray-300 bg-lime-800 text-md text-center outline-0 appearance-none"
+                                        type={"button"}
+                                        disabled={!isFormValid}
+                                        onClick={()=>{createNewSet(newSetName)}}
+                                        className="border-s-2 border-black dark:border-neutral-400 p-3 disabled:bg-gray-500 disabled:brightness-100 bg-lime-800 text-md text-center outline-0 appearance-none hover:brightness-125"
                                         >
                                         <AddIcon/>
                                     </button>

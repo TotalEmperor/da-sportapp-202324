@@ -39,8 +39,13 @@ export default function ModifyDeleteModal({isOpen, onClose, setName, exerciseNam
                     delete data.exercises[week][day][setName];
                 }
 
-                console.log(data)
                 await updateFirestoreDocument("exercises", data);
+
+                if(exerciseName){
+                    router.push(`/modifying/${setName}`)
+                }else {
+                    router.push('/modifying')
+                }
             }
         });
 
@@ -75,22 +80,22 @@ export default function ModifyDeleteModal({isOpen, onClose, setName, exerciseNam
                     className="inline-block align-bottom bg-white dark:bg-[#1D2125] text-gray-300 rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
                     <div className="md:flex items-center">
                         <div
-                            className="rounded-full border border-gray-300 flex items-center justify-center w-16 h-16 flex-shrink-0 mx-auto">
-                            <WarningAmberRoundedIcon/>
+                            className="rounded-full border border-red-600 flex items-center justify-center w-16 h-16 flex-shrink-0">
+                            <WarningAmberRoundedIcon sx={{fill: "red"}}/>
                         </div>
-                        <div className="mt-4 md:mt-0 md:ml-6 text-center md:text-left">
+                        <div className="mt-4 md:mt-0 ms-auto md:ml-6 text-center md:text-left dark:text-gray-200">
                             <p className="font-bold">Do you want to delete ?</p>
                         </div>
                     </div>
                     <div className="text-center md:text-right mt-4 md:flex md:justify-end">
                         <button
-                            className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-red-200 text-red-700 rounded-lg font-semibold text-sm md:ml-2 md:order-2"
+                            className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-red-200 text-red-700 rounded-lg hover:brightness-125 font-semibold text-sm md:ml-2 md:order-2"
                             onClick={handleDelete}>
                             Delete
                         </button>
                         <button
                             type="button"
-                            className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-gray-200 rounded-lg font-semibold text-sm mt-4 md:mt-0 md:order-1"
+                            className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-gray-200 dark:bg-gray-600 hover:brightness-125 rounded-lg font-semibold text-sm mt-4 md:mt-0 md:order-1"
                             onClick={onClose}
                         >
                             Cancel

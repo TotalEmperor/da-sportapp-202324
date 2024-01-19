@@ -141,6 +141,8 @@ export default function Page(){
 
     const createNewSet = (setName: string) => {
         let schedule = userdata["exercises"][week][day];
+        console.log("Schedule: "+schedule);
+        console.log("SetName: "+setName)
 
         schedule[setName] = {
             [exerciseName]: {
