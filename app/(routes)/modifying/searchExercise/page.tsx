@@ -10,6 +10,7 @@ export default function Page(){
     const [searchValue, setSearchValue] = useState<string>("");
     const [templateExercises, setTemplateExercises] = useState([]);
     const [selectedExercises, setSelectedExercises] = useState([]);
+    const [exerciseSetKeys, setExerciseSetKeys] = useState<string[]>([]);
 
     const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
@@ -30,10 +31,15 @@ export default function Page(){
 
         const unsubscribe = getFirestoreDocument('exampleexercises', "CB6Eqnz7qfDrfcwuZJPn", (data) => {
             if (data) {
+                setSelectedExercises(data.exampleexercises);
+                let newExerciseKeys: string[]= [];
+                newExerciseKeys = newExerciseKeys.concat(Object.keys(data.exampleexercises));
+                newExerciseKeys.sort((a, b) => a.localeCompare(b));
+                setExerciseSetKeys(newExerciseKeys);
                 getSets(data.exampleexercises).then((exercisesData) => {
                     if (exercisesData) {
                         setTemplateExercises(exercisesData.objArray)
-                        setSelectedExercises(exercisesData.objArray)
+                        //setSelectedExercises(exercisesData.objArray)
                         setTime(exercisesData.time)
                         setNumSets(exercisesData.exerciseNum)
                     }
@@ -104,12 +110,13 @@ export default function Page(){
                     </div>
                     <div className={"w-[80%] overflow-y-auto flex flex-col items-center my-2 sm:px-5 mx-10"}>
                         {(
-                            selectedExercises.map((data: any, index) => (
+                            exerciseSetKeys.map((key: any, index) => (
                                 <SetManager key={index}
-                                            data={data} link={`/modify/searchExercise/${data[0]}`}
-                                            time={getSetTime(data)}
-                                            exerciseNum={data[1] ? Object.entries(data[1]).length : 0}
-                                            stars={getAverageDifficulty(data)}/>
+                                            setName={key}
+                                            data={selectedExercises[key]} link={`/modify/searchExercise/${key}`}
+                                            time={getSetTime(selectedExercises[key])}
+                                            exerciseNum={selectedExercises[key] ? Object.entries(selectedExercises[key]).length : 0}
+                                            stars={getAverageDifficulty(selectedExercises[key])}/>
                             ))
                         )}
                     </div>
@@ -145,8 +152,8 @@ const getSets = async (data: any) => {
 const getSetTime = (data: any): number => {
     let setTime = 0;
 
-    for (const exercise in data[1]) {
-        setTime += parseInt(data[1][exercise].time);
+    for (const exercise in data) {
+        setTime += parseInt(data[exercise].time);
     }
     return setTime;
 
@@ -157,8 +164,8 @@ const getAverageDifficulty = (data:any):number =>{
     let totalStars = 0;
     let exerciseCount = 0;
 
-    for (const exercise in data[1]) {
-        totalStars += parseInt(data[1][exercise].stars);
+    for (const exercise in data) {
+        totalStars += parseInt(data[exercise].stars);
         exerciseCount++;
     }
 

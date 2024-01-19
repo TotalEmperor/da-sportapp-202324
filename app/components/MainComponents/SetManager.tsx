@@ -86,7 +86,7 @@ export default function SetManager(props: {
                     </div>
 
                     <div className="text-[1rem] font-bold">
-                        <span className="me-3">Time: {time} Min.</span>
+                        <span className="me-3">Time: {time>60? Math.floor(time / 60) +":"+(time%60)+" Min." : time+" sec."}</span>
                         <span>Exercises: {exerciseNum}</span>
                     </div>
                 </div>
