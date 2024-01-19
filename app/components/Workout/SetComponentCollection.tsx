@@ -127,7 +127,7 @@ export default function SetComponentCollection() {
                         </div>
                         <div className={"mt-auto w-[80%] flex"}>
                             <Link href="/modifying" prefetch={true}
-                                  className={"p-5 mb-20 ms-auto border-2 border-black rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
+                                  className={"p-5 mb-20 ms-auto rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
                                 <EditCalendarIcon/>
                             </Link>
                         </div>
