@@ -238,7 +238,7 @@ export default function Page(){
                         <label htmlFor="timer" className="me-5">
                             <span>Mode</span>
                             <div
-                                className="flex flex-row w-full dark:bg-neutral-800 shadow mt-2 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
+                                className="flex flex-row w-full dark:bg-transparent shadow mt-2 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
                                 <select
                                     id={"timer"}
                                     onChange={(e) => {
@@ -263,7 +263,7 @@ export default function Page(){
                         <label htmlFor="repMode">
                             <span>rep. Mode</span>
                             <div
-                                className="flex flex-row w-full dark:bg-neutral-800 shadow mt-2 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
+                                className="flex flex-row w-full dark:bg-transparent shadow mt-2 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
                                 <select
                                     id={"repMode"}
                                     onChange={(e) => {
