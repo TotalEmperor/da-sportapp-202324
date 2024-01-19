@@ -7,6 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import ModifyDeleteModal from "@/components/Modifying/ModifyDeleteModal";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
+import StarRoundedIcon from '@mui/icons-material/StarRounded';
 
 export default function SetManager(props: {
     data: any;
@@ -56,7 +57,7 @@ export default function SetManager(props: {
                         <span className="left-auto text-[1.8rem] font-bold me-6">{setName}</span>
                         {Array.from({length: stars}, (_, i) => (
                             <div key={i} className="flex flex-col pe-2 justify-center">
-                                <Image src={Starfilled} className="w-[2rem]" alt="starFilled"/>
+                                <StarRoundedIcon sx={{fontSize: "2.5rem", fill: "yellow"}} />
                             </div>
                         ))}
                     </div>

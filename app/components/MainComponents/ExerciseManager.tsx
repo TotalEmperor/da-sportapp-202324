@@ -10,6 +10,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import ModifyDeleteModal from "@/components/Modifying/ModifyDeleteModal";
+import StarRoundedIcon from "@mui/icons-material/StarRounded";
 
 export default function ExerciseManager(props: {
     data: any;
@@ -50,7 +51,7 @@ export default function ExerciseManager(props: {
                         <span className="left-auto text-[1.8rem] font-bold me-6">{data[0]}</span>
                         {Array.from({length: stars}, (_, i) => (
                             <div key={i} className="flex flex-col pe-2 justify-center">
-                                <Image src={Starfilled} className="w-[2rem]" alt="starFilled"/>
+                                <StarRoundedIcon sx={{fontSize: "2.5rem", fill: "yellow"}} />
                             </div>
                         ))}
                     </div>
