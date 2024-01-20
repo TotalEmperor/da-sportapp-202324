@@ -42,22 +42,13 @@ export default function Page({params: {params}}) {
         } else {
             const unsubscribe = getFirestoreDocument('exampleexercises', "CB6Eqnz7qfDrfcwuZJPn", (data) => {
                 if (data) {
+                    console.log(params)
                     setExerciseData(data.exampleexercises[params]);
                     console.log(data.exampleexercises[params])
                     let newExerciseKeys: string[]= [];
                     newExerciseKeys = newExerciseKeys.concat(Object.keys(data.exampleexercises[params]));
                     newExerciseKeys.sort((a, b) => a.localeCompare(b));
                     setExerciseKeys(newExerciseKeys);
-                    getExercises(data, params, day, week).then((exercisesData) => {
-                        if (exercisesData) {
-                            //setExerciseData(exercisesData.objArray);
-                            setTime(exercisesData.time)
-                            setNumSets(exercisesData.numSets)
-                        }
-
-                    }).catch(() => {
-                        router.push("/modifying")
-                    })
                 }
             });
 
@@ -107,13 +98,8 @@ export default function Page({params: {params}}) {
                                                     exerciseName={key}
                                                     modify={true}
                                                 />
-                                                {
-                                                    exerciseData[key].breakTime != 0 ?
-                                                        <span
-                                                            className={"flex items-center rounded-2xl justify-center dark:text-black text-2xl font-bold h-20"}>{exerciseData[key].breakTime} Sec. Break</span>
-                                                        :
-                                                        <></>
-                                                }
+                                                <span
+                                                    className={"flex items-center rounded-2xl justify-center dark:text-black text-2xl font-bold h-20"}>{exerciseData[key].breakTime? exerciseData[key].breakTime +"  Sec. Break<": ""}</span>
                                             </div>
                                         ))
                                     )}
