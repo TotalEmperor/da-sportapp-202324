@@ -113,25 +113,5 @@ export default function Page({params: {params}}) {
     )
 }
 
-const getExercises = async (data: any, setName: string, day: string, week: string) => {
-
-    let objArray: any[] = [];
-    let time = 0;
-    let numSets = 0;
-
-
-    if (day) {
-        objArray = objArray.concat(Object.entries(data.exercises[week][day][setName]))
-        const exerciseSet = data.exercises[week][day][setName];
-        for (const exerciseName in exerciseSet) {
-            time += parseInt(exerciseSet[exerciseName].time);
-        }
-    }
-
-
-    return {objArray, time, numSets};
-
-};
-
 
 
