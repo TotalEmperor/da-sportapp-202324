@@ -18,7 +18,8 @@ export default function ModifyExerciseComponentCollection(setName: any) {
             console.log(e)
         }
     });
-    const [userdata, setuserdata] = useState([]);
+    const [exerciseData, setExerciseData] = useState([]);
+    const [exerciseKeys, setExerciseKeys] = useState<string[]>([]);
     const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
     const {day, week, setDay, setWeek} = useContextData();
@@ -26,11 +27,11 @@ export default function ModifyExerciseComponentCollection(setName: any) {
     const router = useRouter();
 
 
-// keeps `userdata` up to date
+// keeps `exerciseData` up to date
 
     useEffect(() => {
         if (user === null) {
-            setuserdata(null); // <-- clear data when not logged in
+            setExerciseData(null); // <-- clear data when not logged in
 
             return;
         }
@@ -41,9 +42,15 @@ export default function ModifyExerciseComponentCollection(setName: any) {
         } else {
             const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
                 if (data) {
+                    setExerciseData(data.exercises[week][day][setName.setName]);
+                    console.log(data.exercises[week][day][setName.setName])
+                    let newExerciseKeys: string[]= [];
+                    newExerciseKeys = newExerciseKeys.concat(Object.keys(data.exercises[week][day][setName.setName]));
+                    newExerciseKeys.sort((a, b) => a.localeCompare(b));
+                    setExerciseKeys(newExerciseKeys);
                     getExercises(data, setName.setName, day, week).then((exercisesData) => {
                         if (exercisesData) {
-                            setuserdata(exercisesData.objArray);
+                            //setuserdata(exercisesData.objArray);
                             setTime(exercisesData.time)
                             setNumSets(exercisesData.numSets)
                         }
@@ -51,6 +58,7 @@ export default function ModifyExerciseComponentCollection(setName: any) {
                     }).catch(() => {
                         router.push("/modifying")
                     })
+                    console.log(exerciseData)
                 }
             });
 
@@ -84,23 +92,24 @@ export default function ModifyExerciseComponentCollection(setName: any) {
                             <div
                                 className={"w-full h-fit flex flex-col items-center justify-center p-[2px] rounded-xl z-50 dark:bg-gray-400 dark:bg-opacity-80"}>
                                 {(
-                                    userdata.map((data: any, index) => (
+                                    exerciseKeys.map((key: string, index) => (
                                         <div key={index} className={"sm:w-[-webkit-fill-available]"}>
                                             <ExerciseManager
-                                                data={data}
-                                                time={data[1].time}
-                                                stars={data[1].stars}
-                                                description={data[1].description}
+                                                data={exerciseData[key]}
+                                                time={time}
+                                                stars={exerciseData[key].stars}
+                                                description={exerciseData[key].description}
                                                 style={"m-0 p-0"}
-                                                image={data[1].image}
-                                                moves={data[1].moves}
+                                                image={exerciseData[key].image}
+                                                moves={exerciseData[key].moves}
                                                 setName={setName.setName}
+                                                exerciseName={key}
                                                 modify={true}
                                             />
                                             {
-                                                data[1].breakTime != 0 ?
+                                                exerciseData[key].breakTime != 0 ?
                                                     <span
-                                                        className={"flex items-center rounded-2xl justify-center dark:text-black text-2xl font-bold h-20"}>{data[1].breakTime} Sec. Break</span>
+                                                        className={"flex items-center rounded-2xl justify-center dark:text-black text-2xl font-bold h-20"}>{exerciseData[key].breakTime} Sec. Break</span>
                                                     :
                                                     <></>
                                             }

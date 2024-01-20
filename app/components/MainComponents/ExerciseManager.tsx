@@ -20,10 +20,11 @@ export default function ExerciseManager(props: {
     description: string;
     modify?: boolean;
     setName?: string;
+    exerciseName: string;
     image;
     style?: string;
 }) {
-    const {data, time, stars, moves, description, modify, setName, style} = props;
+    const {data, time, stars, moves, description, modify, setName, exerciseName, style} = props;
 
     const [isContentVisible, setIsContentVisible] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
@@ -48,7 +49,7 @@ export default function ExerciseManager(props: {
                 <div
                     className="w-full justify-center flex-col mx-auto flex px-4 pt-8 py-4">
                     <div className="flex w-fit flex-row min-h-fit">
-                        <span className="left-auto text-[1.8rem] font-bold me-6">{data[0]}</span>
+                        <span className="left-auto text-[1.8rem] font-bold me-6">{exerciseName}</span>
                         {Array.from({length: stars}, (_, i) => (
                             <div key={i} className="flex flex-col pe-2 justify-center">
                                 <StarRoundedIcon sx={{fontSize: "2.5rem", fill: "yellow"}} />
@@ -73,7 +74,7 @@ export default function ExerciseManager(props: {
                                             pathname: "/modifying/editExercise",
                                             query: {
                                                 setName: setName,
-                                                exerciseName: data[0],
+                                                exerciseName: exerciseName,
                                             }
                                         }}
                                           className={'p-2 rounded-full dark:hover:bg-opacity-5 me-2 dark:hover:bg-white'}>
@@ -98,7 +99,7 @@ export default function ExerciseManager(props: {
                     </div>
                 </div>
                 {
-                    data[1].image ?
+                    data.image ?
                         <div className="w-full justify-center flex-col mx-auto flex items-center ">
                             <div
                                 className="flex w-full hover:cursor-pointer items-center justify-center hover:bg-neutral-600 rounded-xl p-2"
@@ -116,7 +117,7 @@ export default function ExerciseManager(props: {
                             {isContentVisible && (
                                 <div
                                     className="flex justify-center items-center my-4">
-                                    <Image src={data[1].image} width={300} height={300} alt={"image"}
+                                    <Image src={data.image} width={300} height={300} alt={"image"}
                                            className={"rounded"}/>
                                 </div>
                             )}
@@ -126,7 +127,7 @@ export default function ExerciseManager(props: {
                 }
             </div>
             <ModifyDeleteModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal}
-                               setName={setName} exerciseName={data[0]}/>
+                               setName={setName} exerciseName={exerciseName}/>
         </>
     )
 }
