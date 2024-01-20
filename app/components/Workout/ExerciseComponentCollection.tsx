@@ -19,18 +19,18 @@ export default function ExerciseComponentCollection(setName:any) {
             console.log(e)
         }
     });
-    const [userdata, setuserdata] = useState([]);
-    const [time, setTime] = useState(0);
+    const [exerciseData, setExerciseData] = useState([]);
+    const [exerciseKeys, setExerciseKeys] = useState<string[]>([]);    const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
     const { day, week, setDay, setWeek } = useContextData();
 
 
 
-// keeps `userdata` up to date
+// keeps `exerciseData` up to date
 
     useEffect(() => {
         if (user === null) {
-            setuserdata(null); // <-- clear data when not logged in
+            setExerciseData(null); // <-- clear data when not logged in
 
             return;
         }
@@ -42,14 +42,11 @@ export default function ExerciseComponentCollection(setName:any) {
 
         const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
             if (data) {
-                getExercises(data, setName.setName, day, week).then((exercisesData) => {
-                    if (exercisesData) {
-                        setuserdata(exercisesData.objArray);
-                        setTime(exercisesData.time)
-                        setNumSets(exercisesData.numSets)
-                    }
-
-                })
+                setExerciseData(data.exercises[week][day][setName.setName]);
+                let newExerciseKeys: string[]= [];
+                newExerciseKeys = newExerciseKeys.concat(Object.keys(data.exercises[week][day][setName.setName]));
+                newExerciseKeys.sort((a, b) => a.localeCompare(b));
+                setExerciseKeys(newExerciseKeys);
             }
         });
 
@@ -62,7 +59,7 @@ export default function ExerciseComponentCollection(setName:any) {
 
     return (
         <>
-            {userdata.length == 0 ?
+            {exerciseData.length == 0 ?
                 <>
                     <LoadingModule/>
                 </>
@@ -84,24 +81,20 @@ export default function ExerciseComponentCollection(setName:any) {
                             <div
                                 className={"w-full h-fit flex flex-col items-center justify-center p-[2px] rounded-xl z-50 dark:bg-gray-400 dark:bg-opacity-80"}>
                                 {(
-                                    userdata.map((data: any, index) => (
+                                    exerciseKeys.map((key: any, index) => (
                                         <div key={index} className={'w-full'}>
-                                            <ExerciseManager data={data}
-                                                             time={data[1].time}
-                                                             stars={data[1].stars}
-                                                             description={data[1].description}
+                                            <ExerciseManager data={exerciseData[key]}
+                                                             time={exerciseData[key].time}
+                                                             stars={exerciseData[key].stars}
+                                                             description={exerciseData[key].description}
                                                              style={"m-0 p-0"}
                                                              key={index}
-                                                             image={data[1].image}
-                                                             moves={data[1].moves}
-                                                             />
-                                                {
-                                                    data[1].break != 0 ?
-                                                        <span
-                                                            className={"flex items-center rounded-2xl justify-center dark:text-black text-2xl font-bold h-20"}>{data[1].break} Sec. Break</span>
-                                                        :
-                                                        <></>
-                                                }
+                                                             exerciseName={key}
+                                                             image={exerciseData[key].image}
+                                                             moves={exerciseData[key].moves}
+                                            />
+                                            <span
+                                                className={"flex items-center rounded-2xl justify-center dark:text-black text-2xl font-bold h-20"}>{exerciseData[key].breakTime ? exerciseData[key].breakTime + "  Sec. Break<" : ""}</span>
                                         </div>
                                     ))
                                 )}

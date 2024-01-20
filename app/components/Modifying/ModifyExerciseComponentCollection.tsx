@@ -43,22 +43,10 @@ export default function ModifyExerciseComponentCollection(setName: any) {
             const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
                 if (data) {
                     setExerciseData(data.exercises[week][day][setName.setName]);
-                    console.log(data.exercises[week][day][setName.setName])
                     let newExerciseKeys: string[]= [];
                     newExerciseKeys = newExerciseKeys.concat(Object.keys(data.exercises[week][day][setName.setName]));
                     newExerciseKeys.sort((a, b) => a.localeCompare(b));
                     setExerciseKeys(newExerciseKeys);
-                    getExercises(data, setName.setName, day, week).then((exercisesData) => {
-                        if (exercisesData) {
-                            //setuserdata(exercisesData.objArray);
-                            setTime(exercisesData.time)
-                            setNumSets(exercisesData.numSets)
-                        }
-
-                    }).catch(() => {
-                        router.push("/modifying")
-                    })
-                    console.log(exerciseData)
                 }
             });
 
