@@ -1,9 +1,9 @@
 "use client"
-import Starfilled from '@/icons/stars.png';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import Image from "next/image";
 import Link from "next/link"
-import React, {useState} from "react"
-import {getAuth} from "firebase/auth";
+import React, {useEffect, useState} from "react"
 import {ExpandLess} from "@mui/icons-material";
 import {ExpandMore} from "@mui/icons-material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -11,6 +11,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import ModifyDeleteModal from "@/components/Modifying/ModifyDeleteModal";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
+import AddModal from "@/components/Modifying/AddingExerciseModal";
+import addData from "@/firebase/firestore/addData";
+import AddIcon from "@mui/icons-material/Add";
+import {getDownloadURL, getStorage, listAll, ref} from "firebase/storage";
+import getFirestoreDocument from "@/firebase/firestore/getData";
+import {getAuth} from "firebase/auth";
+import {useContextData} from "@/context/ContextData";
 
 export default function ExerciseManager(props: {
     data: any;
@@ -19,15 +26,32 @@ export default function ExerciseManager(props: {
     moves: number;
     description: string;
     modify?: boolean;
+    search?: boolean;
     setName?: string;
     exerciseName: string;
     image;
     style?: string;
 }) {
-    const {data, time, stars, moves, description, modify, setName, exerciseName, style} = props;
+    const {data, time, stars, moves, description, modify, search, setName, exerciseName, style} = props;
 
     const [isContentVisible, setIsContentVisible] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+    const [isAddModalOpen, setAddModalOpen] = useState(false);
+
+    const [user, setuser] = useState(() => {
+        // if a user is already logged in, use the current user object, or `undefined` otherwise.
+        try {
+            return getAuth().currentUser.uid || undefined;
+        } catch (e) {
+            console.log(e)
+        }
+    });
+
+    const openAddModal = (e) => {
+        e.preventDefault();
+        setAddModalOpen(true);
+    }
+    const closeAddModal = () => setAddModalOpen(false);
 
     const openDeleteModal = (e) => {
         e.preventDefault();
@@ -87,6 +111,20 @@ export default function ExerciseManager(props: {
                                 <>
                                 </>
                         }
+                        {
+                            search ?
+                                <div className="flex justify-end items-end h-[2rem] mb-3">
+
+                                    <button
+                                        onClick={openAddModal}
+                                        className={"p-5 ms-auto rounded-2xl bg-lime-600 hover:brightness-125 dark:bg-lime-700"}>
+                                        <AddIcon/>
+                                    </button>
+                                </div>
+                                :
+                                <>
+                                </>
+                        }
                         <div className="float-right">
                             {
                                 moves != 0 ?
@@ -94,7 +132,7 @@ export default function ExerciseManager(props: {
                                     :
                                     <></>
                             }
-                            <span>Time: {time<60? time+" sec." : Math.floor(time / 60) +":"+(time%60)+" Min."}</span>
+                            <span>Time: {time < 60 ? time + " sec." : Math.floor(time / 60) + ":" + (time % 60) + " Min."}</span>
                         </div>
                     </div>
                 </div>
@@ -128,6 +166,10 @@ export default function ExerciseManager(props: {
             </div>
             <ModifyDeleteModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal}
                                setName={setName} exerciseName={exerciseName}/>
+
+            <AddModal isOpen={isAddModalOpen} onClose={closeAddModal} setKeys={{}}
+                      createNewSet={()=>{}} addExerciseToSet={()=>{}}/>
+
         </>
     )
 }

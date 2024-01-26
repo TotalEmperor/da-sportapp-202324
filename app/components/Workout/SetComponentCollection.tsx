@@ -28,14 +28,7 @@ export default function SetComponentCollection() {
     const pathname = usePathname();
 
     useEffect(() => {
-        if (sessionStorage.getItem("day")) {
-            try {
-                setDay(sessionStorage.getItem("day"));
-                setWeek(sessionStorage.getItem("week"))
-            } catch (e) {
 
-            }
-        }
     }, []);
 
     useEffect(() => {
@@ -43,6 +36,18 @@ export default function SetComponentCollection() {
             setuserdata(null); // <-- clear data when not logged in
 
             return;
+        }
+
+        if (sessionStorage.getItem("day")) {
+            try {
+                setDay(sessionStorage.getItem("day"));
+                setWeek(sessionStorage.getItem("week"))
+            } catch (e) {
+
+            }
+        }else{
+            sessionStorage.setItem("day", "MO");
+            setDay(sessionStorage.getItem("day"));
         }
 
         const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
@@ -126,7 +131,7 @@ export default function SetComponentCollection() {
                             )}
                         </div>
                         <div className={"mt-auto w-[80%] flex"}>
-                            <Link href="/modifying" prefetch={true}
+                            <Link href={`/modifying}`} prefetch={true}
                                   className={"p-5 mb-20 ms-auto rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
                                 <EditCalendarIcon/>
                             </Link>

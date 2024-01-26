@@ -3,25 +3,29 @@ import AddIcon from '@mui/icons-material/Add';
 import React, {useEffect, useState} from "react";
 import {useContextData} from "@/context/ContextData";
 
-export default function AddModal({isOpen, onClose, userData, createNewSet, addExerciseToSet}:{isOpen: boolean; onClose: ()=>void, userData:any, createNewSet:(setName:string)=>void, addExerciseToSet:(setName:string)=>void}){
+export default function AddModal({isOpen, onClose, setKeys, createNewSet, addExerciseToSet}: {
+    isOpen: boolean;
+    onClose: () => void,
+    setKeys: any,
+    createNewSet: (setName: string) => void,
+    addExerciseToSet: (setName: string) => void
+}) {
 
-    const { day, week, setDay, setWeek } = useContextData();
-    const [ newSetName, setNewSetName ] = useState<string>();
+    const {day, week, setDay, setWeek} = useContextData();
+    const [newSetName, setNewSetName] = useState<string>();
 
     const [isFormValid, setIsFormValid] = useState(null);
-    const names = userData.map((exercise) =>{
-        return exercise[0]
-    })
 
-    const onSetNameChange=(name)=>{
-        if(!names.includes(name)){
+    const onSetNameChange = (name) => {
+        if (!setKeys.includes(name)) {
             setNewSetName(name);
             setIsFormValid(true);
-        }else {
+        } else {
             setNewSetName(name);
             setIsFormValid(false);
         }
     }
+
 
 
 
@@ -58,7 +62,9 @@ export default function AddModal({isOpen, onClose, userData, createNewSet, addEx
                                     className="flex flex-row w-full dark:bg-neutral-800 shadow overflow-hidden mt-2 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
                                     <input type="text"
                                            id={"setName"}
-                                           onChange={(e)=>{onSetNameChange(e.target.value)}}
+                                           onChange={(e) => {
+                                               onSetNameChange(e.target.value)
+                                           }}
                                            pattern={"[^\\s]*[^\\s]"}
                                            title="Must contain at least one character and no spaces"
                                            className="bg-inherit p-3 outline-none w-full">
@@ -66,13 +72,16 @@ export default function AddModal({isOpen, onClose, userData, createNewSet, addEx
                                     <button
                                         type={"button"}
                                         disabled={!isFormValid}
-                                        onClick={()=>{createNewSet(newSetName)}}
+                                        onClick={() => {
+                                            createNewSet(newSetName)
+                                        }}
                                         className="border-s-2 border-black dark:border-neutral-400 p-3 disabled:bg-gray-500 disabled:brightness-100 bg-lime-800 text-md text-center outline-0 appearance-none hover:brightness-125"
-                                        >
+                                    >
                                         <AddIcon/>
                                     </button>
                                 </form>
-                                <span className={`mt-2 text-sm p-3 rounded-md text-white bg-red-500 border-red-700 ${isFormValid==false && isFormValid!=null? "block": "hidden"}`}>
+                                <span
+                                    className={`mt-2 text-sm p-3 rounded-md text-white bg-red-500 border-red-700 ${isFormValid == false && isFormValid != null ? "block" : "hidden"}`}>
                                 This exercise already exists!
                                 </span>
                             </label>
@@ -81,10 +90,11 @@ export default function AddModal({isOpen, onClose, userData, createNewSet, addEx
                         <div className={`mt-5 flex flex-col w-full`}>
                             <h6>Or add Exercise to existing Set</h6>
                             {(
-                                names.map((setName: any, index) => (
-                                    <>
-                                        <button value={setName} key={index} onClick={(e)=>{addExerciseToSet(setName)}} className={`p-4 my-2 bg-green-500 dark:bg-green-800 w-4rem rounded-md`}>{setName}</button>
-                                    </>
+                                setKeys.map((setName: any, index) => (
+                                        <button value={setName} key={index} onClick={(e) => {
+                                            addExerciseToSet(setName)
+                                        }}
+                                                className={`p-4 my-2 bg-green-500 dark:bg-green-800 w-4rem rounded-md`}>{setName}</button>
                                     )
                                 )
                             )}

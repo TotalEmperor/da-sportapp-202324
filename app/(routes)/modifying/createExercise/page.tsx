@@ -13,7 +13,7 @@ import {getStorage, ref, listAll, getDownloadURL} from "firebase/storage";
 import Image from "next/image";
 import ImageSelectModal from "@/components/Modifying/ImageSelectModal";
 
-export default function Page(){
+export default function Page() {
 
     const [user, setuser] = useState(() => {
         // if a user is already logged in, use the current user object, or `undefined` otherwise.
@@ -34,10 +34,9 @@ export default function Page(){
     const [timer, setTimer] = useState<number>(0);
     const [breakTime, setBreakTime] = useState<number>(0);
     const [selectedImage, setSelectedImage] = useState("");
-    const [images, setImages] = useState<{imageURL:string, imageName: string}[]>([]);
+    const [images, setImages] = useState<{ imageURL: string, imageName: string }[]>([]);
     const [userdata, setUserdata] = useState([]);
-    const [exerciseData, setExerciseData] = useState([]);
-
+    const [setKeys, setSetKeys] = useState<string[]>([]);
     const [isModalOpen, setModalOpen] = useState(false);
     const [isImageSelectModalOpen, setIsImageSelectModalOpen] = useState(false);
 
@@ -69,19 +68,18 @@ export default function Page(){
     }, [timerMode]);
 
 
-
     const openModal = (e) => {
         e.preventDefault();
         setModalOpen(true);
     }
     const closeModal = () => setModalOpen(false);
 
-    const openImageSelectModal = (e)=>{
+    const openImageSelectModal = (e) => {
         e.preventDefault();
         setIsImageSelectModalOpen(true);
     }
 
-    const closeImageSelectModal = ()=>{
+    const closeImageSelectModal = () => {
         setIsImageSelectModalOpen(false);
     }
 
@@ -95,11 +93,6 @@ export default function Page(){
             return;
         }
 
-        if (!user) {
-            // user still loading, do nothing yet
-            return;
-        }
-
         const storage = getStorage();
 
         const listRef = ref(storage, 'images');
@@ -107,7 +100,7 @@ export default function Page(){
         listAll(listRef)
             .then((res) => {
                 res.items.forEach((itemRef) => {
-                    getDownloadURL(itemRef).then((imageURL:string)=>{
+                    getDownloadURL(itemRef).then((imageURL: string) => {
                         const imageData = {imageURL: imageURL, imageName: itemRef.name};
                         images.push(imageData)
                     });
@@ -121,12 +114,11 @@ export default function Page(){
         const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
             if (data) {
                 setUserdata(data)
-                getSets(data, day, week).then((exercisesData) => {
-                    if (exercisesData) {
-                        setExerciseData(exercisesData.objArray);
-                    }
 
-                })
+                    let newSetKeys = setKeys;
+                    newSetKeys = newSetKeys.concat(Object.keys(data.exercises[week][day]));
+                    newSetKeys.sort((a, b) => a.localeCompare(b));
+                    setSetKeys(newSetKeys);
             }
         });
 
@@ -137,12 +129,10 @@ export default function Page(){
     }, [user, day, week]); // <-- rerun when user changes
 
 
-
-
     const createNewSet = (setName: string) => {
         let schedule = userdata["exercises"][week][day];
-        console.log("Schedule: "+schedule);
-        console.log("SetName: "+setName)
+        console.log("Schedule: " + schedule);
+        console.log("SetName: " + setName)
 
         schedule[setName] = {
             [exerciseName]: {
@@ -150,23 +140,22 @@ export default function Page(){
                 "moves": rep, // Replace with the actual number of moves
                 "description": description,
                 "time": timer, // Replace with the actual time
-                "stars": difficulty+1, // Replace with the actual stars rating
+                "stars": difficulty + 1, // Replace with the actual stars rating
                 "breakTime": breakTime // Replace with the actual break time
             }
 
         };
 
-        setUserdata(userdata["exercises"][week][day]=schedule)
+        setUserdata(userdata["exercises"][week][day] = schedule)
         addData("exercises", user, userdata).then(r => {
             router.push(`/modifying/${setName}`)
         });
 
 
-
         //addData("exercise", user, "");
     };
 
-    const addExerciseToSet = (setName:string)=>{
+    const addExerciseToSet = (setName: string) => {
         let schedule = userdata["exercises"][week][day];
 
         schedule[setName][exerciseName] = {
@@ -174,19 +163,19 @@ export default function Page(){
             "moves": rep, // Replace with the actual number of moves
             "description": description,
             "time": timer, // Replace with the actual time
-            "stars": difficulty+1, // Replace with the actual stars rating
+            "stars": difficulty + 1, // Replace with the actual stars rating
             "breakTime": breakTime // Replace with the actual break time
 
         };
 
 
-        setUserdata(userdata["exercises"][week][day]=schedule)
+        setUserdata(userdata["exercises"][week][day] = schedule)
         addData("exercises", user, userdata).then(r => {
             router.push(`/modifying/${setName}`)
         });
     }
 
-    const setSelectedExerciseImage = (imageURL:string) =>{
+    const setSelectedExerciseImage = (imageURL: string) => {
         setIsImageSelectModalOpen(false);
         setSelectedImage(imageURL);
     }
@@ -286,38 +275,37 @@ export default function Page(){
                         </label>
                     </div>
                     <label htmlFor={"exerciseImage"}>
-                        <div className={'bg-lime-800 hover:bg-lime-700 rounded flex flex-col justify-center w-fit mb-2'}>
-                            <Image src={selectedImage} alt={"image"} height={200} width={200} className={`${selectedImage ? "":"hidden"} rounded hover:scale-150 transition delay-300`}/>
+                        <div
+                            className={'bg-lime-800 hover:bg-lime-700 rounded flex flex-col justify-center w-fit mb-2'}>
+                            <Image src={selectedImage} alt={"image"} height={200} width={200}
+                                   className={`${selectedImage ? "" : "hidden"} rounded hover:scale-150 transition delay-300`}/>
                             <button
                                 className={'p-2'}
                                 onClick={(e) => {
                                     openImageSelectModal(e)
-                                }}>Select Image</button>
+                                }}>Select Image
+                            </button>
                         </div>
                     </label>
                     <label>
                         <span>Difficulty</span>
                         <div className={"flex flex-row"}>
-                            <input value={difficulty} hidden type={"number"} required>
+                            <input hidden type={"number"} defaultValue={difficulty} required>
                             </input>
                             {[...Array(4)].map((_, index) => {
-                                const starCount = index + 1;
-
                                 return (
-                                    <>
-                                        <StarRoundedIcon key={index}
-                                                         className={`${index <= hoverDifficulty ? "text-blue-200" : ""} ${index <= difficulty ? "text-yellow-300" : ""} hover:cursor-pointer me-2`}
-                                                         sx={{fontSize: "3.5rem"}}
-                                                         onClick={() => {
-                                                             setDifficulty(index)
-                                                         }}
-                                                         onMouseEnter={() => {
-                                                             setHoverDifficulty(index)
-                                                         }}
-                                                         onMouseLeave={() => {
-                                                             setHoverDifficulty(-1)
-                                                         }}/>
-                                    </>
+                                    <StarRoundedIcon key={index}
+                                                     className={`${index <= hoverDifficulty ? "text-blue-200" : ""} ${index <= difficulty ? "text-yellow-300" : ""} hover:cursor-pointer me-2`}
+                                                     sx={{fontSize: "3.5rem"}}
+                                                     onClick={() => {
+                                                         setDifficulty(index)
+                                                     }}
+                                                     onMouseEnter={() => {
+                                                         setHoverDifficulty(index)
+                                                     }}
+                                                     onMouseLeave={() => {
+                                                         setHoverDifficulty(-1)
+                                                     }}/>
                                 );
                             })}
                         </div>
@@ -344,38 +332,12 @@ export default function Page(){
                             }}>
                         Create Exercise
                     </button>
-
-                    <AddModal isOpen={isModalOpen} onClose={closeModal} userData={exerciseData}
-                              createNewSet={createNewSet} addExerciseToSet={addExerciseToSet}/>
-                    <ImageSelectModal isOpen={isImageSelectModalOpen} onClose={closeImageSelectModal} images={images} setSelectedExerciseImage={setSelectedExerciseImage}/>
                 </form>
             </div>
+            <AddModal isOpen={isModalOpen} onClose={closeModal} setKeys={setKeys}
+                      createNewSet={createNewSet} addExerciseToSet={addExerciseToSet}/>
+            <ImageSelectModal isOpen={isImageSelectModalOpen} onClose={closeImageSelectModal} images={images}
+                              setSelectedExerciseImage={setSelectedExerciseImage}/>
         </>
     )
 }
-
-
-
-const getSets = async (data: any, day: string, week: string) => {
-
-    let objArray: any[] = [];
-    let exerciseNum = 0;
-    let time = 0;
-
-
-    if (day) {
-        for (const setName in data.exercises[week][day]) {
-            const exerciseSet = data.exercises[week][day][setName];
-            exerciseNum += Object.entries(exerciseSet).length;
-            for (const exerciseName in exerciseSet) {
-                time += parseInt(exerciseSet[exerciseName].time);
-            }
-        }
-
-        objArray = objArray.concat(Object.entries(data.exercises[week][day]));
-
-    }
-
-
-    return {objArray, exerciseNum, time};
-};

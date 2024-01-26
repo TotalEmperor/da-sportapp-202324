@@ -93,7 +93,7 @@ export default function SetManager(props: {
                 </div>
             </div>
             <ModifyDeleteModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal}
-                               setName={data}/>
+                               setName={setName}/>
         </>
     )
 }

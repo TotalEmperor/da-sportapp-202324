@@ -37,7 +37,7 @@ export function ContextDataProvider({ children }: Props) {
         setActiveButton
     };
     return (
-        <ContextData.Provider value={value}>
+        <ContextData.Provider value={value} key={"dataProvider"}>
             {children}
         </ContextData.Provider>
     );

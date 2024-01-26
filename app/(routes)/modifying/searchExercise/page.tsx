@@ -11,6 +11,8 @@ export default function Page(){
     const [templateExercises, setTemplateExercises] = useState([]);
     const [selectedExercises, setSelectedExercises] = useState([]);
     const [exerciseSetKeys, setExerciseSetKeys] = useState<string[]>([]);
+    const [exercises, setExercises] = useState<string[]>([]);
+
 
     const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
@@ -31,15 +33,15 @@ export default function Page(){
 
         const unsubscribe = getFirestoreDocument('exampleexercises', "CB6Eqnz7qfDrfcwuZJPn", (data) => {
             if (data) {
+                setExercises(data.exampleexercises)
                 setSelectedExercises(data.exampleexercises);
                 let newExerciseKeys: string[]= [];
                 newExerciseKeys = newExerciseKeys.concat(Object.keys(data.exampleexercises));
                 newExerciseKeys.sort((a, b) => a.localeCompare(b));
                 setExerciseSetKeys(newExerciseKeys);
+                setSelectedExercises(newExerciseKeys);
                 getSets(data.exampleexercises).then((exercisesData) => {
                     if (exercisesData) {
-                        setTemplateExercises(exercisesData.objArray)
-                        //setSelectedExercises(exercisesData.objArray)
                         setTime(exercisesData.time)
                         setNumSets(exercisesData.exerciseNum)
                     }
@@ -55,18 +57,18 @@ export default function Page(){
 
     }, [user]);
 
-    const setNewSearchValue = (searchValue: string)=>{
-        setSearchValue(searchValue);
+    const setNewSearchValue = async (newSearchValue: string)=>{
+        setSearchValue(newSearchValue);
         let chache = [];
 
-        templateExercises.forEach((set)=>{
-            if(set[0].includes(searchValue)){
+        exerciseSetKeys.forEach((set)=>{
+            if(set.includes(newSearchValue)){
                 chache.push(set);
             }
         })
 
         if(!chache){
-            setSelectedExercises(templateExercises);
+            setSelectedExercises(exerciseSetKeys);
         }else {
             setSelectedExercises(chache)
         }
@@ -93,7 +95,7 @@ export default function Page(){
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
                                      viewBox="0 0 24 24"
                                      stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                                           d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                                 </svg>
                             </div>
@@ -110,13 +112,13 @@ export default function Page(){
                     </div>
                     <div className={"w-[80%] overflow-y-auto flex flex-col items-center my-2 sm:px-5 mx-10"}>
                         {(
-                            exerciseSetKeys.map((key: any, index) => (
+                            selectedExercises.map((key: any, index) => (
                                 <SetManager key={index}
                                             setName={key}
-                                            data={selectedExercises[key]} link={`/modifying/searchExercise/${key}`}
-                                            time={getSetTime(selectedExercises[key])}
-                                            exerciseNum={selectedExercises[key] ? Object.entries(selectedExercises[key]).length : 0}
-                                            stars={getAverageDifficulty(selectedExercises[key])}/>
+                                            data={exercises[key]} link={`/modifying/searchExercise/${key}`}
+                                            time={getSetTime(exercises[key])}
+                                            exerciseNum={exercises[key] ? Object.entries(exercises[key]).length : 0}
+                                            stars={getAverageDifficulty(exercises[key])}/>
                             ))
                         )}
                     </div>

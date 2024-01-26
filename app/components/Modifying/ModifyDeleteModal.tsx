@@ -1,5 +1,5 @@
 "use client"
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
 import deleteCurrentUser from "@/firebase/auth/deleteCurrentUser";
@@ -12,6 +12,7 @@ import updateFirestoreDocument from "@/firebase/firestore/updateData";
 
 export default function ModifyDeleteModal({isOpen, onClose, setName, exerciseName}: { isOpen: boolean; onClose: () => void, setName:string, exerciseName?:string }) {
     const router = useRouter();
+    const [exercises, setExercises] = useState([]);
     const { day, week, setDay, setWeek } = useContextData();
 
     useEffect(() => {
@@ -23,37 +24,34 @@ export default function ModifyDeleteModal({isOpen, onClose, setName, exerciseNam
 
             }
         }
-    }, []);
-    const handleDelete = async (event) => {
-        event.preventDefault()
 
         const unsubscribe = getFirestoreDocument('exercises', getAuth().currentUser.uid, async (data) => {
             if (data) {
-                if(exerciseName){
-                    if(Object.keys(data).length<=1){
-                        delete data.exercises[week][day][setName];
-                    }else {
-                        delete data.exercises[week][day][setName][exerciseName];
-                    }
-                }else {
-                    delete data.exercises[week][day][setName];
-                }
-
-                await updateFirestoreDocument("exercises", data);
-
-                if(exerciseName){
-                    router.push(`/modifying/${setName}`)
-                }else {
-                    router.push('/modifying')
-                }
+                setExercises(data)
             }
         });
-
-        onClose();
 
         return () => {
             unsubscribe();
         };
+        }, []);
+    const handleDelete = async (event) => {
+        event.preventDefault()
+        const editExercises = exercises;
+
+        if(exerciseName && Object.keys(editExercises["exercises"][week][day][setName]).length>1){
+            delete editExercises["exercises"][week][day][setName][exerciseName];
+            await updateFirestoreDocument("exercises", editExercises);
+            router.push(`/modifying/${setName}`)
+
+        }else {
+            delete editExercises["exercises"][week][day][setName];
+            updateFirestoreDocument("exercises", editExercises);
+            router.push("/modifying")
+
+        }
+
+        onClose();
     }
 
     if (!isOpen) return null;

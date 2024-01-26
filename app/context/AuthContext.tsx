@@ -51,19 +51,19 @@ export const CheckEmailVerification = ({children,}) => {
         });
 
         return () => unsubscribe();
-    });
+    }, []);
 
     return (
-        <>
+        <React.Fragment key="checkEmailVerification">
             {children}
-        </>
+        </React.Fragment>
     );
 };
 
 export const RedirectSignedUpUser = ({children,}) => {
     const router = useRouter();
 
-    React.useEffect(() => {
+    useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user && user.emailVerified) {
                 router.push("/workout")
@@ -71,12 +71,12 @@ export const RedirectSignedUpUser = ({children,}) => {
         });
 
         return () => unsubscribe();
-    });
+    }, []);
 
     return (
-        <>
+        <React.Fragment key="redirectSignedUpUser">
             {children}
-        </>
+        </React.Fragment>
     );
 
 }

@@ -94,9 +94,9 @@ export default function Page({params: {params}}) {
                                                     style={"m-0 p-0"}
                                                     image={exerciseData[key].image}
                                                     moves={exerciseData[key].moves}
-                                                    setName={params}
+                                                    setName={params[0]}
                                                     exerciseName={key}
-                                                    modify={true}
+                                                    search={true}
                                                 />
                                                 <span
                                                     className={"flex items-center rounded-2xl justify-center dark:text-black text-2xl font-bold h-20"}>{exerciseData[key].breakTime? exerciseData[key].breakTime +"  Sec. Break<": ""}</span>
