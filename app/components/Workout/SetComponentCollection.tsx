@@ -115,7 +115,9 @@ export default function SetComponentCollection() {
                                 className="flex felx-row border-b-2 border-black dark:border-white justify-center items-center">
                                 <h2 className="text-sm me-[1rem]">{exerciseSetKeys.length ? exerciseSetKeys.length : "0"}x Sets</h2>
                                 <h1 className="text-xl font-bold">{exerciseSetKeys.length ? numSets : "0"}x. Exercises</h1>
-                                <h2 className="text-sm ms-[1rem]">{exerciseSetKeys.length ? time : "0"} Min.</h2>
+                                <h2 className="text-sm ms-[1rem]">{(time < 60) ?
+                                    time + " sec." :
+                                    Math.floor(time / 60).toString() + ":" + (time % 60).toString().padStart(2, '0') + " Min."}</h2>
                             </div>
                         </div>
                         <div className={"w-[80%] overflow-y-auto flex flex-col items-center my-2 sm:px-5 mx-10"}>
@@ -131,7 +133,7 @@ export default function SetComponentCollection() {
                             )}
                         </div>
                         <div className={"mt-auto w-[80%] flex"}>
-                            <Link href={`/modifying}`} prefetch={true}
+                            <Link href={`/modifying`} prefetch={true}
                                   className={"p-5 mb-20 ms-auto rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
                                 <EditCalendarIcon/>
                             </Link>

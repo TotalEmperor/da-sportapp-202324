@@ -94,7 +94,7 @@ export default function ExerciseComponentCollection(setName:any) {
                                                              moves={exerciseData[key].moves}
                                             />
                                             <span
-                                                className={"flex items-center rounded-2xl justify-center dark:text-black text-2xl font-bold h-20"}>{exerciseData[key].breakTime ? exerciseData[key].breakTime + "  Sec. Break<" : ""}</span>
+                                                className={"flex items-center rounded-2xl justify-center dark:text-black text-2xl font-bold h-20"}>{exerciseData[key].breakTime ? exerciseData[key].breakTime + "  Sec. Break" : ""}</span>
                                         </div>
                                     ))
                                 )}

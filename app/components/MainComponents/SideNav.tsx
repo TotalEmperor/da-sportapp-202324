@@ -4,13 +4,18 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Logo from '@/images/hope.svg';
 import TimerIcon from "@mui/icons-material/Timer";
-import BarChartIcon from "@mui/icons-material/BarChart";
+import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
+import InsertChartIcon from '@mui/icons-material/InsertChart';
 import AccountDropdown from "@/components/AccountDropdown";
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import React, {useEffect, useState} from "react";
+import SettingsIcon from '@mui/icons-material/Settings';
 import {useParams, usePathname} from "next/navigation";
 import {useContextData} from "@/context/ContextData";
+import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+import EditCalendarOutlinedIcon from '@mui/icons-material/EditCalendarOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 
 export default function SideNav() {
@@ -59,29 +64,67 @@ export default function SideNav() {
                         <ul className="flex flex-col overflow-hidden justify-center content-center sm:w-[75%] min-w-fit">
                             <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] ${activeButton === '/workout' ? 'bg-[#d9e7cb] dark:bg-gray-700' : ''}`}>
                                 <Link href="/workout" prefetch onClick={() => setMenuVisible(false)}>
-                                    <TimerIcon
-                                        className={"icons fill-black sm:mx-2 mx-4 inline"}></TimerIcon>
-                                    <span className="sm:inline">Workout</span>
+                                    {activeButton === '/workout' ?
+                                    <>
+                                        <TimerIcon
+                                            className={"icons fill-black sm:mx-2 mx-4 inline"}></TimerIcon>
+                                        <span className="sm:inline">Workout</span>
+                                    </>
+                                    :
+                                    <>
+                                        <TimerOutlinedIcon
+                                            className={"icons fill-black sm:mx-2 mx-4 inline"}></TimerOutlinedIcon>
+                                        <span className="sm:inline">Workout</span>
+                                    </>
+                                }
                                 </Link>
                             </li>
                             <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] ${activeButton === '/modifying' ? 'dark:bg-gray-700 bg-[#d9e7cb]' : ''}`}>
                                 <Link className="truncate" href="/modifying" onClick={() => setMenuVisible(false)}>
-                                    <FitnessCenterIcon
-                                        className={"icons sm:mx-2 mx-4 inline"}></FitnessCenterIcon>
-                                    <span className="sm:inline font-medium ">Modifying</span>
+                                    {activeButton === '/modifying' ?
+                                        <>
+                                            <EditCalendarIcon
+                                                className={"icons sm:mx-2 mx-4 inline"}></EditCalendarIcon>
+                                            <span className="sm:inline font-medium ">Modifying</span>
+                                        </>
+                                        :
+                                        <>
+                                            <EditCalendarOutlinedIcon
+                                                className={"icons sm:mx-2 mx-4 inline"}></EditCalendarOutlinedIcon>
+                                            <span className="sm:inline font-medium ">Modifying</span>
+                                        </>
+                                    }
                                 </Link>
                             </li>
-                            <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] ${activeButton === '/calculate' ? 'dark:bg-gray-700 bg-[#d9e7cb]' : ''}`}>
-                                <Link className="" href="#" prefetch onClick={() => setMenuVisible(false)}>
-                                    <BarChartIcon className={"icons sm:mx-2 mx-4 inline"}></BarChartIcon>
-                                    <span className="sm:inline font-medium w-fit">Calc. Counter</span>
+                            <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] ${activeButton === '/calCounter' ? 'dark:bg-gray-700 bg-[#d9e7cb]' : ''}`}>
+                                <Link className="" href="/calCounter" prefetch onClick={() => setMenuVisible(false)}>
+                                    {activeButton === '/calCounter' ?
+                                        <>
+                                            <InsertChartIcon className={"icons sm:mx-2 mx-4 inline"}></InsertChartIcon>
+                                            <span className="sm:inline font-medium w-fit">Cal. Counter</span>
+                                        </>
+                                        :
+                                        <>
+                                            <InsertChartOutlinedIcon className={"icons sm:mx-2 mx-4 inline"}></InsertChartOutlinedIcon>
+                                            <span className="sm:inline font-medium w-fit">Cal. Counter</span>
+                                        </>
+                                    }
                                 </Link>
                             </li>
                             <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] ${activeButton === '/settings' ? 'dark:bg-gray-700 bg-[#d9e7cb]' : ''}`}>
                                 <Link href={`/settings/${"Account"}`} prefetch={true}
                                       onClick={() => setMenuVisible(false)}>
-                                    <SettingsOutlinedIcon className={"icons sm:mx-2 mx-4 inline"}/>
-                                    <span className="sm:inline font-medium ">Settings</span>
+                                      {activeButton === '/settings' ?
+                                          <>
+                                              <SettingsIcon className={"icons sm:mx-2 mx-4 inline"}/>
+                                              <span className="sm:inline font-medium ">Settings</span>
+                                          </>
+                                          :
+                                          <>
+                                              <SettingsOutlinedIcon className={"icons sm:mx-2 mx-4 inline"}/>
+                                              <span className="sm:inline font-medium ">Settings</span>
+                                          </>
+                                      }
                                 </Link>
                             </li>
                             <li className="mt-[50%]">

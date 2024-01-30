@@ -120,8 +120,9 @@ export default function ModifySetComponentCollection() {
                                 className="flex felx-row border-b-2 border-black dark:border-white justify-center items-center">
                                 <h2 className="text-sm me-[1rem]">{exerciseSetKeys.length ? exerciseSetKeys.length : "0"}x Sets</h2>
                                 <h1 className="text-xl font-bold">{exerciseSetKeys.length ? numSets : "0"}x. Exercises</h1>
-                                <h2 className="text-sm ms-[1rem]">{exerciseSetKeys.length ? time : "0"} Min.</h2>
-                            </div>
+                                <h2 className="text-sm ms-[1rem]">{(time < 60) ?
+                                    time + " sec." :
+                                    Math.floor(time / 60).toString() + ":" + (time % 60).toString().padStart(2, '0') + " Min."}</h2>                            </div>
                         </div>
                         {exerciseSetKeys.length == 0 ?
                             <div className={`w-[80%] h-full flex justify-center items-center relative`}>
