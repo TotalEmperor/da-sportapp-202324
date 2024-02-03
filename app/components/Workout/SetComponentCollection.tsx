@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import SetManager from "@/components/MainComponents/SetManager"
 import {usePathname, useSearchParams} from "next/navigation";
-import addData from "@/firebase/firestore/addData";
+import setDocument from "@/firebase/firestore/setDocument";
 import {useContextData} from "@/context/ContextData";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 import Link from "next/link";

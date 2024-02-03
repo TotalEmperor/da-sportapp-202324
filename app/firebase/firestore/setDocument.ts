@@ -1,7 +1,7 @@
 import {doc, setDoc, getFirestore} from "firebase/firestore";
 import firebase_app from "@/firebase/config";
 import {getAuth} from "firebase/auth";
-export default async function addData(collection, id, data){
+export default async function setDocument(collection: string, id:string, data:any){
     const db = getFirestore(firebase_app)
 
     let docRef = doc(db, collection, id);

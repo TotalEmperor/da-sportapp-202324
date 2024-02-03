@@ -7,7 +7,7 @@ import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import {useContextData} from "@/context/ContextData";
 import getFirestoreDocument from "@/firebase/firestore/getData";
 import {getAuth} from "firebase/auth";
-import addData from "@/firebase/firestore/addData";
+import setDocument from "@/firebase/firestore/setDocument";
 import {useRouter} from "next/navigation";
 import {getStorage, ref, listAll, getDownloadURL} from "firebase/storage";
 import Image from "next/image";
@@ -147,7 +147,7 @@ export default function Page() {
         };
 
         setUserdata(userdata["exercises"][week][day] = schedule)
-        addData("exercises", user, userdata).then(r => {
+        setDocument("exercises", user, userdata).then(r => {
             router.push(`/modifying/${setName}`)
         });
 
@@ -170,7 +170,7 @@ export default function Page() {
 
 
         setUserdata(userdata["exercises"][week][day] = schedule)
-        addData("exercises", user, userdata).then(r => {
+        setDocument("exercises", user, userdata).then(r => {
             router.push(`/modifying/${setName}`)
         });
     }

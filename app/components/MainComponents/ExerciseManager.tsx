@@ -12,7 +12,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import ModifyDeleteModal from "@/components/Modifying/ModifyDeleteModal";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import AddModal from "@/components/Modifying/AddingExerciseModal";
-import addData from "@/firebase/firestore/addData";
+import setDocument from "@/firebase/firestore/setDocument";
 import AddIcon from "@mui/icons-material/Add";
 import {getDownloadURL, getStorage, listAll, ref} from "firebase/storage";
 import getFirestoreDocument from "@/firebase/firestore/getData";

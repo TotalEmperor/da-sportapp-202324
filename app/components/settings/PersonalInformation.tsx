@@ -36,6 +36,7 @@ export default function PersonalInformation() {
                 setWeightUnit(data.settingsdata.weightUnit);
                 setHeightUnit(data.settingsdata.heightUnit);
                 setEmail(getAuth().currentUser.email);
+                setBirthday(data.personaldata.birthday);
             }
         });
 
@@ -151,9 +152,9 @@ export default function PersonalInformation() {
                     <label htmlFor="birthday" className="mb-5 sm:w-fit flex flex-col">
                         <span>Birthday</span>
                         <input type="text"
+                               value={dateFormat(birthday)}
                                className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
-                               value={"2024-10-02"}
-                               onChange={(e) => setBirthday(e.target.value)}
+                               onChange={(e) => setBirthday(reverseDateFormat(e.target.value))}
                                onBlur={(e) => {
                                    e.target.type = "text"
                                }}

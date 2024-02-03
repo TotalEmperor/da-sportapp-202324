@@ -3,9 +3,9 @@ import React, {useState} from "react";
 import Head from "next/head";
 import Navbar from "@/components/Navbar";
 import getFirestoreDocument from "@/firebase/firestore/getData";
-import {getAuth} from "firebase/auth";
+import {getAuth, sendEmailVerification} from "firebase/auth";
 import exercise from "@/templates/emptyWorkoutTemplate.json";
-import addData from "@/firebase/firestore/addData";
+import setDocument from "@/firebase/firestore/setDocument";
 import {useRouter} from "next/navigation";
 import updateFirestoreDocument from "@/firebase/firestore/updateData";
 
@@ -18,6 +18,7 @@ export default function Page() {
     const [weightUnit, setWeightUnit] = useState<string>("KG");
     const [language, setLanguage] = useState<string>("GERMAN");
     const [gender, setGender] = useState<string>("MALE");
+    const user = getAuth().currentUser;
 
     const router = useRouter();
     const updatingUserData = async ()=>{
@@ -51,8 +52,10 @@ export default function Page() {
                 });
 
                 await updateFirestoreDocument("userdata", data);
-                await addData("exercises", getAuth().currentUser.uid, workoutSchedule);
-                await addData("caloriecounter", getAuth().currentUser.uid, {});
+                await setDocument("exercises", getAuth().currentUser.uid, workoutSchedule);
+                await setDocument("caloriecounter", getAuth().currentUser.uid, {});
+                await sendEmailVerification(user);
+
                 router.push("/Verification");
             }
         });
@@ -64,9 +67,7 @@ export default function Page() {
 
     const handleForm = async (event)=> {
         event.preventDefault();
-
         await updatingUserData();
-
     }
 
     return (
@@ -82,7 +83,7 @@ export default function Page() {
                         <label htmlFor="birthday" className="mb-5">
                             <span>Birthday</span>
                             <input type="date"
-                                   className="w-full rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                                   className="w-full rounded border border-gray-300 p-3 bg-white shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                                    onChange={(e) => setBirthday(e.target.value)}/>
                         </label>
                         <label htmlFor="weight" className="mb-5">
@@ -91,7 +92,7 @@ export default function Page() {
                                 className="flex flex-row w-full bg-inherit shadow shadow-gray-100 appearance-none outline-none text-neutral-800 items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
                                 <input type="number" className="w-full  bg-inherit p-3  outline-none" onChange={(e) => setWeight(e.target.valueAsNumber)}/>
                                 <select
-                                    className="border-s-2 border-black p-2 w-[15%] text-md text-center outline-0 appearance-none"
+                                    className="border-s-2 border-black p-2 w-[15%] bg-inherit text-md text-center outline-0 appearance-none"
                                     onChange={(e) => setWeightUnit(e.target.value)}>
                                     <option value="KG">kg</option>
                                     <option value="POUNDS">pounds</option>
@@ -104,7 +105,7 @@ export default function Page() {
                                 className="flex flex-row w-full bg-inherit shadow shadow-gray-100 appearance-none outline-none text-neutral-800 items-center rounded border border-gray-300 invalid:border-red-500 peer">
                                 <input type="number" className="w-full bg-inherit p-3 outline-none" onChange={(e) => setHeight(e.target.valueAsNumber)}/>
                                 <select
-                                    className="border-s-2 border-black p-2 w-[15%] text-md text-center outline-0 appearance-none"
+                                    className="border-s-2 border-black bg-inherit p-2 w-[15%] text-md text-center outline-0 appearance-none"
                                     onChange={(e) => setHeightUnit(e.target.value)}>
                                     <option value="CM">cm</option>
                                     <option value="FEET">feet</option>
@@ -121,7 +122,7 @@ export default function Page() {
                                         onChange={(e) => setLanguage(e.target.value)}
                                         name="language"
                                         autoComplete="language-name"
-                                        className="text-center outline-0 w-full border-none  p-4">
+                                        className="text-center outline-0 bg-inherit w-full border-none  p-4">
                                         <option value="GERMAN">German</option>
                                         <option value="ENGLISH">English</option>
                                         <option value="TURKISH">Turkish</option>
@@ -137,7 +138,7 @@ export default function Page() {
                                         onChange={(e) => setGender(e.target.value)}
                                         name="gender"
                                         autoComplete="gender"
-                                        className="text-center outline-0 w-full border-none  p-4">
+                                        className="text-center outline-0 bg-inherit w-full border-none  p-4">
                                         <option value="MALE">Male</option>
                                         <option value="FEMALE">Female</option>
                                         <option value="OTHER">Other</option>

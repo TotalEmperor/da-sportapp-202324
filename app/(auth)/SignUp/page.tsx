@@ -1,17 +1,11 @@
 "use client"
 import React, {useEffect, useState} from "react";
 import Navbar from "@/components/Navbar";
-import Link from "next/link";
-import BorderContainer from "@/components/Authentication/borderContainer";
 import createUser from "@/firebase/auth/createUser";
 import {useRouter} from "next/navigation";
-import {getAuth} from "firebase/auth";
-import emptySchedule from "@/templates/emptySchedule.json"
-import * as fs from 'fs';
-import addData from "@/firebase/firestore/addData";
-import Head from "next/head";
+import setDocument from "@/firebase/firestore/setDocument";
 import templateUserData from "@/templates/userdata.json";
-import signIn from "@/firebase/auth/signin";
+import {getAuth} from "firebase/auth";
 
 export default function SignUp() {
     const [email, setEmail] = React.useState('');
@@ -29,9 +23,9 @@ export default function SignUp() {
         setShowPassword((prevShowPassword) => !prevShowPassword);
     };
 
-    async function editSchedule(userCredential){
+    async function editSchedule(){
         const userData = await reformateTemplate(firstName, lastName);
-        await addData("userdata", getAuth().currentUser.uid, userData);
+        await setDocument("userdata", getAuth().currentUser.uid, userData);
 
         router.push("/configureAccount")
     }
@@ -39,12 +33,13 @@ export default function SignUp() {
     const handleForm = async (event) => {
         event.preventDefault()
 
-        createUser(email, password, firstName+" "+lastName).then((userCredential)=>{
-            editSchedule(userCredential);
+        createUser(email, password, firstName+" "+lastName).then(()=>{
+            editSchedule();
         }
         ).catch((error)=>{
             const errorCode = error.code;
             const errorMessage = error.message;
+            console.error(errorMessage +"\n"+errorCode)
         })
     }
 
@@ -68,13 +63,13 @@ export default function SignUp() {
     return (
         <>
             <div
-                className="flex flex-col dark:bg-gradient-to-tr dark:from-green-700 dark:to-gray-100 dark:via-green-400 bg-gradient-to-tr from-gray-100 to-green-700 via-green-400 min-h-screen h-fit">
+                className="flex flex-col bg-gradient-to-tr dark:from-neutral-800 dark:via-blue-600 dark:to-green-900 dark:from-80% dark:via-40% dark:to-10% from-gray-100 to-green-700 via-green-400 min-h-screen h-fit">
                 <header>
                     <Navbar/>
                 </header>
                 <div className="flex-1 flex justify-center items-center">
                     <form
-                        className="bg-white shadow-lg rounded-md p-5 md:p-10 flex flex-col w-11/12 max-w-lg group" noValidate onSubmit={handleForm}>
+                        className="bg-white shadow-lg rounded-md p-5 md:p-10 flex flex-col w-11/12 max-w-lg group" noValidate>
                         <div className="flex flex-row">
                             <div className="me-3">
                                 <span>First Name</span>

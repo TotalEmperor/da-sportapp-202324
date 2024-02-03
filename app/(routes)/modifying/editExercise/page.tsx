@@ -10,7 +10,7 @@ import {useContextData} from "@/context/ContextData";
 import {useRouter, useSearchParams} from "next/navigation";
 import {getDownloadURL, getStorage, listAll, ref} from "firebase/storage";
 import getFirestoreDocument from "@/firebase/firestore/getData";
-import addData from "@/firebase/firestore/addData";
+import setDocument from "@/firebase/firestore/setDocument";
 
 export default function Page() {
     const [user, setuser] = useState(() => {
@@ -145,7 +145,7 @@ export default function Page() {
 
         };
 
-        addData("exercises", user, newSchedule).then(r => {
+        setDocument("exercises", user, newSchedule).then(r => {
             router.push(`/modifying/${setName}`)
         });
     }

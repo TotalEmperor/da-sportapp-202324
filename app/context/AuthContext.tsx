@@ -22,7 +22,7 @@ export const AuthContextProvider = ({children,}) => {
                 setUser(user);
                 // Activate the user's account
                 if(user.emailVerified){
-                    //router.push("/workout")
+                    router.push("/workout")
                 }
             } else{
                 setUser(null);
@@ -46,7 +46,7 @@ export const CheckEmailVerification = ({children,}) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (!user || !user.emailVerified) {
-                redirect("/",RedirectType.replace)
+                router.push("/")
             }
         });
 

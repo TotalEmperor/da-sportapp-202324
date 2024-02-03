@@ -3,7 +3,7 @@ import React, {Suspense, useEffect, useState} from 'react';
 import {useRouter} from "next/navigation";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
-import addData from "@/firebase/firestore/addData";
+import setDocument from "@/firebase/firestore/setDocument";
 import getFirestoreDocument from "@/firebase/firestore/getData";
 import {getAuth} from "firebase/auth";
 import {useContextData} from "@/context/ContextData";
@@ -64,7 +64,7 @@ export default function Page({params: {params}}) {
         console.log(exerciseData)
         const newSchedule = renameKey(params, setName);
 
-        addData("exercises", user, newSchedule).then(r => {
+        setDocument("exercises", user, newSchedule).then(r => {
             router.push(`/modifying/${setName}`)
         });
     }
