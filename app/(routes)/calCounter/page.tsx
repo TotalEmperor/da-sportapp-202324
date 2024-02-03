@@ -7,6 +7,20 @@ import setDocument from "@/firebase/firestore/setDocument";
 import {doc, getFirestore} from "firebase/firestore";
 import firebase_app from "@/firebase/config";
 
+interface WorkoutData {
+    date: string;
+    Legs?: number;
+    Forearms?: number;
+    Abs?: number;
+    Back?: number;
+    Biceps?: number;
+    Chest?: number;
+    Shoulders?: number;
+    Traps?: number;
+    Triceps?: number;
+    others?: number;
+}
+
 export default function Page() {
     const [user, setuser] = useState(() => {
         // if a user is already logged in, use the current user object, or `undefined` otherwise.
@@ -36,31 +50,31 @@ export default function Page() {
             try {
                 setDay(sessionStorage.getItem("day"));
                 setWeek(sessionStorage.getItem("week"))
-                console.log(day)
             } catch (e) {
 
             }
         }
 
-        const unsubscribeCalorieCounter = getFirestoreDocument('caloriecounter', user, (data) => {
-            if (data) {
-                setCalorieCounter(data);
-                setCalorieKeys(Object.keys(data));
-            } else {
-                console.error("Couldn't fetch Calorie Counter")
-            }
-        });
+        const unsubscribe = ()=>{
 
-        unsubscribeCalorieCounter();
+            getFirestoreDocument('exercises', user, (data) => {
+                if (data) {
+                    setExercises(data);
+                    setExercisesKeys(Object.keys(data));
+                } else {
+                    console.error("Couldn't fetch Exercises")
+                }
+            });
 
-        const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
-            if (data) {
-                setExercises(data);
-                setExercisesKeys(Object.keys(data));
-            } else {
-                console.error("Couldn't fetch Exercises")
-            }
-        });
+            getFirestoreDocument('caloriecounter', user, (data) => {
+                if (data) {
+                    analyseData(data).then(r => {});
+                } else {
+                    console.error("Couldn't fetch Calorie Counter")
+                }
+            });
+
+        }
 
         return () => {
             unsubscribe();
@@ -68,18 +82,99 @@ export default function Page() {
 
     }, [user, day, week]); // <-- rerun when user changes
 
+    const analyseData = async (data: any) =>{
+        const calorieCounterKeys = data.calorieCounter.map((object)=>{
+            return object.date;
+        })
+        setCalorieKeys(calorieCounterKeys);
+        let calorieData: WorkoutData[] = [];
+        data.calorieCounter.map((sets)=>{
+            let newSet: WorkoutData = { date: sets.date, Abs: 0, Forearms: 0, Back: 0, Biceps: 0,Chest:0, Legs: 0, others: 0, Shoulders: 0, Traps: 0, Triceps:0};
+            sets.exercises.map((exercise)=>{
+                const type = exercise.type;
+                newSet[type] += exercise.burned;
+            })
+            calorieData.push(newSet);
+        })
+
+        console.log(calorieData);
+
+    };
+
     const db = getFirestore(firebase_app)
 
-    const data: object = {
-        "2024-01-30": [
-            {"exerciseName": "Lifting", "time": 3600, "burned": 500, "date": "2024-01-30", "type": "Forearms"},
-            {"exerciseName": "Cycling", "time": 1800, "burned": 250, "date": "2024-01-30", "type": "Legs"},
-        ],
-        "2024-01-29": [
-            {"exerciseName": "Swimming", "time": 3000, "burned": 400, "date": "2024-01-29", "type": "Legs"},
-            {"exerciseName": "Yoga", "time": 600, "burned": 100, "date": "2024-01-29", "type": "Abs"}
-        ]
-    };
+    const data: object = {"calorieCounter": [
+            {
+                "date": "2024-01-28",
+                "exercises": [
+                    {"exerciseName": "Leg Press", "time": 2400, "burned": 300, "type": "Legs"},
+                    {"exerciseName": "Forearm Plank", "time": 1500, "burned": 120, "type": "Forearms"}
+                ]
+            },
+            {
+                "date": "2024-01-27",
+                "exercises": [
+                    {"exerciseName": "Leg Extension", "time": 1800, "burned": 250, "type": "Legs"},
+                    {"exerciseName": "Abs Crunches", "time": 1200, "burned": 150, "type": "Abs"}
+                ]
+            },
+            {
+                "date": "2024-01-26",
+                "exercises": [
+                    {"exerciseName": "Pull-ups", "time": 1800, "burned": 200, "type": "Back"},
+                    {"exerciseName": "Bicep Curls", "time": 2100, "burned": 250, "type": "Biceps"}
+                ]
+            },
+            {
+                "date": "2024-01-25",
+                "exercises": [
+                    {"exerciseName": "Leg Curl", "time": 2400, "burned": 300, "type": "Legs"},
+                    {"exerciseName": "Shoulder Press", "time": 1800, "burned": 220, "type": "Shoulders"}
+                ]
+            },
+            {
+                "date": "2024-01-24",
+                "exercises": [
+                    {"exerciseName": "Sit-ups", "time": 1200, "burned": 150, "type": "Abs"},
+                    {"exerciseName": "Deadlifts", "time": 2400, "burned": 350, "type": "Back"}
+                ]
+            },
+            {
+                "date": "2024-01-23",
+                "exercises": [
+                    {"exerciseName": "Hammer Curls", "time": 1800, "burned": 200, "type": "Biceps"},
+                    {"exerciseName": "Leg Raise", "time": 1500, "burned": 120, "type": "Legs"}
+                ]
+            },
+            {
+                "date": "2024-01-22",
+                "exercises": [
+                    {"exerciseName": "Push-ups", "time": 2100, "burned": 250, "type": "Chest"},
+                    {"exerciseName": "Plank", "time": 1800, "burned": 220, "type": "Abs"}
+                ]
+            },
+            {
+                "date": "2024-01-21",
+                "exercises": [
+                    {"exerciseName": "Lat Pulldowns", "time": 2400, "burned": 300, "type": "Back"},
+                    {"exerciseName": "Tricep Dips", "time": 1800, "burned": 200, "type": "Shoulders"}
+                ]
+            },
+            {
+                "date": "2024-01-20",
+                "exercises": [
+                    {"exerciseName": "Leg Press", "time": 1500, "burned": 180, "type": "Legs"},
+                    {"exerciseName": "Russian Twists", "time": 1200, "burned": 150, "type": "Abs"}
+                ]
+            },
+            {
+                "date": "2024-01-19",
+                "exercises": [
+                    {"exerciseName": "Chest Flyes", "time": 2100, "burned": 250, "type": "Chest"},
+                    {"exerciseName": "Reverse Flyes", "time": 1800, "burned": 220, "type": "Shoulders"}
+                ]
+            }
+        ]}
 
     setDocument("caloriecounter", user, data);
 

@@ -31,8 +31,7 @@ export default function SideNav() {
         const result = parts.length >= 3 ? parts.slice(0, 3) : parts.slice(0, 2);
 
         result.join('/');
-
-        setActiveButton("/"+result[1])
+        setActiveButton("/"+result[1]);
     }, [path]);
 
     const toggleMenu = () => {
