@@ -34,9 +34,9 @@ export default function StackedAreaGraph(data:any){
                 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
+                <XAxis dataKey="date" stroke={"white"}/>
+                <YAxis stroke={"white"} unit={"kcal"}/>
+                <Tooltip wrapperClassName={"dark:text-black"}/>
                 {areaElements}
             </AreaChart>
         </ResponsiveContainer>

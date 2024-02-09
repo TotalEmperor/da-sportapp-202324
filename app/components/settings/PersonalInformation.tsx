@@ -7,8 +7,7 @@ import {getAuth, updateEmail} from "firebase/auth";
 import createUser from "@/firebase/auth/createUser";
 import updateFirestoreDocument from "@/firebase/firestore/updateData";
 import {useRouter} from "next/navigation";
-import UserData from "@/firebase/firestore/firestoreClasses/Userdata"
-
+import {UserData} from "../../../public/interfaces/userdata";
 export default function PersonalInformation() {
 
     const [email, setEmail] = React.useState('');
@@ -19,13 +18,13 @@ export default function PersonalInformation() {
     const [heightUnit, setHeightUnit] = useState<string>("");
     const [weightUnit, setWeightUnit] = useState<string>("");
     const [height, setHeight] = useState<number>(null);
-    const [userData, setUserdata] = useState<UserData>(new UserData());
+    const [userData, setUserdata] = useState<UserData>();
     const [isFormValid, setIsFormValid] = useState(false);
     const router = useRouter();
     const user = getAuth().currentUser;
 
     useEffect(() => {
-        const unsubscribe = getFirestoreDocument('userdata', getAuth().currentUser.uid, (data) => {
+        const unsubscribe = getFirestoreDocument('userdata', getAuth().currentUser.uid, (data: UserData) => {
             if (data) {
                 console.log(data)
                 setUserdata(data);
@@ -53,6 +52,8 @@ export default function PersonalInformation() {
         userData.personaldata.height = height;
         userData.personaldata.weight = weight;
         userData.personaldata.birthday = birthday;
+        userData.settingsdata.weightUnit = weightUnit;
+        userData.settingsdata.heightUnit = heightUnit;
         await updateFirestoreDocument("userdata", userData);
 
         await updateEmail(getAuth().currentUser, email);

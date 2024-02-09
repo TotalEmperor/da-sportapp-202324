@@ -4,8 +4,8 @@ import Navbar from "@/components/Navbar";
 import createUser from "@/firebase/auth/createUser";
 import {useRouter} from "next/navigation";
 import setDocument from "@/firebase/firestore/setDocument";
-import templateUserData from "@/templates/userdata.json";
 import {getAuth} from "firebase/auth";
+import {UserData} from "../../../public/interfaces/userdata";
 
 export default function SignUp() {
     const [email, setEmail] = React.useState('');
@@ -148,7 +148,7 @@ export default function SignUp() {
 }
 
 const reformateTemplate = (firstName:string, lastName:string):any=>{
-    const userData = templateUserData;
+    let userData:UserData = {} as UserData;
     userData.personaldata.firstName = firstName;
     userData.personaldata.lastName = lastName;
     return userData;

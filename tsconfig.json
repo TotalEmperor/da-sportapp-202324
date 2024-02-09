@@ -29,8 +29,8 @@
       "@/firebase/*": ["app/firebase/*"],
       "@/context/*": ["app/context/*"],
       "@/scheduleTemplates/*": ["public/scheduleTemplates/*"],
-      "@/templates/*": ["public/templates/*"]
-
+      "@/templates/*": ["public/templates/*"],
+      "@/interfaces/*": ["public/interfaces/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

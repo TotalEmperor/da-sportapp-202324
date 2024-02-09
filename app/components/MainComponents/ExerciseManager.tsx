@@ -18,9 +18,10 @@ import {getDownloadURL, getStorage, listAll, ref} from "firebase/storage";
 import getFirestoreDocument from "@/firebase/firestore/getData";
 import {getAuth} from "firebase/auth";
 import {useContextData} from "@/context/ContextData";
+import {Exercise} from "@/interfaces/Exercise";
 
 export default function ExerciseManager(props: {
-    data: any;
+    data: Exercise;
     time: number;
     stars: number;
     moves: number;
@@ -29,7 +30,6 @@ export default function ExerciseManager(props: {
     search?: boolean;
     setName?: string;
     exerciseName: string;
-    image;
     style?: string;
 }) {
     const {data, time, stars, moves, description, modify, search, setName, exerciseName, style} = props;

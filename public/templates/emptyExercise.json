@@ -1,6 +1,6 @@
 {
-  "setNamePlaceholder": {
-    "exerciseNamePlaceholder": {
+  [setName: string]: {
+    [exerciseName: string]: {
       "image": "",
       "moves": 0,
       "description": "",

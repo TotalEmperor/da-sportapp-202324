@@ -9,6 +9,8 @@ import {useContextData} from "@/context/ContextData";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 import Link from "next/link";
 import LoadingModule from "@/components/loadingModule";
+import {ExerciseSet} from "@/interfaces/ExerciseSet";
+import {ExerciseSchedule} from "@/interfaces/ExerciseSchedule";
 
 export default function SetComponentCollection() {
     const [user, setuser] = useState(() => {
@@ -19,7 +21,7 @@ export default function SetComponentCollection() {
             console.log(e)
         }
     });
-    const [userdata, setuserdata] = useState([]);
+    const [userdata, setuserdata] = useState<ExerciseSet>();
     const [exerciseSetKeys, setExerciseSetKeys] = useState<string[]>([]);
     const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
@@ -50,9 +52,10 @@ export default function SetComponentCollection() {
             setDay(sessionStorage.getItem("day"));
         }
 
-        const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
+        const unsubscribe = getFirestoreDocument('exercises', user, (data: ExerciseSchedule) => {
             if (data) {
                 setuserdata(data.exercises[week][day]);
+                console.log(typeof userdata)
                 let newExerciseKeys: string[]= [];
                 newExerciseKeys = newExerciseKeys.concat(Object.keys(data.exercises[week][day]));
                 newExerciseKeys.sort((a, b) => a.localeCompare(b));
@@ -65,7 +68,7 @@ export default function SetComponentCollection() {
                         setuserdata(null);
                     }
 
-                })
+                });
             }else {
                 setExerciseSetKeys(null)
             }

@@ -8,7 +8,9 @@ import Link from "next/link";
 import {param} from "ts-interface-checker";
 import {useContextData} from "@/context/ContextData";
 import LoadingModule from "@/components/loadingModule";
-import SetManager from "@/components/MainComponents/SetManager";
+import {Exercise} from "@/interfaces/Exercise";
+import {ExerciseSchedule} from "@/interfaces/ExerciseSchedule";
+
 
 export default function ExerciseComponentCollection(setName:any) {
     const [user, setuser] = useState(() => {
@@ -19,8 +21,9 @@ export default function ExerciseComponentCollection(setName:any) {
             console.log(e)
         }
     });
-    const [exerciseData, setExerciseData] = useState([]);
-    const [exerciseKeys, setExerciseKeys] = useState<string[]>([]);    const [time, setTime] = useState(0);
+    const [exerciseData, setExerciseData] = useState<Exercise[]>();
+    const [exerciseKeys, setExerciseKeys] = useState<string[]>([]);
+    const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
     const { day, week, setDay, setWeek } = useContextData();
 
@@ -40,7 +43,7 @@ export default function ExerciseComponentCollection(setName:any) {
             return;
         }
 
-        const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
+        const unsubscribe = getFirestoreDocument('exercises', user, (data:ExerciseSchedule) => {
             if (data) {
                 setExerciseData(data.exercises[week][day][setName.setName]);
                 let newExerciseKeys: string[]= [];
@@ -59,7 +62,7 @@ export default function ExerciseComponentCollection(setName:any) {
 
     return (
         <>
-            {exerciseData.length == 0 ?
+            {exerciseKeys.length == 0 ?
                 <>
                     <LoadingModule/>
                 </>
@@ -90,7 +93,6 @@ export default function ExerciseComponentCollection(setName:any) {
                                                              style={"m-0 p-0"}
                                                              key={index}
                                                              exerciseName={key}
-                                                             image={exerciseData[key].image}
                                                              moves={exerciseData[key].moves}
                                             />
                                             <span

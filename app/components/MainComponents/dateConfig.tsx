@@ -10,7 +10,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import LoadingModule from "@/components/loadingModule";
-import {loadWebpackHook} from "next/dist/server/config-utils";
+import {UserData} from "../../../public/interfaces/userdata";
 
 export default function DateConfig() {
 
@@ -42,7 +42,7 @@ export default function DateConfig() {
             setCheckedWeek(0)
             return;
         } else {
-            const unsubscribe = getFirestoreDocument('userdata', getAuth().currentUser.uid, (data) => {
+            const unsubscribe = getFirestoreDocument('userdata', getAuth().currentUser.uid, (data:UserData) => {
                 if (data.weeks) {
                     sortDates(Object.keys(data.weeks)).then((date: [string]) => {
                         if (!day) {
@@ -70,7 +70,7 @@ export default function DateConfig() {
     }, [user]); // <-- rerun when user changes
 
     useEffect(() => {
-        const unsubscribe = getFirestoreDocument('userdata', user, (data) => {
+        const unsubscribe = getFirestoreDocument('userdata', user, (data: UserData) => {
             if (data.weeks[week]) {
                 days.forEach((day) => {
                     setExerciseStatusAtIndex(days.indexOf(day), getExerciseStatus(day, data.weeks[week]));

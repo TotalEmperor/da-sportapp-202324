@@ -18,11 +18,11 @@ export default function LineGraph(data:any){
                 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis/>
-                <Tooltip />
+                <XAxis dataKey="date" stroke={"white"}/>
+                <YAxis stroke={"white"} unit={"kcal"}/>
+                <Tooltip wrapperClassName={"dark:text-black"}/>
                 <Legend />
-                <Line type="monotone" dataKey="sum" stroke="#8884d8" activeDot={{ r: 8 }} />
+                <Line type="monotone" dataKey="sum" unit={"kcal"} stroke="#8884d8" activeDot={{ r: 8 }} />
             </LineChart>
         </ResponsiveContainer>
     );

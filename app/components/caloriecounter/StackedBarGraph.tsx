@@ -1,5 +1,16 @@
 import React, { PureComponent } from 'react';
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import {
+    BarChart,
+    Bar,
+    Cell,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+    ResponsiveContainer,
+    LabelList
+} from 'recharts';
 
 
 export default function StackedBarGraph(data: any)  {
@@ -18,8 +29,18 @@ export default function StackedBarGraph(data: any)  {
         others: 'gray',
     };
 
+    const customFormatter = (value: number | string, name: string, props: any) => {
+        // Check if the value is null
+        if (value === 0) {
+            // Return undefined or an empty string to hide the entry
+            return '';
+        }else {
+            return value;
+        }
+    }
+
     const barElements = Object.keys(colors).map((type) => (
-        <Bar key={type} dataKey={type} stackId="a" fill={colors[type]} unit={"kcal"} />
+        <Bar key={type} dataKey={type} stackId="a" fill={colors[type]}  unit={"kcal"}/>
     ));
 
         return (
@@ -39,9 +60,9 @@ export default function StackedBarGraph(data: any)  {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="date" stroke={"white"} />
                     <YAxis stroke={"white"} unit={"kcal"} />
-                    <Tooltip/>
+                    <Tooltip wrapperClassName={"dark:text-black"}/>
                     <Legend/>
-                    {barElements}
+                        {barElements}
                 </BarChart>
             </ResponsiveContainer>
         );
