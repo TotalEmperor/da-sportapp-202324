@@ -1,3 +1,14 @@
 {
-  "extends": "next/core-web-vitals"
+  "rules": {
+    "react/require-default-props": "off"
+  },
+  "extends": "next/core-web-vitals",
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "react/require-default-props": "off"
+      }
+    }
+  ]
 }

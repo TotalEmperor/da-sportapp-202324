@@ -5,7 +5,6 @@ import {
 } from 'firebase/auth';
 import {doc, getFirestore, setDoc} from "firebase/firestore";
 import firebase_app from "@/firebase/config";
-import admin from "firebase-admin"
 
 export default async function CreateUser(email: string, password: string, displayName:string) {
     const auth = getAuth();

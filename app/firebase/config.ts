@@ -25,8 +25,6 @@ let firebase_app = getApps().length === 0 ? initializeApp(firebaseConfig) : getA
 const app = initializeApp(firebaseConfig);
 
 initializeFirestore(app, {
-    ignoreUndefinedProperties: true
+    ignoreUndefinedProperties: true,
 })
-
-export const auth = getAuth(app);
 export default firebase_app;

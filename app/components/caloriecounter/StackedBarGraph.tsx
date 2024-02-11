@@ -13,35 +13,9 @@ import {
 } from 'recharts';
 
 
-export default function StackedBarGraph(data: any)  {
+export default function StackedBarGraph(data: any, barKey:string)  {
     console.log("EWFUAWBDFHNUAWBFO: ")
     console.log(data["data"])
-    const colors = {
-        Abs: 'red',
-        Forearms: 'blue',
-        Back: 'green',
-        Biceps: 'purple',
-        Chest: 'pink',
-        Legs: '#82ca9d',
-        Shoulders: 'orange',
-        Traps: 'brown',
-        Triceps: 'cyan',
-        others: 'gray',
-    };
-
-    const customFormatter = (value: number | string, name: string, props: any) => {
-        // Check if the value is null
-        if (value === 0) {
-            // Return undefined or an empty string to hide the entry
-            return '';
-        }else {
-            return value;
-        }
-    }
-
-    const barElements = Object.keys(colors).map((type) => (
-        <Bar key={type} dataKey={type} stackId="a" fill={colors[type]}  unit={"kcal"}/>
-    ));
 
         return (
             <ResponsiveContainer width={"100%"} height={"100%"}>
@@ -62,7 +36,7 @@ export default function StackedBarGraph(data: any)  {
                     <YAxis stroke={"white"} unit={"kcal"} />
                     <Tooltip wrapperClassName={"dark:text-black"}/>
                     <Legend/>
-                        {barElements}
+                    <Bar dataKey={"time"} stackId="a" fill={"blue"}  unit={"kcal"}/>
                 </BarChart>
             </ResponsiveContainer>
         );
