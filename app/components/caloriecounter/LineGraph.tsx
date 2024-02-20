@@ -1,4 +1,5 @@
 import {CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
+import timeFormatter from "@/components/TimeFormatter";
 
 export default function LineGraph({
     data = [],
@@ -20,6 +21,21 @@ export default function LineGraph({
         average: "kcal"
     }
 
+    const CustomYAxisTick = (props) => {
+        const { x, y, payload } = props;
+        return (
+            <g transform={`translate(${x},${y})`}>
+                <text x={0} y={0} dy={16} textAnchor="end" className={'dark:fill-white'} transform="rotate(-45)">
+                    {unitSelector[lineKey]=="sec."?
+                        timeFormatter(payload.value)
+                        :
+                        `${payload.value} cal`
+                    }
+                </text>
+            </g>
+        );
+    };
+
     return (
         <ResponsiveContainer width="100%" height="100%">
             <LineChart
@@ -29,13 +45,13 @@ export default function LineGraph({
                 margin={{
                     top: 5,
                     right: 30,
-                    left: 20,
+                    left: 30,
                     bottom: 5,
                 }}
             >
                 <CartesianGrid strokeDasharray="3 3"/>
                 <XAxis dataKey="date" stroke={"white"}/>
-                <YAxis stroke={"white"} unit={unitSelector[lineKey]}/>
+                <YAxis stroke={"white"} tick={<CustomYAxisTick />}/>
                 <Tooltip wrapperClassName={"dark:text-black"}/>
                 <Legend/>
                 <Line type="monotone" dataKey={lineKey} name={lineKey} unit={unitSelector[lineKey]} stroke="#8884d8"

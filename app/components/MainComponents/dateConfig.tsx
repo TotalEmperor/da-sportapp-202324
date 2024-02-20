@@ -180,7 +180,7 @@ export default function DateConfig() {
 }
 
 
-const sortDates = async (dates: any) => {
+export const sortDates = async (dates: any) => {
     dates.sort((a, b) => {
         // Split the string and take the first part as the starting date of the week
         const date1 = new Date(convertDateFormat(a.split('-')[0]));

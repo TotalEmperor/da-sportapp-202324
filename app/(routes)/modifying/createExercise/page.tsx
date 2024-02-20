@@ -139,6 +139,7 @@ export default function Page() {
                 "image": selectedImage,
                 "moves": rep, // Replace with the actual number of moves
                 "description": description,
+                "met": 3,
                 "time": timer, // Replace with the actual time
                 "stars": difficulty + 1, // Replace with the actual stars rating
                 "breakTime": breakTime // Replace with the actual break time
@@ -162,6 +163,7 @@ export default function Page() {
             "image": selectedImage,
             "moves": rep, // Replace with the actual number of moves
             "description": description,
+            "met": 3,
             "time": timer, // Replace with the actual time
             "stars": difficulty + 1, // Replace with the actual stars rating
             "breakTime": breakTime // Replace with the actual break time

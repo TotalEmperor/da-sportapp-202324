@@ -3,12 +3,12 @@ import {useEffect, useState} from "react";
 import getFirestoreDocument from "@/firebase/firestore/getData";
 import {useContextData} from "@/context/ContextData";
 import {getAuth} from "firebase/auth";
-import {doc, getFirestore} from "firebase/firestore";
-import firebase_app from "@/firebase/config";
 import LineGraph from "@/components/caloriecounter/LineGraph";
 import GraphCard from "@/components/caloriecounter/GraphCard";
 import {ExerciseSchedule} from "@/interfaces/ExerciseSchedule";
-import CalculateIcon from '@mui/icons-material/Calculate';
+import {UserData} from "@/interfaces/userdata";
+import timeFormatter from "@/components/TimeFormatter";
+import {sortDates} from "@/components/MainComponents/dateConfig";
 
 interface WorkoutData {
     date: string;
@@ -31,13 +31,12 @@ export default function Page() {
     const [planedCalorieData, setPlanedCalorieData] = useState([]);
     const [displayData, setDisplayData] = useState([]);
     const [timespan, setTimespan] = useState<string>("all");
-    const [exercises, setExercises] = useState<ExerciseSchedule>();
-    const [exercisesKeys, setExercisesKeys] = useState<string[]>();
     const [totalBurnedCal, setTotalBurnedCal] = useState<number>(0);
     const [averageBurnedCal, setAverageBurnedCal] = useState<number>(0);
     const [timeSpent, setTimeSpent] = useState<number>(0);
     const [selectedKey, setSelectedKey] = useState<string>("average");
     const [selectedBottomTap, setSelectedBottomTap] = useState("past");
+
     const {day, week, setDay, setWeek} = useContextData();
 
     useEffect(() => {
@@ -56,23 +55,23 @@ export default function Page() {
         }
 
         const unsubscribe = ()=>{
-
-            getFirestoreDocument('exercises', user, (data:ExerciseSchedule) => {
-                if (data) {
-                    setExercises(data);
-                    setExercisesKeys(Object.keys(data));
-                    analyseExerciseData(data);
-                } else {
-                    console.error("Couldn't fetch Exercises")
-                }
-            });
-
-            getFirestoreDocument('caloriecounter', user, (data) => {
+            getFirestoreDocument('caloriecounter', user,(data) => {
                 if (data) {
                     analyseData(data);
                 } else {
                     console.error("Couldn't fetch Calorie Counter")
                 }
+            });
+
+            getFirestoreDocument('exercises', user, (data:ExerciseSchedule) => {
+                getFirestoreDocument('userdata', user, (userData: UserData) => {
+                    if (data) {
+                        analyseExerciseData(data, userData.personaldata.weight);
+                    } else {
+                        console.error("Couldn't fetch Exercises")
+                    }
+                });
+
             });
 
         }
@@ -83,7 +82,7 @@ export default function Page() {
 
     }, [user, day, week]); // <-- rerun when user changes
 
-    const analyseData = async (data: any) =>{
+    const analyseData = (data: any) =>{
         let calorieData: WorkoutData[] = [];
         data.calorieCounter.map((sets)=>{
             let newSet: WorkoutData = { date: sets.date, time: null, average: null,sum:null};
@@ -95,64 +94,60 @@ export default function Page() {
             calorieData.push(newSet);
         });
         setPastCalorieData(calorieData);
-        setDisplayData(calorieData);
-        setTimespan("all")
+        setNewTimespan("all", calorieData);
     };
 
-    const analyseExerciseData =  async (data: any) =>{
-        let calorieData: WorkoutData[] = [];
-        let weeks = Object.keys(data.exercises);
-        const days = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"]
-        weeks.map((week)=>{
-            let newSet: WorkoutData = { date: "date", time: null, average: null,sum:null};
-            days.map((day)=>{
-                const exerkeys = Object.keys(data.exercises[week][day]);
-                exerkeys.map((exerciseKey)=>{
-                    newSet.time +=data.exercises[week][day][exerciseKey].time;
-                    newSet.sum += data.exercises[week][day][exerciseKey].burned;
-                });
-                newSet.average = newSet.sum/exerkeys.length;
-                console.log(newSet);
-            })
-            calorieData.push(newSet);
-            console.log(calorieData)
-        });
-        setPlanedCalorieData(calorieData);
-        setTimespan("all")
-    };
-    const db = getFirestore(firebase_app)
+    function getDatesWithinWeek(week: string): string[] {
 
-/*
-    const data = {
-        "calorieCounter": []
-    };
+// Split the week range into two dates
+        const [startDateStr, endDateStr] = week.split('-');
+        const [startDay, startMonth, startYear] = startDateStr.split('.').map(Number);
+        const [endDay, endMonth, endYear] = endDateStr.split('.').map(Number);
 
-    const startDate = new Date("2023-01-01");
-    const exerciseTypes = ["Legs", "Forearms", "Abs", "Back", "Biceps", "Chest", "Shoulders"];
+// Create start and end dates
+        const startDate = new Date(startYear, startMonth - 1, startDay); // Month in JavaScript Date starts from 0
+        const endDate = new Date(endYear, endMonth - 1, endDay);
 
-    const currentDate = new Date();
+        const dates: string[] = [];
+        const currentDate = new Date(startDate);
 
-    for (let i = 0; startDate <= currentDate; i++) {
-        const exercises = Array.from({ length: 2 }, () => {
-            const exerciseName = "Exercise" + (Math.floor(Math.random() * 1000) + 1);
-            const time = Math.floor(Math.random() * 2400) + 600; // Random time between 600 and 3000 seconds
-            const burned = Math.floor(Math.random() * 201) + 100; // Random burned between 100 and 300
-            const type = exerciseTypes[Math.floor(Math.random() * exerciseTypes.length)];
+        // Loop through each day within the range
+        while (currentDate <= endDate) {
+            // Format the date to yyyy-mm-dd
+            const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
+            dates.push(formattedDate);
 
-            return { exerciseName, time, burned, type };
-        });
+            // Move to the next day
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
 
-        data.calorieCounter.push({
-            date: startDate.toISOString().split('T')[0],
-            exercises: exercises,
-        });
-
-        startDate.setDate(startDate.getDate() + 1); // Move to the next day
+        return dates;
     }
 
+    const analyseExerciseData =  async (data: any, weight: number) =>{
+        let calorieData: WorkoutData[] = [];
+        let weeks = await sortDates(Object.keys(data.exercises));
+        const days = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
 
-            setDocument("caloriecounter", user, data);
-            */
+        weeks.map((week)=>{
+            const dateList = getDatesWithinWeek(week);
+            days.map((day, index)=>{
+                let newSet: WorkoutData = { date: dateList[index], time: 0, average: 0,sum:0};
+                const setKeys = Object.keys(data.exercises[week][day]);
+                setKeys.map((setKey)=>{
+                    const exerkeys = Object.keys(data.exercises[week][day][setKey]);
+                    exerkeys.map((exerciseKey)=>{
+                        newSet.time += Number(data.exercises[week][day][setKey][exerciseKey].time);
+                        newSet.sum += calculateBurnedCal(Number(data.exercises[week][day][setKey][exerciseKey].met), newSet.time, weight, "");
+                    });
+                    newSet.average = newSet.average + (newSet.sum/exerkeys.length);
+                })
+                calorieData.push(newSet);
+                console.log(newSet)
+            })
+        });
+        setPlanedCalorieData(calorieData);
+    };
 
     const parseDateString = (dateString: string): Date => {
         // Assuming the date string is in the format 'YYYY-MM-DD'
@@ -160,7 +155,7 @@ export default function Page() {
         return new Date(year, month - 1, day); // Month is 0-indexed in JavaScript Date
     };
 
-    const setNewTimespan = (newTimespan:string)=>{
+    const setNewTimespan = (newTimespan:string, calorieData:any)=>{
         setTimespan(newTimespan);
         const currentDate = new Date();
         let startDate: Date;
@@ -182,10 +177,10 @@ export default function Page() {
                 startDate = new Date(currentDate.getFullYear()-100);
         }
 
-        const newDisplaydata = pastCalorieData.filter(item => parseDateString(item.date) >= startDate && parseDateString(item.date) <= currentDate);
-        const averageCal = pastCalorieData.reduce((totalCal, item) => totalCal + (parseDateString(item.date) >= startDate && parseDateString(item.date) <= currentDate ? item.average : 0), 0);
-        const timeSpent = pastCalorieData.reduce((totalCal, item) => totalCal + (parseDateString(item.date) >= startDate && parseDateString(item.date) <= currentDate ? item.time : 0), 0);
-        const burnedCal = pastCalorieData.reduce((totalCal, item) => totalCal + (parseDateString(item.date) >= startDate && parseDateString(item.date) <= currentDate ? item.sum : 0), 0);
+        const newDisplaydata = calorieData.filter(item => parseDateString(item.date) >= startDate && parseDateString(item.date) <= currentDate);
+        const averageCal = calorieData.reduce((totalCal, item) => totalCal + (parseDateString(item.date) >= startDate && parseDateString(item.date) <= currentDate ? item.average : 0), 0);
+        const timeSpent = calorieData.reduce((totalCal, item) => totalCal + (parseDateString(item.date) >= startDate && parseDateString(item.date) <= currentDate ? item.time : 0), 0);
+        const burnedCal = calorieData.reduce((totalCal, item) => totalCal + (parseDateString(item.date) >= startDate && parseDateString(item.date) <= currentDate ? item.sum : 0), 0);
         setAverageBurnedCal(averageCal);
         setTotalBurnedCal(burnedCal);
         setTimeSpent(timeSpent);
@@ -202,6 +197,10 @@ export default function Page() {
         setDisplayData(planedCalorieData);
     }
 
+    const getExerciseRanglist=()=>{
+
+    }
+
     return (
         <>
             <div id={"graph"} className={'rounded-s-md w-[80%]'}>
@@ -211,7 +210,7 @@ export default function Page() {
                             id="timespan-select"
                             value={timespan}
                             onChange={(e) => {
-                                setNewTimespan(e.target.value)
+                                setNewTimespan(e.target.value, pastCalorieData)
                             }}
                             className={`ms-auto rounded mt-4 mr-4 ${selectedBottomTap==="planned" ? "hidden":""}`}>
                         <option value="all">All time</option>
@@ -238,26 +237,48 @@ export default function Page() {
                 </ul>
             </div>
             <div id={"statistic"}
-                 className={'flex flex-col flex-shrink w-[-webkit-fill-available] md:mx-[10%] dark:bg-white dark:bg-opacity-5 mt-2 p-4 rounded-md'}>
+                 className={'flex flex-col flex-shrink w-[-webkit-fill-available] md:mx-[10%] dark:bg-white dark:bg-opacity-5 mt-2 p-4 rounded-md overflow-y-scroll h-max'}>
                 <h1 className={"border-b-2 dark:border-white border-black"}>Statistics</h1>
-                <div className={'flex flex-wrap justify-center'}>
-                    <GraphCard title={"Total burned cal."}
-                               text={`${formatCompactNumber(totalBurnedCal)} kcal`} style={"w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 mb-4"}/>
-                    <GraphCard title={"Average burned cal."}
-                               text={`${formatCompactNumber(averageBurnedCal)} kcal`}
-                               style={"w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 mb-4"}>
-                        <>Hope</>
-                    </GraphCard>
-                    <GraphCard title={"Time spent"}
-                               text={`${timeSpent}`}
-                               style={"w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 mb-4"}>
-                        <>Hope</>
-                    </GraphCard>
-                    <GraphCard title={"Most effective"}
-                               text={"Testing"}
-                               style={"w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 mb-4"}>
-                        <>Hope</>
-                    </GraphCard>
+                <div className={'flex flex-col flex-wrap justify-center'}>
+                    <div id={"Graphcard Container"} className={'min-h-fit max-h-min flex flex-wrap mx-auto'}>
+                        <GraphCard title={"Total burned cal."}
+                                   onClick={()=>{setSelectedKey("sum")}}
+                                   selectedCard={selectedKey == "sum"}
+                                   text={`${formatCompactNumber(totalBurnedCal)} kcal`}/>
+                        <GraphCard title={"Average burned cal."}
+                                   onClick={()=>{setSelectedKey("average")}}
+                                   selectedCard={selectedKey == "average"}
+                                   text={`${formatCompactNumber(averageBurnedCal)} kcal`}
+                                   />
+                        <GraphCard title={"Time spent"}
+                                   onClick={()=>{setSelectedKey("time")}}
+                                   selectedCard={selectedKey == "time"}
+                                   text={timeFormatter(timeSpent)}
+                                   />
+                    </div>
+                    <div id={"Tables"} className={'flex flex-wrap flex-row justify-center'}>
+                        <table className="min-w-full bg-white dark:bg-white dark:bg-opacity-20 border border-gray-300">
+                            <thead>
+                            <tr>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">Name</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">Email</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">Role</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr className="bg-gray-100 border-b">
+                                <td className="px-6 py-4 whitespace-nowrap">John Doe</td>
+                                <td className="px-6 py-4 whitespace-nowrap">john.doe@example.com</td>
+                                <td className="px-6 py-4 whitespace-nowrap">Admin</td>
+                            </tr>
+                            <tr className="bg-white border-b">
+                                <td className="px-6 py-4 whitespace-nowrap">Jane Smith</td>
+                                <td className="px-6 py-4 whitespace-nowrap">jane@example.com</td>
+                                <td className="px-6 py-4 whitespace-nowrap">User</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </>
@@ -276,4 +297,15 @@ export default function Page() {
             return (number / 1_000_000_000_000).toFixed(1) + "T";
         }
     }
+
+    function calculateBurnedCal(met: number, time: number, weight: number, weightUnit: string): number {
+        if(isNaN(weight * met * 0.0175 * time)){
+            return 0
+        }
+        return weight * met * 0.0175 * time;
+    }
+
+
+
+
 }
