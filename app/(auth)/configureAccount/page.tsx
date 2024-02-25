@@ -4,10 +4,12 @@ import Head from "next/head";
 import Navbar from "@/components/Navbar";
 import getFirestoreDocument from "@/firebase/firestore/getData";
 import {getAuth, sendEmailVerification} from "firebase/auth";
-import exercise from "@/templates/emptyWorkoutTemplate.json";
 import setDocument from "@/firebase/firestore/setDocument";
 import {useRouter} from "next/navigation";
 import updateFirestoreDocument from "@/firebase/firestore/updateData";
+import {Exercise} from "@/interfaces/Exercise";
+import {ExerciseSchedule} from "@/interfaces/ExerciseSchedule";
+import {ExerciseSet} from "@/interfaces/ExerciseSet";
 
 export default function Page() {
 
@@ -38,18 +40,46 @@ export default function Page() {
 
                 const next4Weeks = getNext4WeeksDates();
 
-                let week = data.weeks.placeholder;
-                delete data.weeks.placeholder;
+                let workoutSchedule: ExerciseSchedule = {
+                    exercises: {}
+                };
 
-                let workoutSchedule = exercise;
-                let scheduleWeek = workoutSchedule.exercises.placeholder1;
-                delete workoutSchedule.exercises.placeholder1;
+                let weeksSchedule:any = {};
 
-                next4Weeks.forEach((date)=>{
-                    const dateString = date.startDate+"-"+date.endDate;
-                    data.weeks[dateString] = week;
-                    workoutSchedule.exercises[dateString] = scheduleWeek;
+                next4Weeks.forEach(date => {
+                    const dateString = date.startDate + "-" + date.endDate;
+                    const exerciseWeek: {
+                        "MO": { [setNames: string]: ExerciseSet },
+                        "TU": { [setNames: string]: ExerciseSet },
+                        "WE": { [setNames: string]: ExerciseSet },
+                        "TH": { [setNames: string]: ExerciseSet },
+                        "FR": { [setNames: string]: ExerciseSet },
+                        "SA": { [setNames: string]: ExerciseSet },
+                        "SU": { [setNames: string]: ExerciseSet }
+                    } = {
+                        "MO": {},
+                        "TU": {},
+                        "WE": {},
+                        "TH": {},
+                        "FR": {},
+                        "SA": {},
+                        "SU": {}
+                    };
+
+                    const scheduleWeek= {
+                        "MO": "",
+                        "TU": "",
+                        "WE": "",
+                        "TH": "",
+                        "FR": "",
+                        "SA": "",
+                        "SU": ""
+                    };
+                    workoutSchedule.exercises[dateString] = exerciseWeek;
+                    weeksSchedule[dateString] = scheduleWeek;
                 });
+
+                data.weeks = weeksSchedule;
 
                 await updateFirestoreDocument("userdata", data);
                 await setDocument("exercises", getAuth().currentUser.uid, workoutSchedule);

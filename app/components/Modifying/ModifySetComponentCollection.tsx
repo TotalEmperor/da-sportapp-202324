@@ -9,6 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 import AddControlModal from "@/components/Modifying/AddControlModal";
 import LoadingModule from "@/components/loadingModule";
 import {usePathname, useSearchParams} from "next/navigation";
+import {object} from "prop-types";
 
 export default function ModifySetComponentCollection() {
     const [user, setuser] = useState(() => {
@@ -111,7 +112,7 @@ export default function ModifySetComponentCollection() {
     return (
         <>
             {
-                userdata!== null?
+                exerciseSetKeys.length!==null?
                     <>
                         <div
                             className="flex flex-col text-4xl font-bold w-full dark:bg-transparent justify-center items-center rounded-2xl">

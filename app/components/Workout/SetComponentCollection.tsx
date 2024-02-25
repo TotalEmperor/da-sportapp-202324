@@ -55,7 +55,6 @@ export default function SetComponentCollection() {
         const unsubscribe = getFirestoreDocument('exercises', user, (data: ExerciseSchedule) => {
             if (data) {
                 setuserdata(data.exercises[week][day]);
-                console.log(typeof userdata)
                 let newExerciseKeys: string[]= [];
                 newExerciseKeys = newExerciseKeys.concat(Object.keys(data.exercises[week][day]));
                 newExerciseKeys.sort((a, b) => a.localeCompare(b));
@@ -64,6 +63,7 @@ export default function SetComponentCollection() {
                     if (exercisesData) {
                         setTime(exercisesData.time)
                         setNumSets(exercisesData.exerciseNum)
+
                     }else {
                         setuserdata(null);
                     }
@@ -108,7 +108,7 @@ export default function SetComponentCollection() {
 
     return (
         <>
-            {userdata !== null ?
+            {exerciseSetKeys.length!==null ?
                 <>
                     <>
                         <div

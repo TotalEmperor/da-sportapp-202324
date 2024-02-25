@@ -11,7 +11,6 @@ export default function AddModal({isOpen, onClose, setKeys, createNewSet, addExe
     addExerciseToSet: (setName: string) => void
 }) {
 
-    const {day, week, setDay, setWeek} = useContextData();
     const [newSetName, setNewSetName] = useState<string>();
 
     const [isFormValid, setIsFormValid] = useState(null);

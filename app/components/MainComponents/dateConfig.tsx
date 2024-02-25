@@ -44,6 +44,7 @@ export default function DateConfig() {
         } else {
             const unsubscribe = getFirestoreDocument('userdata', getAuth().currentUser.uid, (data:UserData) => {
                 if (data.weeks) {
+                    console.log(data.weeks)
                     sortDates(Object.keys(data.weeks)).then((date: [string]) => {
                         if (!day) {
                             setWeek(date[0]);
@@ -206,6 +207,8 @@ function convertDateFormat(date: string): string {
 }
 
 const reformatDate = (date: string) => {
+    console.log("Date:")
+    console.log(date)
     if (date) {
         let dates = date.split("-"); // split the string into two dates
 

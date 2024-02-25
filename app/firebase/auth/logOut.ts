@@ -1,5 +1,4 @@
 "use client"
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 import firebase_app from "@/firebase/config";
 import {signOut, getAuth, createUserWithEmailAndPassword} from "firebase/auth";
 const auth = getAuth(firebase_app);

@@ -35,7 +35,7 @@ export default function Page() {
     const [breakTime, setBreakTime] = useState<number>(0);
     const [selectedImage, setSelectedImage] = useState("");
     const [images, setImages] = useState<{ imageURL: string, imageName: string }[]>([]);
-    const [userdata, setUserdata] = useState([]);
+    const [exercises, setExercises] = useState([]);
     const [setKeys, setSetKeys] = useState<string[]>([]);
     const [isModalOpen, setModalOpen] = useState(false);
     const [isImageSelectModalOpen, setIsImageSelectModalOpen] = useState(false);
@@ -84,11 +84,9 @@ export default function Page() {
     }
 
 
-// keeps `userdata` up to date
-
     useEffect(() => {
         if (user === null) {
-            setUserdata(null); // <-- clear data when not logged in
+            setExercises(null); // <-- clear data when not logged in
 
             return;
         }
@@ -113,7 +111,7 @@ export default function Page() {
 
         const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
             if (data) {
-                setUserdata(data)
+                setExercises(data)
 
                     let newSetKeys = setKeys;
                     newSetKeys = newSetKeys.concat(Object.keys(data.exercises[week][day]));
@@ -130,9 +128,7 @@ export default function Page() {
 
 
     const createNewSet = (setName: string) => {
-        let schedule = userdata["exercises"][week][day];
-        console.log("Schedule: " + schedule);
-        console.log("SetName: " + setName)
+        let schedule = exercises["exercises"][week][day];
 
         schedule[setName] = {
             [exerciseName]: {
@@ -147,8 +143,8 @@ export default function Page() {
 
         };
 
-        setUserdata(userdata["exercises"][week][day] = schedule)
-        setDocument("exercises", user, userdata).then(r => {
+        setExercises(exercises["exercises"][week][day] = schedule)
+        setDocument("exercises", user, exercises).then(r => {
             router.push(`/modifying/${setName}`)
         });
 
@@ -157,7 +153,7 @@ export default function Page() {
     };
 
     const addExerciseToSet = (setName: string) => {
-        let schedule = userdata["exercises"][week][day];
+        let schedule = exercises["exercises"][week][day];
 
         schedule[setName][exerciseName] = {
             "image": selectedImage,
@@ -171,8 +167,8 @@ export default function Page() {
         };
 
 
-        setUserdata(userdata["exercises"][week][day] = schedule)
-        setDocument("exercises", user, userdata).then(r => {
+        setExercises(exercises["exercises"][week][day] = schedule)
+        setDocument("exercises", user, exercises).then(r => {
             router.push(`/modifying/${setName}`)
         });
     }

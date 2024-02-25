@@ -1,7 +1,5 @@
 "use client"
 import React, {Suspense, useEffect, useState} from 'react';
-import ModifyExerciseComponentCollection from "@/components/Modifying/ModifyExerciseComponentCollection";
-import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ExerciseManager from "@/components/MainComponents/ExerciseManager";
 import {getAuth} from "firebase/auth";
@@ -18,7 +16,7 @@ export default function Page({params: {params}}) {
             console.log(e)
         }
     });
-    const [exerciseData, setExerciseData] = useState([]);
+    const [exampleExerciseData, setExampleExerciseData] = useState([]);
     const [exerciseKeys, setExerciseKeys] = useState<string[]>([]);
     const [time, setTime] = useState(0);
     const [numSets, setNumSets] = useState(0);
@@ -26,12 +24,9 @@ export default function Page({params: {params}}) {
 
     const router = useRouter();
 
-
-// keeps `userdata` up to date
-
     useEffect(() => {
         if (user === null) {
-            setExerciseData(null); // <-- clear data when not logged in
+            setExampleExerciseData(null); // <-- clear data when not logged in
 
             return;
         }
@@ -43,7 +38,7 @@ export default function Page({params: {params}}) {
             const unsubscribe = getFirestoreDocument('exampleexercises', "CB6Eqnz7qfDrfcwuZJPn", (data) => {
                 if (data) {
                     console.log(params)
-                    setExerciseData(data.exampleexercises[params]);
+                    setExampleExerciseData(data.exampleexercises[params]);
                     console.log(data.exampleexercises[params])
                     let newExerciseKeys: string[]= [];
                     newExerciseKeys = newExerciseKeys.concat(Object.keys(data.exampleexercises[params]));
@@ -61,8 +56,9 @@ export default function Page({params: {params}}) {
 
     }, [user, day, week]); // <-- rerun when user changes
 
+
+
     return (
-        <>
             <>
                 <Suspense>
                     <>
@@ -87,19 +83,18 @@ export default function Page({params: {params}}) {
                                         exerciseKeys.map((key: string, index) => (
                                             <div key={index} className={"sm:w-[-webkit-fill-available]"}>
                                                 <ExerciseManager
-                                                    data={exerciseData[key]}
-                                                    time={exerciseData[key].time}
-                                                    stars={exerciseData[key].stars}
-                                                    description={exerciseData[key].description}
+                                                    data={exampleExerciseData[key]}
+                                                    time={exampleExerciseData[key].time}
+                                                    stars={exampleExerciseData[key].stars}
+                                                    description={exampleExerciseData[key].description}
                                                     style={"m-0 p-0"}
-                                                    image={exerciseData[key].image}
-                                                    moves={exerciseData[key].moves}
+                                                    moves={exampleExerciseData[key].moves}
                                                     setName={params[0]}
                                                     exerciseName={key}
                                                     search={true}
                                                 />
                                                 <span
-                                                    className={"flex items-center rounded-2xl justify-center dark:text-black text-2xl font-bold h-20"}>{exerciseData[key].breakTime? exerciseData[key].breakTime +"  Sec. Break<": ""}</span>
+                                                    className={"flex items-center rounded-2xl justify-center dark:text-black text-2xl font-bold h-20"}>{exampleExerciseData[key].breakTime? exampleExerciseData[key].breakTime +"  Sec. Break<": ""}</span>
                                             </div>
                                         ))
                                     )}
@@ -109,7 +104,6 @@ export default function Page({params: {params}}) {
                     </>
                 </Suspense>
             </>
-        </>
     )
 }
 

@@ -26,8 +26,6 @@ export default function SignUp() {
     async function editSchedule(){
         const userData = await reformateTemplate(firstName, lastName);
         await setDocument("userdata", getAuth().currentUser.uid, userData);
-
-        router.push("/configureAccount")
     }
 
     const handleForm = async (event) => {
@@ -35,7 +33,9 @@ export default function SignUp() {
 
         createUser(email, password, firstName+" "+lastName).then(()=>{
             editSchedule();
-        }
+            router.push("/configureAccount")
+
+            }
         ).catch((error)=>{
             const errorCode = error.code;
             const errorMessage = error.message;
@@ -69,7 +69,7 @@ export default function SignUp() {
                 </header>
                 <div className="flex-1 flex justify-center items-center">
                     <form
-                        className="bg-white shadow-lg rounded-md p-5 md:p-10 flex flex-col w-11/12 max-w-lg group" noValidate>
+                        className="bg-white shadow-lg rounded-md p-5 md:p-10 flex flex-col w-11/12 max-w-lg group" noValidate onSubmit={handleForm}>
                         <div className="flex flex-row">
                             <div className="me-3">
                                 <span>First Name</span>
@@ -136,7 +136,7 @@ export default function SignUp() {
                                 Password don&apos;t match
                             </span>
                         </label>
-                        <button type="submit" className="mt-5 bg-blue-500 py-3 rounded-md text-white group-invalid:pointer-events-none group-invalid:opacity-50" onClick={handleForm}>
+                        <button type="submit" className="mt-5 bg-blue-500 py-3 rounded-md text-white group-invalid:pointer-events-none group-invalid:opacity-50">
                             Submit
                         </button>
                     </form>
@@ -148,8 +148,27 @@ export default function SignUp() {
 }
 
 const reformateTemplate = (firstName:string, lastName:string):any=>{
-    let userData:UserData = {} as UserData;
-    userData.personaldata.firstName = firstName;
-    userData.personaldata.lastName = lastName;
+    let userData: UserData = {
+        personaldata: {
+            birthday: "",
+            firstName: firstName,
+            height: 0,
+            gender: "",
+            lastName: lastName,
+            weight: 0
+        },
+        settingsdata: {
+            heightUnit: "",
+            language: "",
+            weightUnit: ""
+        },
+        weeks: {},
+        streak: {
+            counter: 0
+        }
+    };
+
+    console.log(userData)
+
     return userData;
 }

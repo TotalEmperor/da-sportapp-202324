@@ -6,19 +6,17 @@ import Link from "next/link"
 import React, {useEffect, useState} from "react"
 import {ExpandLess} from "@mui/icons-material";
 import {ExpandMore} from "@mui/icons-material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import ModifyDeleteModal from "@/components/Modifying/ModifyDeleteModal";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
-import AddModal from "@/components/Modifying/AddingExerciseModal";
-import setDocument from "@/firebase/firestore/setDocument";
-import AddIcon from "@mui/icons-material/Add";
-import {getDownloadURL, getStorage, listAll, ref} from "firebase/storage";
-import getFirestoreDocument from "@/firebase/firestore/getData";
 import {getAuth} from "firebase/auth";
-import {useContextData} from "@/context/ContextData";
 import {Exercise} from "@/interfaces/Exercise";
+import getFirestoreDocument from "@/firebase/firestore/getData";
+import AddModal from "@/components/Modifying/AddingExerciseModal";
+import {useContextData} from "@/context/ContextData";
+import setDocument from "@/firebase/firestore/setDocument";
+import {useRouter} from "next/navigation";
 
 export default function ExerciseManager(props: {
     data: Exercise;
@@ -37,6 +35,12 @@ export default function ExerciseManager(props: {
     const [isContentVisible, setIsContentVisible] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
     const [isAddModalOpen, setAddModalOpen] = useState(false);
+    const [setKeys, setSetKeys] = useState<string[]>([]);
+    const [exerciseData, setExerciseData] = useState([]);
+    const {day, week, setDay, setWeek} = useContextData();
+    const router = useRouter();
+
+
 
     const [user, setuser] = useState(() => {
         // if a user is already logged in, use the current user object, or `undefined` otherwise.
@@ -47,9 +51,34 @@ export default function ExerciseManager(props: {
         }
     });
 
+    useEffect(() => {
+        if (user === null) {
+
+            return;
+        }
+
+        if (!user) {
+            // user still loading, do nothing yet
+            return;
+        } else {
+            const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
+                if (data) {
+                    setExerciseData(data);
+                    setSetKeys(Object.keys(data.exercises[week][day]));
+                }
+            });
+
+            return () => {
+                unsubscribe();
+            };
+        }
+
+
+    }, [user, day, week]); // <-- rerun when user changes
+
     const openAddModal = (e) => {
         e.preventDefault();
-        setAddModalOpen(true);
+        search ? setAddModalOpen(true) : null
     }
     const closeAddModal = () => setAddModalOpen(false);
 
@@ -66,10 +95,55 @@ export default function ExerciseManager(props: {
         setIsContentVisible(!isContentVisible);
     };
 
+    const addExerciseToSet = (setName: string) => {
+        let schedule = exerciseData["exercises"][week][day];
+
+        schedule[setName][exerciseName] = {
+            "image": data.image,
+            "moves": data.moves, // Replace with the actual number of moves
+            "description": data.description,
+            "met": data.met,
+            "time": data.time, // Replace with the actual time
+            "stars": data.stars, // Replace with the actual stars rating
+            "breakTime": data.breakTime // Replace with the actual break time
+
+        };
+
+        console.log(schedule)
+
+        setExerciseData(exerciseData["exercises"][week][day] = schedule);
+
+        setDocument("exercises", user, exerciseData).then(r => {
+             router.push(`/modifying/${setName}`)
+         });
+    }
+
+    const createNewSet = (setName: string) => {
+        let schedule = exerciseData["exercises"][week][day];
+
+        schedule[setName] = {
+            [exerciseName]: {
+                "image": data.image,
+                "moves": data.moves, // Replace with the actual number of moves
+                "description": data.description,
+                "met": data.met,
+                "time": data.time, // Replace with the actual time
+                "stars": data.stars, // Replace with the actual stars rating
+                "breakTime": data.breakTime // Replace with the actual break time
+            }
+
+        };
+        setExerciseData(exerciseData["exercises"][week][day] = schedule);
+
+        setDocument("exercises", user, exerciseData).then(r => {
+           router.push(`/modifying/${setName}`)
+        });
+    };
+
     return (
         <>
             <div
-                className={"rounded-xl w-full hover:bg-green-300 dark:hover:bg-opacity-40 dark:shadow-neutral-600 shadow-md bg-dark dark:bg-black dark:bg-opacity-[50%] " + style}>
+                className={"rounded-xl w-full hover:bg-green-300 dark:hover:bg-opacity-40 dark:shadow-neutral-600 shadow-md bg-dark dark:bg-black dark:bg-opacity-[50%] " + style} onClick={openAddModal}>
                 <div
                     className="w-full justify-center flex-col mx-auto flex px-4 pt-8 py-4">
                     <div className="flex w-fit flex-row min-h-fit">
@@ -106,20 +180,6 @@ export default function ExerciseManager(props: {
                                             className={"hover:text-blue-400 icon rounded-full text-lime-600"}
                                             sx={{fontSize: "2rem"}}/>
                                     </Link>
-                                </div>
-                                :
-                                <>
-                                </>
-                        }
-                        {
-                            search ?
-                                <div className="flex justify-end items-end h-[2rem] mb-3">
-
-                                    <button
-                                        onClick={openAddModal}
-                                        className={"p-5 ms-auto rounded-2xl bg-lime-600 hover:brightness-125 dark:bg-lime-700"}>
-                                        <AddIcon/>
-                                    </button>
                                 </div>
                                 :
                                 <>
@@ -166,10 +226,8 @@ export default function ExerciseManager(props: {
             </div>
             <ModifyDeleteModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal}
                                setName={setName} exerciseName={exerciseName}/>
-
-            <AddModal isOpen={isAddModalOpen} onClose={closeAddModal} setKeys={{}}
-                      createNewSet={()=>{}} addExerciseToSet={()=>{}}/>
-
+            <AddModal isOpen={isAddModalOpen} onClose={closeAddModal} setKeys={setKeys}
+                      createNewSet={createNewSet} addExerciseToSet={addExerciseToSet}/>
         </>
     )
 }

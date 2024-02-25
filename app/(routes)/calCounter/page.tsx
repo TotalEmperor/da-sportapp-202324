@@ -190,11 +190,20 @@ export default function Page() {
     const setPast = ()=>{
         setSelectedBottomTap("past");
         setDisplayData(pastCalorieData);
+        setNewTimespan("all", pastCalorieData)
     }
 
     const setFuture = ()=>{
         setSelectedBottomTap("planned");
         setDisplayData(planedCalorieData);
+        const newDisplaydata = planedCalorieData.filter(item => parseDateString(item.date) >= new Date(-100) && parseDateString(item.date) <= new Date());
+        const averageCal = planedCalorieData.reduce((totalCal, item) => totalCal + (parseDateString(item.date) >= new Date(-100)  && parseDateString(item.date) <= new Date() ? item.average : 0), 0);
+        const timeSpent = planedCalorieData.reduce((totalCal, item) => totalCal + (parseDateString(item.date) >= new Date(-100)  && parseDateString(item.date) <= new Date() ? item.time : 0), 0);
+        const burnedCal = planedCalorieData.reduce((totalCal, item) => totalCal + (parseDateString(item.date) >= new Date(-100)  && parseDateString(item.date) <= new Date() ? item.sum : 0), 0);
+        setAverageBurnedCal(averageCal);
+        setTotalBurnedCal(burnedCal);
+        setTimeSpent(timeSpent);
+        setDisplayData(newDisplaydata);
     }
 
     const getExerciseRanglist=()=>{
@@ -243,41 +252,22 @@ export default function Page() {
                     <div id={"Graphcard Container"} className={'min-h-fit max-h-min flex flex-wrap mx-auto'}>
                         <GraphCard title={"Total burned cal."}
                                    onClick={()=>{setSelectedKey("sum")}}
-                                   selectedCard={selectedKey == "sum"}
-                                   text={`${formatCompactNumber(totalBurnedCal)} kcal`}/>
+                                   selectedCard={selectedKey == "sum"}>
+                            <h1>{formatCompactNumber(totalBurnedCal)} kcal</h1>
+                        </GraphCard>
                         <GraphCard title={"Average burned cal."}
                                    onClick={()=>{setSelectedKey("average")}}
-                                   selectedCard={selectedKey == "average"}
-                                   text={`${formatCompactNumber(averageBurnedCal)} kcal`}
-                                   />
+                                   selectedCard={selectedKey == "average"}>
+                            <h1>{formatCompactNumber(averageBurnedCal)} kcal per day <br/> {formatCompactNumber(averageBurnedCal)} kcal per exercise</h1>
+                        </GraphCard>
                         <GraphCard title={"Time spent"}
                                    onClick={()=>{setSelectedKey("time")}}
-                                   selectedCard={selectedKey == "time"}
-                                   text={timeFormatter(timeSpent)}
-                                   />
+                                   selectedCard={selectedKey == "time"}>
+                            <h1>{timeFormatter(timeSpent)}</h1>
+                        </GraphCard>
                     </div>
                     <div id={"Tables"} className={'flex flex-wrap flex-row justify-center'}>
-                        <table className="min-w-full bg-white dark:bg-white dark:bg-opacity-20 border border-gray-300">
-                            <thead>
-                            <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">Name</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">Email</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">Role</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr className="bg-gray-100 border-b">
-                                <td className="px-6 py-4 whitespace-nowrap">John Doe</td>
-                                <td className="px-6 py-4 whitespace-nowrap">john.doe@example.com</td>
-                                <td className="px-6 py-4 whitespace-nowrap">Admin</td>
-                            </tr>
-                            <tr className="bg-white border-b">
-                                <td className="px-6 py-4 whitespace-nowrap">Jane Smith</td>
-                                <td className="px-6 py-4 whitespace-nowrap">jane@example.com</td>
-                                <td className="px-6 py-4 whitespace-nowrap">User</td>
-                            </tr>
-                            </tbody>
-                        </table>
+
                     </div>
                 </div>
             </div>
