@@ -1,5 +1,5 @@
 "use client"
-import {useEffect, useState} from "react";
+import {Suspense, useEffect, useState} from "react";
 import getFirestoreDocument from "@/firebase/firestore/getData";
 import {useContextData} from "@/context/ContextData";
 import {getAuth} from "firebase/auth";
@@ -9,6 +9,7 @@ import {ExerciseSchedule} from "@/interfaces/ExerciseSchedule";
 import {UserData} from "@/interfaces/userdata";
 import timeFormatter from "@/components/TimeFormatter";
 import {sortDates} from "@/components/MainComponents/dateConfig";
+import LoadingModule from "@/components/loadingModule";
 
 interface WorkoutData {
     date: string;
@@ -228,7 +229,9 @@ export default function Page() {
                         <option value="1Month">1 Months</option>
                         <option value="1Week">1 Week</option>
                     </select>
-                    <LineGraph data={displayData} lineKey={selectedKey}/>
+                    <Suspense fallback={<LoadingModule/>} unstable_expectedLoadTime={20}>
+                        <LineGraph data={displayData} lineKey={selectedKey}/>
+                    </Suspense>
                 </div>
                 <ul className={'flex flex-row bg-transparent rounded-b-md ms-auto w-fit dark:bg-white dark:bg-opacity-10 hover:cursor-pointer'}>
                     <li onClick={(e) => {

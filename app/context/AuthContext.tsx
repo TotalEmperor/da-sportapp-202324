@@ -13,16 +13,11 @@ export const AuthContext = React.createContext(null);
 export const AuthContextProvider = ({children}:{children: React.ReactNode}) => {
     const [user, setUser] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
-    const router = useRouter();
-
     React.useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
                 setUser(user);
                 // Activate the user's account
-                if(user.emailVerified){
-                    //router.push("/workout")
-                }
             } else{
                 setUser(null);
             }
