@@ -88,7 +88,6 @@ export default function ModifyExerciseComponentCollection(setName: any) {
                                                 stars={exerciseData[key].stars}
                                                 description={exerciseData[key].description}
                                                 style={"m-0 p-0"}
-                                                image={exerciseData[key].image}
                                                 moves={exerciseData[key].moves}
                                                 setName={setName.setName}
                                                 exerciseName={key}
