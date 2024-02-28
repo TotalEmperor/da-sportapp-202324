@@ -30,7 +30,7 @@ export default function Page() {
 
     const [pastCalorieData, setPastCalorieData] = useState([]);
     const [planedCalorieData, setPlanedCalorieData] = useState([]);
-    const [displayData, setDisplayData] = useState([]);
+    const [displayData, setDisplayData] = useState(null);
     const [timespan, setTimespan] = useState<string>("all");
     const [totalBurnedCal, setTotalBurnedCal] = useState<number>(0);
     const [averageBurnedCal, setAverageBurnedCal] = useState<number>(0);
