@@ -95,8 +95,8 @@ export default function Page() {
                 setSelectedImage(currentExercise.image);
                 setBreakTime(currentExercise.breakTime);
                 setExerciseName(exerciseName);
-                setHoverDifficulty(currentExercise.stars)
-                setSetName(setName)
+                setHoverDifficulty(currentExercise.stars);
+                setSetName(setName);
             }
         });
 
