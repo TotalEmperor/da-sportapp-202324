@@ -229,9 +229,10 @@ export default function Page() {
                         <option value="1Month">1 Months</option>
                         <option value="1Week">1 Week</option>
                     </select>
-                    <Suspense fallback={<LoadingModule/>} unstable_expectedLoadTime={20}>
-                        <LineGraph data={displayData} lineKey={selectedKey}/>
-                    </Suspense>
+                    {
+                        displayData? <LineGraph data={displayData} lineKey={selectedKey}/> : <LoadingModule/>
+                    }
+
                 </div>
                 <ul className={'flex flex-row bg-transparent rounded-b-md ms-auto w-fit dark:bg-white dark:bg-opacity-10 hover:cursor-pointer'}>
                     <li onClick={(e) => {
