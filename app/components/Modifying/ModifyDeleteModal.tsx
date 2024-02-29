@@ -16,15 +16,6 @@ export default function ModifyDeleteModal({isOpen, onClose, setName, exerciseNam
     const { day, week, setDay, setWeek } = useContextData();
 
     useEffect(() => {
-        if (sessionStorage.getItem("day")) {
-            try {
-                setDay(sessionStorage.getItem("day"));
-                setWeek(sessionStorage.getItem("week"))
-            } catch (e) {
-
-            }
-        }
-
         const unsubscribe = getFirestoreDocument('exercises', getAuth().currentUser.uid, async (data) => {
             if (data) {
                 setExercises(data)

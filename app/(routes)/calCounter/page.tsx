@@ -1,7 +1,7 @@
 "use client"
-import {Suspense, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import getFirestoreDocument from "@/firebase/firestore/getData";
-import {useContextData} from "@/context/ContextData";
+import {ContextData, useContextData} from "@/context/ContextData";
 import {getAuth} from "firebase/auth";
 import LineGraph from "@/components/caloriecounter/LineGraph";
 import GraphCard from "@/components/caloriecounter/GraphCard";
@@ -9,7 +9,6 @@ import {ExerciseSchedule} from "@/interfaces/ExerciseSchedule";
 import {UserData} from "@/interfaces/userdata";
 import timeFormatter from "@/components/TimeFormatter";
 import {sortDates} from "@/components/MainComponents/dateConfig";
-import LoadingModule from "@/components/loadingModule";
 
 interface WorkoutData {
     date: string;
@@ -30,7 +29,7 @@ export default function Page() {
 
     const [pastCalorieData, setPastCalorieData] = useState([]);
     const [planedCalorieData, setPlanedCalorieData] = useState([]);
-    const [displayData, setDisplayData] = useState(null);
+    const [displayData, setDisplayData] = useState([]);
     const [timespan, setTimespan] = useState<string>("all");
     const [totalBurnedCal, setTotalBurnedCal] = useState<number>(0);
     const [averageBurnedCal, setAverageBurnedCal] = useState<number>(0);
@@ -44,15 +43,6 @@ export default function Page() {
         if (user === null) {
 
             return;
-        }
-
-        if (sessionStorage.getItem("day")) {
-            try {
-                setDay(sessionStorage.getItem("day"));
-                setWeek(sessionStorage.getItem("week"))
-            } catch (e) {
-
-            }
         }
 
         const unsubscribe = ()=>{
@@ -229,10 +219,7 @@ export default function Page() {
                         <option value="1Month">1 Months</option>
                         <option value="1Week">1 Week</option>
                     </select>
-                    {
-                        displayData? <LineGraph data={displayData} lineKey={selectedKey}/> : <LoadingModule/>
-                    }
-
+                    <LineGraph data={displayData} lineKey={selectedKey}/>
                 </div>
                 <ul className={'flex flex-row bg-transparent rounded-b-md ms-auto w-fit dark:bg-white dark:bg-opacity-10 hover:cursor-pointer'}>
                     <li onClick={(e) => {

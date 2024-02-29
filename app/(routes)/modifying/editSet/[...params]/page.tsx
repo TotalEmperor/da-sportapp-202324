@@ -26,17 +26,6 @@ export default function Page({params: {params}}) {
     });
 
     useEffect(() => {
-        if (sessionStorage.getItem("day")) {
-            try {
-                setDay(sessionStorage.getItem("day"));
-                setWeek(sessionStorage.getItem("week"))
-            } catch (e) {
-
-            }
-        }
-    }, []);
-
-    useEffect(() => {
         if (user === null) {
             setExerciseData(null); // <-- clear data when not logged in
 

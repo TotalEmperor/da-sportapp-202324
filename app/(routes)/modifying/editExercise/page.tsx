@@ -45,17 +45,6 @@ export default function Page() {
     const router = useRouter();
 
     useEffect(() => {
-        if (sessionStorage.getItem("day")) {
-            try {
-                setDay(sessionStorage.getItem("day"));
-                setWeek(sessionStorage.getItem("week"))
-            } catch (e) {
-
-            }
-        }
-    }, []);
-
-    useEffect(() => {
         if (!user) {
             setExerciseData(null); // <-- clear data when not logged in
             return;

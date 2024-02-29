@@ -43,18 +43,6 @@ export default function Page() {
     const {day, week, setDay, setWeek} = useContextData();
     const router = useRouter();
 
-
-    useEffect(() => {
-        if (sessionStorage.getItem("day")) {
-            try {
-                setDay(sessionStorage.getItem("day"));
-                setWeek(sessionStorage.getItem("week"))
-            } catch (e) {
-
-            }
-        }
-    }, []);
-
     useEffect(() => {
         if (!repMode) {
             setRep(0)

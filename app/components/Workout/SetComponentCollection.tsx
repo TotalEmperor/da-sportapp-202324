@@ -40,18 +40,6 @@ export default function SetComponentCollection() {
             return;
         }
 
-        if (sessionStorage.getItem("day")) {
-            try {
-                setDay(sessionStorage.getItem("day"));
-                setWeek(sessionStorage.getItem("week"))
-            } catch (e) {
-
-            }
-        }else{
-            sessionStorage.setItem("day", "MO");
-            setDay(sessionStorage.getItem("day"));
-        }
-
         const unsubscribe = getFirestoreDocument('exercises', user, (data: ExerciseSchedule) => {
             if (data) {
                 setuserdata(data.exercises[week][day]);

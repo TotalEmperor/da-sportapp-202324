@@ -28,17 +28,6 @@ export default function ModifySetComponentCollection() {
     const searchParams = useSearchParams();
     const pathname = usePathname();
 
-    useEffect(() => {
-        if (sessionStorage.getItem("day")) {
-            try {
-                setDay(sessionStorage.getItem("day"));
-                setWeek(sessionStorage.getItem("week"))
-                console.log(day)
-            } catch (e) {
-
-            }
-        }
-    }, []);
 
 
     const [isModalOpen, setModalOpen] = useState(false);

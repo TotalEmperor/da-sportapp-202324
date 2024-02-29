@@ -36,15 +36,6 @@ export default function Page({params: {params}}) {
             return;
         }
 
-        if (sessionStorage.getItem("day")) {
-            try {
-                setDay(sessionStorage.getItem("day"));
-                setWeek(sessionStorage.getItem("week"))
-            } catch (e) {
-
-            }
-        }
-
         if (!user) {
             // user still loading, do nothing yet
             return;

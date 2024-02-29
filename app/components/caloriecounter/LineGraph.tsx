@@ -37,8 +37,9 @@ export default function LineGraph({
     };
 
     return (
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer key={`rc_${data.length}`} width="100%" height="100%">
             <LineChart
+                key={`lc_${data.length}`}
                 width={500}
                 height={300}
                 data={data}
