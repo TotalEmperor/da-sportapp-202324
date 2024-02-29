@@ -60,11 +60,10 @@ export default function Page() {
                     }
                 });
             });
-            router.refresh();
-
         }
 
         return () => {
+            router.refresh();
             unsubscribe();
         };
     }, []);
@@ -75,31 +74,24 @@ export default function Page() {
             return;
         }
 
-        const unsubscribe = ()=>{
-            getFirestoreDocument('caloriecounter', user,  (data) => {
+        getFirestoreDocument('caloriecounter', user,  (data) => {
+            if (data) {
+                analyseData(data);
+            } else {
+                console.error("Couldn't fetch Calorie Counter")
+            }
+        });
+
+        getFirestoreDocument('exercises', user,  (data:ExerciseSchedule) => {
+            getFirestoreDocument('userdata', user,  (userData: UserData) => {
                 if (data) {
-                    analyseData(data);
+                    analyseExerciseData(data, userData.personaldata.weight);
                 } else {
-                    console.error("Couldn't fetch Calorie Counter")
+                    console.error("Couldn't fetch Exercises")
                 }
             });
-
-            getFirestoreDocument('exercises', user,  (data:ExerciseSchedule) => {
-                getFirestoreDocument('userdata', user,  (userData: UserData) => {
-                    if (data) {
-                        analyseExerciseData(data, userData.personaldata.weight);
-                    } else {
-                        console.error("Couldn't fetch Exercises")
-                    }
-                });
-            });
-            router.refresh();
-
-        }
-
-        return () => {
-            unsubscribe();
-        };
+        });
+        router.refresh();
 
     }, [user, day, week]); // <-- rerun when user changes
 
@@ -116,6 +108,7 @@ export default function Page() {
         });
         setPastCalorieData(calorieData);
         setNewTimespan("all", calorieData);
+
     };
 
     function getDatesWithinWeek(week: string): string[] {
