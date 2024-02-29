@@ -1,14 +1,9 @@
 import {CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import timeFormatter from "@/components/TimeFormatter";
 
-export default function LineGraph({
-    data = [],
-    lineKey = 'sum'
-}: {
-    data: any;
-    lineKey: string;
-}) {
+export default function LineGraph(props) {
 
+    const {data, lineKey} = props;
     const error = console.error;
     console.error = (...args: any) => {
         if (/defaultProps/.test(args[0])) return;
