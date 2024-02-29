@@ -145,29 +145,29 @@ export default function Page() {
         return dates;
     }
 
-    const analyseExerciseData = async (data: any, weight: number) =>{
+    const analyseExerciseData = (data: any, weight: number) =>{
         let calorieData: WorkoutData[] = [];
-        let weeks =  await sortDates(Object.keys(data.exercises));
-        const days = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
-
-        weeks.map((week)=>{
-            const dateList = getDatesWithinWeek(week);
-            days.map((day, index)=>{
-                let newSet: WorkoutData = { date: dateList[index], time: 0, average: 0,sum:0};
-                const setKeys = Object.keys(data.exercises[week][day]);
-                setKeys.map((setKey)=>{
-                    const exerkeys = Object.keys(data.exercises[week][day][setKey]);
-                    exerkeys.map((exerciseKey)=>{
-                        newSet.time += Number(data.exercises[week][day][setKey][exerciseKey].time);
-                        newSet.sum += calculateBurnedCal(Number(data.exercises[week][day][setKey][exerciseKey].met), newSet.time, weight, "");
-                    });
-                    newSet.average = newSet.average + (newSet.sum/exerkeys.length);
+        let weeks =  sortDates(Object.keys(data.exercises)).then((sortedWeeks:any)=>{
+            const days = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
+            sortedWeeks.map((week)=>{
+                const dateList = getDatesWithinWeek(week);
+                days.map((day, index)=>{
+                    let newSet: WorkoutData = { date: dateList[index], time: 0, average: 0,sum:0};
+                    const setKeys = Object.keys(data.exercises[week][day]);
+                    setKeys.map((setKey)=>{
+                        const exerkeys = Object.keys(data.exercises[week][day][setKey]);
+                        exerkeys.map((exerciseKey)=>{
+                            newSet.time += Number(data.exercises[week][day][setKey][exerciseKey].time);
+                            newSet.sum += calculateBurnedCal(Number(data.exercises[week][day][setKey][exerciseKey].met), newSet.time, weight, "");
+                        });
+                        newSet.average = newSet.average + (newSet.sum/exerkeys.length);
+                    })
+                    calorieData.push(newSet);
+                    console.log(newSet)
                 })
-                calorieData.push(newSet);
-                console.log(newSet)
-            })
+            });
+            setPlanedCalorieData(calorieData);
         });
-        setPlanedCalorieData(calorieData);
     };
 
     const parseDateString = (dateString: string): Date => {
