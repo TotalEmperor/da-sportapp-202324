@@ -220,10 +220,6 @@ export default function Page() {
         setDisplayData(newDisplaydata);
     }
 
-    const getExerciseRanglist=()=>{
-
-    }
-
     return (
         <>
             <div id={"graph"} className={'rounded-s-md w-[80%]'}>
