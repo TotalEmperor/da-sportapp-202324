@@ -42,6 +42,34 @@ export default function Page() {
     const router = useRouter();
 
     useEffect(() => {
+        const unsubscribe = ()=>{
+            getFirestoreDocument('caloriecounter', user,  (data) => {
+                if (data) {
+                    analyseData(data);
+                } else {
+                    console.error("Couldn't fetch Calorie Counter")
+                }
+            });
+
+            getFirestoreDocument('exercises', user,  (data:ExerciseSchedule) => {
+                getFirestoreDocument('userdata', user,  (userData: UserData) => {
+                    if (data) {
+                        analyseExerciseData(data, userData.personaldata.weight);
+                    } else {
+                        console.error("Couldn't fetch Exercises")
+                    }
+                });
+            });
+            router.refresh();
+
+        }
+
+        return () => {
+            unsubscribe();
+        };
+    }, []);
+
+    useEffect(() => {
         if (user === null) {
 
             return;
