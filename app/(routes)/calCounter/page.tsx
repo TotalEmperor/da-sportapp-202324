@@ -249,7 +249,7 @@ export default function Page() {
                         <option value="1Month">1 Months</option>
                         <option value="1Week">1 Week</option>
                     </select>
-                    <LineGraph data={displayData} lineKey={selectedKey} key={Object.keys(displayData)} />
+                    <LineGraph data={displayData} lineKey={selectedKey} key={`lgC_${Object.keys(displayData)}`} />
                 </div>
                 <ul className={'flex flex-row bg-transparent rounded-b-md ms-auto w-fit dark:bg-white dark:bg-opacity-10 hover:cursor-pointer'}>
                     <li onClick={(e) => {
