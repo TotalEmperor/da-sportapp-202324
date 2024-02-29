@@ -36,10 +36,15 @@ export default function DateConfig() {
     useEffect(() => {
 
         if (!user) {
+            setDay("");
+            setWeek("");
+            setCheckedDay(0);
+            setCheckedWeek(0)
             return;
         } else {
             const unsubscribe = getFirestoreDocument('userdata', getAuth().currentUser.uid, (data:UserData) => {
                 if (data.weeks) {
+                    console.log(data.weeks)
                     sortDates(Object.keys(data.weeks)).then((date: [string]) => {
                         if (!day) {
                             setDay(days[0].toUpperCase());
@@ -79,8 +84,10 @@ export default function DateConfig() {
 
 
     const handleClickDay = (i: number) => {
+        if (checkedDay !== i) {
             setDay(days[i].toUpperCase());
             setCheckedDay(i);
+        }
     };
 
     const handleClickWeek = (i: number) => {
@@ -170,7 +177,7 @@ export default function DateConfig() {
 }
 
 
-export const sortDates = async (dates: any) => {
+export const sortDates = (dates: any) => {
     dates.sort((a, b) => {
         // Split the string and take the first part as the starting date of the week
         const date1 = new Date(convertDateFormat(a.split('-')[0]));
