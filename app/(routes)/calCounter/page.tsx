@@ -28,8 +28,8 @@ export default function Page() {
         }
     });
 
-    const [pastCalorieData, setPastCalorieData] = useState(undefined);
-    const [planedCalorieData, setPlanedCalorieData] = useState(undefined);
+    const [pastCalorieData, setPastCalorieData] = useState([]);
+    const [planedCalorieData, setPlanedCalorieData] = useState([]);
     const [displayData, setDisplayData] = useState(undefined);
     const [timespan, setTimespan] = useState<string>("all");
     const [totalBurnedCal, setTotalBurnedCal] = useState<number>(0);
