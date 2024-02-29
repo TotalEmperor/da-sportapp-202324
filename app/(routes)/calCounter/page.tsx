@@ -9,6 +9,7 @@ import {ExerciseSchedule} from "@/interfaces/ExerciseSchedule";
 import {UserData} from "@/interfaces/userdata";
 import timeFormatter from "@/components/TimeFormatter";
 import {sortDates} from "@/components/MainComponents/dateConfig";
+import setDocument from "@/firebase/firestore/setDocument";
 
 interface WorkoutData {
     date: string;
@@ -27,9 +28,9 @@ export default function Page() {
         }
     });
 
-    const [pastCalorieData, setPastCalorieData] = useState([]);
-    const [planedCalorieData, setPlanedCalorieData] = useState([]);
-    const [displayData, setDisplayData] = useState([]);
+    const [pastCalorieData, setPastCalorieData] = useState(undefined);
+    const [planedCalorieData, setPlanedCalorieData] = useState(undefined);
+    const [displayData, setDisplayData] = useState(undefined);
     const [timespan, setTimespan] = useState<string>("all");
     const [totalBurnedCal, setTotalBurnedCal] = useState<number>(0);
     const [averageBurnedCal, setAverageBurnedCal] = useState<number>(0);
@@ -46,7 +47,7 @@ export default function Page() {
         }
 
         const unsubscribe = ()=>{
-            getFirestoreDocument('caloriecounter', user,(data) => {
+            getFirestoreDocument('caloriecounter', user,async (data) => {
                 if (data) {
                     analyseData(data);
                 } else {
@@ -54,8 +55,8 @@ export default function Page() {
                 }
             });
 
-            getFirestoreDocument('exercises', user, (data:ExerciseSchedule) => {
-                getFirestoreDocument('userdata', user, (userData: UserData) => {
+            getFirestoreDocument('exercises', user, async (data:ExerciseSchedule) => {
+                getFirestoreDocument('userdata', user, async (userData: UserData) => {
                     if (data) {
                         analyseExerciseData(data, userData.personaldata.weight);
                     } else {
@@ -73,7 +74,7 @@ export default function Page() {
 
     }, [user, day, week]); // <-- rerun when user changes
 
-    const analyseData = (data: any) =>{
+    const analyseData = async (data: any) =>{
         let calorieData: WorkoutData[] = [];
         data.calorieCounter.map((sets)=>{
             let newSet: WorkoutData = { date: sets.date, time: null, average: null,sum:null};
@@ -219,7 +220,7 @@ export default function Page() {
                         <option value="1Month">1 Months</option>
                         <option value="1Week">1 Week</option>
                     </select>
-                    <LineGraph data={displayData} lineKey={selectedKey}/>
+                    {displayData? <LineGraph data={displayData} lineKey={selectedKey}/> : <></>}
                 </div>
                 <ul className={'flex flex-row bg-transparent rounded-b-md ms-auto w-fit dark:bg-white dark:bg-opacity-10 hover:cursor-pointer'}>
                     <li onClick={(e) => {
