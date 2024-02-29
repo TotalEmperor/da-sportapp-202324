@@ -48,7 +48,7 @@ export default function Page() {
         }
 
         const unsubscribe = ()=>{
-            getFirestoreDocument('caloriecounter', user, (data) => {
+            getFirestoreDocument('caloriecounter', user,  (data) => {
                 if (data) {
                     analyseData(data);
                 } else {
@@ -117,9 +117,9 @@ export default function Page() {
         return dates;
     }
 
-    const analyseExerciseData =  (data: any, weight: number) =>{
+    const analyseExerciseData = async (data: any, weight: number) =>{
         let calorieData: WorkoutData[] = [];
-        let weeks =  sortDates(Object.keys(data.exercises));
+        let weeks =  await sortDates(Object.keys(data.exercises));
         const days = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
 
         weeks.map((week)=>{
