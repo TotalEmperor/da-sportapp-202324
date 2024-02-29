@@ -9,7 +9,7 @@ import {ExerciseSchedule} from "@/interfaces/ExerciseSchedule";
 import {UserData} from "@/interfaces/userdata";
 import timeFormatter from "@/components/TimeFormatter";
 import {sortDates} from "@/components/MainComponents/dateConfig";
-import setDocument from "@/firebase/firestore/setDocument";
+import {useRouter} from "next/navigation";
 
 interface WorkoutData {
     date: string;
@@ -38,7 +38,8 @@ export default function Page() {
     const [selectedKey, setSelectedKey] = useState<string>("average");
     const [selectedBottomTap, setSelectedBottomTap] = useState("past");
 
-    const {day, week, setDay, setWeek} = useContextData();
+    const {day, week} = useContextData();
+    const router = useRouter();
 
     useEffect(() => {
         if (user === null) {
@@ -63,8 +64,8 @@ export default function Page() {
                         console.error("Couldn't fetch Exercises")
                     }
                 });
-
             });
+            router.refresh();
 
         }
 
@@ -220,7 +221,7 @@ export default function Page() {
                         <option value="1Month">1 Months</option>
                         <option value="1Week">1 Week</option>
                     </select>
-                    {displayData? <LineGraph data={displayData} lineKey={selectedKey}/> : <></>}
+                    {displayData? <LineGraph data={displayData} lineKey={selectedKey} /> : <></>}
                 </div>
                 <ul className={'flex flex-row bg-transparent rounded-b-md ms-auto w-fit dark:bg-white dark:bg-opacity-10 hover:cursor-pointer'}>
                     <li onClick={(e) => {
