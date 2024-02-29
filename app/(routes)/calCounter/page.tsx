@@ -184,7 +184,7 @@ export default function Page() {
         setNewTimespan("all", pastCalorieData)
     }
 
-    const setFuture = ()=>{
+    const setFuture = async ()=>{
         setSelectedBottomTap("planned");
         setDisplayData(planedCalorieData);
         const newDisplaydata = planedCalorieData.filter(item => parseDateString(item.date) >= new Date(-100) && parseDateString(item.date) <= new Date());
