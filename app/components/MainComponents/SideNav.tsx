@@ -96,7 +96,7 @@ export default function SideNav() {
                                 </Link>
                             </li>
                             <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] ${activeButton === '/calCounter' ? 'dark:bg-gray-700 bg-[#d9e7cb]' : ''}`}>
-                                <Link className="" href="/calCounter" prefetch onClick={() => setMenuVisible(false)}>
+                                <Link className="" href="/calCounter" onClick={() => setMenuVisible(false)}>
                                     {activeButton === '/calCounter' ?
                                         <>
                                             <InsertChartIcon className={"icons sm:mx-2 mx-4 inline"}></InsertChartIcon>
