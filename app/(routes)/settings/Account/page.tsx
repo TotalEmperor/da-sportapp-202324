@@ -1,12 +1,11 @@
 import React from "react";
-import styles from "./settings.module.css"
 import Link from "next/link"
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import PasswordIcon from '@mui/icons-material/Password';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 
-export default function Account() {
+export default function Page() {
 
     return (
         <div className="w-full flex-grow flex-shrink pt-1 flex-col flex px-3">
@@ -45,7 +44,6 @@ export default function Account() {
                         </span>
                     <ArrowForwardIosIcon className="ms-auto w-full"/>
                 </Link>
-
             </div>
         </div>
     )

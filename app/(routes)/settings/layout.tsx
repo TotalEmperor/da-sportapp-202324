@@ -6,9 +6,10 @@ import Head from "next/head";
 import Link from "next/link"
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import React, {Suspense} from "react";
-import getSettings from "./getSettings";
 
-export default function page({params : {setting}} ) {
+export default function Layout({children}: {
+    children: React.ReactNode
+}) {
     return (
         <>
             <MainComponent>
@@ -46,7 +47,7 @@ export default function page({params : {setting}} ) {
             </MainComponent>
             <ConfPanel>
                 <Suspense>
-                    {getSettings(setting)}
+                    {children}
                 </Suspense>
             </ConfPanel>
         </>

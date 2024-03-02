@@ -3,7 +3,7 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import ContrastOutlinedIcon from "@mui/icons-material/ContrastOutlined";
 
-export default function Language(){
+export default function Page(){
 
     return(
         <div className="w-full flex-grow flex-shrink pt-1 px-3 flex-col flex">

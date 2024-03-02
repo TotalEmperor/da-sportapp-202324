@@ -9,7 +9,7 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { useTheme } from 'next-themes'
 
-export default function General(){
+export default function Page(){
 
     const { theme, setTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
@@ -48,9 +48,9 @@ export default function General(){
                         <span>
                             <LightModeIcon
                                 sx={{
-                                height: "3rem",
-                                width: "3rem",
-                            }} />
+                                    height: "3rem",
+                                    width: "3rem",
+                                }} />
                             Lightmode
                         </span>
                     </button>

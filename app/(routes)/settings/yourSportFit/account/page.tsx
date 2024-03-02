@@ -7,8 +7,9 @@ import {getAuth, updateEmail} from "firebase/auth";
 import createUser from "@/firebase/auth/createUser";
 import updateFirestoreDocument from "@/firebase/firestore/updateData";
 import {useRouter} from "next/navigation";
-import {UserData} from "../../../public/interfaces/userdata";
-export default function PersonalInformation() {
+import {UserData} from "@/interfaces/userdata";
+
+export default function Page() {
 
     const [email, setEmail] = React.useState('');
     const [firstName, setFirstName] = React.useState('');
