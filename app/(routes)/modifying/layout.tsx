@@ -5,7 +5,7 @@ import ConfPanel from "@/components/MainComponents/confPanel";
 import ExerciseComponentCollection from "@/components/Workout/ExerciseComponentCollection";
 import DateConfig from "@/components/MainComponents/dateConfig";
 import ModifySetComponentCollection from "@/components/Modifying/ModifySetComponentCollection";
-import LoadingModule from "@/components/loadingModule";
+import LoadingModule from "@/components/MainComponents/loadingModule";
 
 export default async function DashboardLayout({children,}: {
     children: React.ReactNode

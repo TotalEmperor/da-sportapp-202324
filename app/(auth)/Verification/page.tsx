@@ -1,6 +1,6 @@
 "use client"
 import {getAuth, sendEmailVerification} from "firebase/auth";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/MainComponents/Navbar";
 import firebase_app from "@/firebase/config";
 import { useRouter } from 'next/navigation'
 import {useEffect, useState} from "react";

@@ -9,7 +9,7 @@ import {useContextData} from "@/context/ContextData";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import LoadingModule from "@/components/loadingModule";
+import LoadingModule from "@/components/MainComponents/loadingModule";
 import {UserData} from "../../../public/interfaces/userdata";
 
 export default function DateConfig() {
@@ -45,14 +45,18 @@ export default function DateConfig() {
             const unsubscribe = getFirestoreDocument('userdata', getAuth().currentUser.uid, (data:UserData) => {
                 if (data.weeks) {
                     console.log(data.weeks)
-                    sortDates(Object.keys(data.weeks)).then((date: [string]) => {
-                        if (!day) {
+                    sortDates(Object.keys(data.weeks)).then((dates: [string]) => {
+                        console.log("Weeks____________");
+                        console.log(dates);
+                        console.log(dates.indexOf(week));
+                        console.log("week:")
+                        if (!sessionStorage.getItem("day")) {
                             setDay(days[0].toUpperCase());
-                            setWeek(date[0]);
+                            setWeek(dates[0]);
                             setCheckedDay(0);
                             setCheckedWeek(0);
                         } else {
-                            setCheckedWeek(date.indexOf(week));
+                            setCheckedWeek(dates.indexOf(week));
                             setCheckedDay(days.indexOf(day));
                         }
 
@@ -177,14 +181,14 @@ export default function DateConfig() {
 }
 
 
-export const sortDates = async (dates: any) => {
-    dates.sort((a, b) => {
+export const sortDates = async (weeks: any) => {
+    weeks.sort((a, b) => {
         // Split the string and take the first part as the starting date of the week
-        const date1 = new Date(convertDateFormat(a.split('-')[0]));
-        const date2 = new Date(convertDateFormat(b.split('-')[0]));
-        return date1.getTime() - date2.getTime();
+        const firstWeek = new Date(convertDateFormat(a.split('-')[0]));
+        const secondWeek = new Date(convertDateFormat(b.split('-')[0]));
+        return firstWeek.getTime() - secondWeek.getTime();
     });
-    return dates;
+    return weeks;
 }
 
 const getExerciseStatus = (day: string, data: any): any => {
@@ -203,8 +207,6 @@ function convertDateFormat(date: string): string {
 }
 
 const reformatDate = (date: string) => {
-    console.log("Date:")
-    console.log(date)
     if (date) {
         let dates = date.split("-"); // split the string into two dates
 

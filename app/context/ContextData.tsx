@@ -31,11 +31,18 @@ export function ContextDataProvider({ children }: Props) {
         if(sessionStorage.getItem("day")){
             setDay(sessionStorage.getItem("day"));
             setWeek(sessionStorage.getItem("week"));
+            console.log("new Week");
+            console.log("Session: "+sessionStorage.getItem("week"));
+            console.log("context: "+week);
+            console.log("New Day: ")
+            console.log("seesion:" +sessionStorage.getItem("day"));
+            console.log("Context: "+ day)
         }
     }, []);
 
 
     useEffect(() => {
+        console.log("new Dates")
         sessionStorage.setItem("day", day);
         sessionStorage.setItem("week", week);
     }, [day,week]);

@@ -1,5 +1,5 @@
 import {CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
-import timeFormatter from "@/components/TimeFormatter";
+import timeFormatter from "@/components/MainComponents/TimeFormatter";
 
 export default function LineGraph(props) {
 
@@ -48,7 +48,7 @@ export default function LineGraph(props) {
                 <CartesianGrid strokeDasharray="3 3"/>
                 <XAxis dataKey="date" stroke={"white"}/>
                 <YAxis stroke={"white"} tick={<CustomYAxisTick />}/>
-                <Tooltip wrapperClassName={"dark:text-black"}/>
+                <Tooltip wrapperClassName={"dark:text-black"} formatter={(value:number)=>{return parseFloat(String(value)).toFixed( 2 )}}/>
                 <Legend/>
                 <Line type="monotone" dataKey={lineKey} name={lineKey} unit={unitSelector[lineKey]} stroke="#8884d8"
                       activeDot={{r: 8}}/>

@@ -7,7 +7,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
 import {param} from "ts-interface-checker";
 import {useContextData} from "@/context/ContextData";
-import LoadingModule from "@/components/loadingModule";
+import LoadingModule from "@/components/MainComponents/loadingModule";
 import {Exercise} from "@/interfaces/Exercise";
 import {ExerciseSchedule} from "@/interfaces/ExerciseSchedule";
 

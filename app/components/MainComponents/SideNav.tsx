@@ -6,7 +6,7 @@ import Logo from '@/images/hope.svg';
 import TimerIcon from "@mui/icons-material/Timer";
 import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
 import InsertChartIcon from '@mui/icons-material/InsertChart';
-import AccountDropdown from "@/components/AccountDropdown";
+import AccountDropdown from "@/components/MainComponents/AccountDropdown";
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import React, {useEffect, useState} from "react";

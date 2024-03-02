@@ -2,8 +2,8 @@
 import React, {useState} from "react";
 import Link from 'next/link'
 import Image from 'next/image'
-import Logo from '../../public/images/hope.svg'
-import LogoDark from "../../public/images/irgendwiesohalt.svg"
+import Logo from '@/images/hope.svg'
+import LogoDark from "@/images/irgendwiesohalt.svg"
 
 export default function Navbar() {
     const [open, setOpen] = useState(false);
@@ -13,7 +13,7 @@ export default function Navbar() {
             <div className="container">
                 <div className="relative flex items-center justify-between -mx-4">
                     <div className="max-w-full px-4 w-60">
-                        <Link href="/" className="block w-full py-5">
+                        <Link href="/public" className="block w-full py-5">
                             <Image
                                 src={Logo}
                                 alt="logo"

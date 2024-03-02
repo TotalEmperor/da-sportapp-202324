@@ -8,7 +8,7 @@ import setDocument from "@/firebase/firestore/setDocument";
 import {useContextData} from "@/context/ContextData";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 import Link from "next/link";
-import LoadingModule from "@/components/loadingModule";
+import LoadingModule from "@/components/MainComponents/loadingModule";
 import {ExerciseSet} from "@/interfaces/ExerciseSet";
 import {ExerciseSchedule} from "@/interfaces/ExerciseSchedule";
 

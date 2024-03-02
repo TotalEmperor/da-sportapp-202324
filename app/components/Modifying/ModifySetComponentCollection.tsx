@@ -7,7 +7,7 @@ import {useContextData} from "@/context/ContextData";
 import CreateIcon from '@mui/icons-material/Create';
 import AddIcon from '@mui/icons-material/Add';
 import AddControlModal from "@/components/Modifying/AddControlModal";
-import LoadingModule from "@/components/loadingModule";
+import LoadingModule from "@/components/MainComponents/loadingModule";
 import {usePathname, useSearchParams} from "next/navigation";
 import {object} from "prop-types";
 

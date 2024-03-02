@@ -19,5 +19,7 @@ export default async function updateFirestoreDocument(collection:string, data:an
     } catch (e) {
         error = e;
     }
-    return { result, error };
+    return {
+        result, error
+    };
 }

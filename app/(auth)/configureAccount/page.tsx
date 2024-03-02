@@ -1,7 +1,7 @@
 "use client"
 import React, {useState} from "react";
 import Head from "next/head";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/MainComponents/Navbar";
 import getFirestoreDocument from "@/firebase/firestore/getData";
 import {getAuth, sendEmailVerification} from "firebase/auth";
 import setDocument from "@/firebase/firestore/setDocument";

@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
-import Navbar from '@/components/Navbar'
+import Navbar from '@/components/MainComponents/Navbar'
 import Head from "next/head";
 const inter = Inter({ subsets: ['latin'] })
 

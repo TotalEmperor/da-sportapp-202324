@@ -6,7 +6,7 @@ import ExerciseManager from "@/components/MainComponents/ExerciseManager";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
 import {useContextData} from "@/context/ContextData";
-import LoadingModule from "@/components/loadingModule";
+import LoadingModule from "@/components/MainComponents/loadingModule";
 import {useRouter} from "next/navigation";
 
 

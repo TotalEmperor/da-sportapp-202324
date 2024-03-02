@@ -7,7 +7,7 @@ import LineGraph from "@/components/caloriecounter/LineGraph";
 import GraphCard from "@/components/caloriecounter/GraphCard";
 import {ExerciseSchedule} from "@/interfaces/ExerciseSchedule";
 import {UserData} from "@/interfaces/userdata";
-import timeFormatter from "@/components/TimeFormatter";
+import timeFormatter from "@/components/MainComponents/TimeFormatter";
 import {sortDates} from "@/components/MainComponents/dateConfig";
 import {useRouter} from "next/navigation";
 
@@ -263,12 +263,12 @@ export default function Page() {
                         <GraphCard title={"Total burned cal."}
                                    onClick={()=>{setSelectedKey("sum")}}
                                    selectedCard={selectedKey == "sum"}>
-                            <h1>{formatCompactNumber(totalBurnedCal)} kcal</h1>
+                            <h1>{parseFloat(formatCompactNumber(formatCompactNumber(totalBurnedCal))).toFixed( 2 )} kcal</h1>
                         </GraphCard>
                         <GraphCard title={"Average burned cal."}
                                    onClick={()=>{setSelectedKey("average")}}
                                    selectedCard={selectedKey == "average"}>
-                            <h1>{formatCompactNumber(averageBurnedCal)} kcal per day <br/> {formatCompactNumber(averageBurnedCal)} kcal per exercise</h1>
+                            <h1>{parseFloat(formatCompactNumber(averageBurnedCal)).toFixed( 2 )} kcal per day <br/> {parseFloat(formatCompactNumber(averageBurnedCal)).toFixed( 2 )} kcal per exercise</h1>
                         </GraphCard>
                         <GraphCard title={"Time spent"}
                                    onClick={()=>{setSelectedKey("time")}}
