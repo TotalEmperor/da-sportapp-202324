@@ -41,40 +41,22 @@ export default function DateConfig() {
             setCheckedDay(0);
             setCheckedWeek(0)
             return;
-        } else {
-            const unsubscribe = getFirestoreDocument('userdata', getAuth().currentUser.uid, (data:UserData) => {
-                if (data.weeks) {
-                    console.log(data.weeks)
-                    sortDates(Object.keys(data.weeks)).then((dates: [string]) => {
-                        console.log("Weeks____________");
-                        console.log(dates);
-                        console.log(dates.indexOf(week));
-                        console.log("week:")
-                        if (!sessionStorage.getItem("day")) {
-                            setDay(days[0].toUpperCase());
-                            setWeek(dates[0]);
-                            setCheckedDay(0);
-                            setCheckedWeek(0);
-                        } else {
-                            setCheckedWeek(dates.indexOf(week));
-                            setCheckedDay(days.indexOf(day));
-                        }
-
-                    })
-
-                }
-            });
-
-            // Unsubscribe when the component unmounts
-            return () => {
-                unsubscribe();
-            };
         }
     }, [user]); // <-- rerun when user changes
 
     useEffect(() => {
         const unsubscribe = getFirestoreDocument('userdata', user, (data: UserData) => {
             if (data.weeks[week]) {
+                sortDates(Object.keys(data.weeks)).then((dates: [string]) => {
+                    if (!sessionStorage.getItem("day")) {
+                        setCheckedDay(0);
+                        setCheckedWeek(0);
+                    } else {
+                        setCheckedWeek(dates.indexOf(week));
+                        setCheckedDay(days.indexOf(day));
+                    }
+
+                })
                 days.forEach((day) => {
                     setExerciseStatusAtIndex(days.indexOf(day), getExerciseStatus(day, data.weeks[week]));
                 });
@@ -206,19 +188,20 @@ function convertDateFormat(date: string): string {
     return `${month}/${day}/${year}`;
 }
 
-const reformatDate = (date: string) => {
-    if (date) {
-        let dates = date.split("-"); // split the string into two dates
+const reformatDate = (week: string) => {
+    if (week) {
+        let dates = week.split("-"); // split the string into two dates
 
-        let firstDate = dates[0];
-        let secondDate = dates[1];
+        try{
+            let firstDate = dates[0];
+            let secondDate = dates[1];
 
-// remove the year from the dates
-        firstDate = firstDate.slice(0, 5);
-        secondDate = secondDate.slice(0, 5);
+            firstDate = firstDate.slice(0, 5);
+            secondDate = secondDate.slice(0, 5);
+            return firstDate + "-" + secondDate;
+        }catch (e){
 
-// combine the dates back into the desired format
-        return firstDate + "-" + secondDate;
+        }
     }
     return null;
 }
