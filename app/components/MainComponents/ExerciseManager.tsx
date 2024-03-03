@@ -143,7 +143,7 @@ export default function ExerciseManager(props: {
     return (
         <>
             <div
-                className={"rounded-xl w-full hover:bg-green-300 dark:hover:bg-opacity-40 dark:shadow-neutral-600 shadow-md bg-dark dark:bg-black dark:bg-opacity-[50%] " + style} onClick={openAddModal}>
+                className={"rounded-xl w-full hover:bg-green-300 dark:hover:bg-opacity-40 dark:shadow-neutral-600 shadow-md bg-[#ffffff] dark:bg-black dark:bg-opacity-[50%] " + style} onClick={openAddModal}>
                 <div
                     className="w-full justify-center flex-col mx-auto flex px-4 pt-8 py-4">
                     <div className="flex w-fit flex-row min-h-fit">

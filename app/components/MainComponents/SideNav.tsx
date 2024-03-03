@@ -41,7 +41,7 @@ export default function SideNav() {
     return (
         <>
             <nav
-                className={`${menuVisible ? 'fixed top-0 left-0 h-full min-w-fit w-[60%]' : 'w-full'} w-left-fixed flex-shrink flex-grow-0 mb-2 z-10 bg-black bg-opacity-20`}>
+                className={`${menuVisible ? 'fixed top-0 left-0 h-full min-w-fit w-[60%]' : 'w-full'} w-left-fixed flex-shrink flex-grow-0 mb-2 z-10 bg-[#F3F6EB] dark:bg-inherit dark:bg-black dark:bg-opacity-20 border-r-2 border-gray-300 dark:border-none`}>
                 <div
                     className={'sm:sticky sm:top-0 sm:p-4 w-full h-full min-w-fit flex flex-col dark:text-neutral-300 z-10'}>
                     <div className="flex flex-row justify-center" >
@@ -61,7 +61,7 @@ export default function SideNav() {
                     <div
                         className={`flex-col sm:mt-[20%] items-center min-w-fit ${menuVisible ? "" : "hidden sm:flex"}`}>
                         <ul className="flex flex-col overflow-hidden justify-center content-center sm:w-[75%] min-w-fit">
-                            <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] ${activeButton === '/workout' ? 'bg-[#d9e7cb] dark:bg-gray-700' : ''}`}>
+                            <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] dark:font-medium ${activeButton === '/workout' ? 'font-bold dark:bg-gray-700' : ''}`}>
                                 <Link href="/workout" prefetch onClick={() => setMenuVisible(false)}>
                                     {activeButton === '/workout' ?
                                     <>
@@ -78,50 +78,50 @@ export default function SideNav() {
                                 }
                                 </Link>
                             </li>
-                            <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] ${activeButton === '/modifying' ? 'dark:bg-gray-700 bg-[#d9e7cb]' : ''}`}>
+                            <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] dark:font-medium ${activeButton === '/modifying' ? 'font-bold dark:bg-gray-700' : ''}`}>
                                 <Link className="truncate" href="/modifying" onClick={() => setMenuVisible(false)}>
                                     {activeButton === '/modifying' ?
                                         <>
                                             <EditCalendarIcon
                                                 className={"icons sm:mx-2 mx-4 inline"}></EditCalendarIcon>
-                                            <span className="sm:inline font-medium ">Modifying</span>
+                                            <span className="sm:inline ">Modifying</span>
                                         </>
                                         :
                                         <>
                                             <EditCalendarOutlinedIcon
                                                 className={"icons sm:mx-2 mx-4 inline"}></EditCalendarOutlinedIcon>
-                                            <span className="sm:inline font-medium ">Modifying</span>
+                                            <span className="sm:inline ">Modifying</span>
                                         </>
                                     }
                                 </Link>
                             </li>
-                            <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] ${activeButton === '/calCounter' ? 'dark:bg-gray-700 bg-[#d9e7cb]' : ''}`}>
+                            <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 dark:font-medium hover:bg-[#d9e7cb] ${activeButton === '/calCounter' ? 'font-bold dark:bg-gray-700' : ''}`}>
                                 <Link className="" href="/calCounter" onClick={() => setMenuVisible(false)}>
                                     {activeButton === '/calCounter' ?
                                         <>
                                             <InsertChartIcon className={"icons sm:mx-2 mx-4 inline"}></InsertChartIcon>
-                                            <span className="sm:inline font-medium w-fit">Cal. Counter</span>
+                                            <span className="sm:inline w-fit">Cal. Counter</span>
                                         </>
                                         :
                                         <>
                                             <InsertChartOutlinedIcon className={"icons sm:mx-2 mx-4 inline"}></InsertChartOutlinedIcon>
-                                            <span className="sm:inline font-medium w-fit">Cal. Counter</span>
+                                            <span className="sm:inline w-fit">Cal. Counter</span>
                                         </>
                                     }
                                 </Link>
                             </li>
-                            <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] ${activeButton === '/settings' ? 'dark:bg-gray-700 bg-[#d9e7cb]' : ''}`}>
+                            <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 dark:font-medium hover:bg-[#d9e7cb] ${activeButton === '/settings' ? 'font-bold dark:bg-gray-700' : ''}`}>
                                 <Link href={`/settings/${"Account"}`} prefetch={true}
                                       onClick={() => setMenuVisible(false)}>
                                       {activeButton === '/settings' ?
                                           <>
                                               <SettingsIcon className={"icons sm:mx-2 mx-4 inline"}/>
-                                              <span className="sm:inline font-medium ">Settings</span>
+                                              <span className="sm:inline ">Settings</span>
                                           </>
                                           :
                                           <>
                                               <SettingsOutlinedIcon className={"icons sm:mx-2 mx-4 inline"}/>
-                                              <span className="sm:inline font-medium ">Settings</span>
+                                              <span className="sm:inline ">Settings</span>
                                           </>
                                       }
                                 </Link>

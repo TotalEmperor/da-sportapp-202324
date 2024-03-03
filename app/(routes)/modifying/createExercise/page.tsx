@@ -192,7 +192,7 @@ export default function Page() {
                             id="exerciseName"
                             placeholder={"e.g Pull Ups"}
                             pattern={`^[A-Za-z0-9\\s\\-_]+$`}
-                            className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"
+                            className="rounded border border-gray-300 bg-gray-200 dark:bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"
                             required
                         />
                     </label>
@@ -205,7 +205,7 @@ export default function Page() {
                                 setDescription(e.target.value)
                             }}
                             placeholder={"Move your sorry ass"}
-                            className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                            className="rounded border border-gray-300 bg-gray-200 dark:bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                             required
                         />
                     </label>
@@ -213,7 +213,7 @@ export default function Page() {
                         <label htmlFor="timer" className="me-5">
                             <span>Mode</span>
                             <div
-                                className="flex flex-row w-full dark:bg-transparent shadow mt-2 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
+                                className="flex flex-row w-full dark:bg-transparent bg-gray-200 shadow mt-2 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
                                 <select
                                     id={"timer"}
                                     onChange={(e) => {
@@ -238,7 +238,7 @@ export default function Page() {
                         <label htmlFor="repMode">
                             <span>rep. Mode</span>
                             <div
-                                className="flex flex-row w-full dark:bg-transparent shadow mt-2 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
+                                className="flex flex-row w-full dark:bg-transparent shadow mt-2 bg-gray-200 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
                                 <select
                                     id={"repMode"}
                                     onChange={(e) => {
@@ -262,7 +262,7 @@ export default function Page() {
                     </div>
                     <label htmlFor={"exerciseImage"}>
                         <div
-                            className={'bg-lime-800 hover:bg-lime-700 rounded flex flex-col justify-center w-fit mb-2'}>
+                            className={'dark:bg-[#1f9d61] bg-[#51dd9b] hover:bg-lime-700 rounded text-white flex flex-col justify-center w-fit mb-2'}>
                             <Image src={selectedImage} alt={"image"} height={200} width={200}
                                    className={`${selectedImage ? "" : "hidden"} rounded hover:scale-150 transition delay-300`}/>
                             <button
@@ -281,7 +281,7 @@ export default function Page() {
                             {[...Array(4)].map((_, index) => {
                                 return (
                                     <StarRoundedIcon key={index}
-                                                     className={`${index <= hoverDifficulty ? "text-blue-200" : ""} ${index <= difficulty ? "text-yellow-300" : ""} hover:cursor-pointer me-2`}
+                                                     className={`${index <= hoverDifficulty ? "text-blue-200" : ""} ${index <= difficulty ? "text-yellow-300" : ""} hover:cursor-pointer me-2 text-gray-300`}
                                                      sx={{fontSize: "3.5rem"}}
                                                      onClick={() => {
                                                          setDifficulty(index)
@@ -307,7 +307,7 @@ export default function Page() {
                             id="breakTime"
                             min={1}
                             placeholder={"time (s.)"}
-                            className="rounded border border-gray-300 bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"
+                            className="rounded border border-gray-300 bg-gray-200 dark:bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"
                             required
                         />
                     </label>

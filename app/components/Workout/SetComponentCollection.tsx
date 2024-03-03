@@ -100,7 +100,7 @@ export default function SetComponentCollection() {
                 <>
                     <>
                         <div
-                            className="flex flex-col text-4xl font-bold w-full bg-gray-100 dark:bg-transparent justify-center items-center">
+                            className="flex flex-col text-4xl font-bold w-full dark:bg-transparent justify-center items-center">
                             <h1>{day}</h1>
                             <div
                                 className="flex felx-row border-b-2 border-black dark:border-white justify-center items-center">

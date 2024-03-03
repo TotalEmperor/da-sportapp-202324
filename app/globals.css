@@ -3,11 +3,24 @@
 @tailwind utilities;
 
 
-body{
+#rootElement{
   color: black;
-  background-color: #fff;
   font-family: "Lucida Sans", sans-serif;
+  #padding-inline: 10vw;
 }
+
+
+#rootElement{
+  background-color: white;
+  #background-color: #efefef;
+  color: black;
+}
+
+html.dark #rootElement{
+  color: #ffffff;
+  background-color: #1D2125;
+}
+
 
 @media only screen and (min-width: 600px) {
 
@@ -113,16 +126,5 @@ body{
     font-size: 16px;
   }
   font-size: 16px;
-}
-
-html.dark #rootElement{
-  color: #ffffff;
-  background-color: #1D2125;
-}
-
-body {
-  height: 100vh;
-  width: 100vw;
-  margin: 0;
 }
 

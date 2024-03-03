@@ -117,7 +117,7 @@ export default function DateConfig() {
     return (
         <>
             {day && week ?
-                <div className="rounded-xl w-fit md:px-10 bg-white bg-opacity-5 min-w-fit flex-shrink">
+                <div className="rounded-xl w-fit md:px-10 dark:bg-white dark:bg-opacity-5 bg-[#efefef] dark:shadow-neutral-600 shadow-md min-w-fit flex-shrink">
                     <div className="w-fit justify-center flex-col mx-auto flex mb-3 px-4 pt-8 py-4">
                         <div className="flex w-full mb-[1rem] font-bold text-3xl flex-row">
                             <span className="w-full flex items-center">

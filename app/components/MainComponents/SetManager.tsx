@@ -50,7 +50,7 @@ export default function SetManager(props: {
                     e.preventDefault();
                     router.push(link)
                 }}
-                className={`z-10 rounded-xl w-full my-3 hover:bg-green-300 dark:hover:bg-opacity-20 dark:shadow-neutral-600 shadow-md hover:cursor-pointer dark:bg-white ${selectedSet == setName ? "dark:bg-opacity-30" : " dark:bg-white dark:bg-opacity-10"} ` + style}>
+                className={`z-10 rounded-xl w-full my-3 hover:bg-green-200 dark:hover:bg-opacity-20 dark:shadow-neutral-600 shadow-md hover:cursor-pointer bg-[#ffffff] dark:bg-white ${selectedSet == setName ? "dark:bg-opacity-30" : " dark:bg-white dark:bg-opacity-10"} ` + style}>
                 <div
                     className="w-full justify-center flex-col mx-auto flex px-4 pt-8 py-4">
                     <div className="flex w-fit flex-row min-h-fit">
