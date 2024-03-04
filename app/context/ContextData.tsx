@@ -32,8 +32,7 @@ export function ContextDataProvider({ children }: Props) {
     const [activeButton, setActiveButton] = useState<string>(null);
 
     useEffect(() => {
-        console.log(sessionStorage.getItem("day"))
-        if (sessionStorage.getItem("day")!== "null") {
+        if (sessionStorage.getItem("day")!== "null" && sessionStorage.getItem("week")!=="null") {
             setDay(sessionStorage.getItem("day"));
             setWeek(sessionStorage.getItem("week"));
         } else{

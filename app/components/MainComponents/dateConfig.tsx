@@ -10,7 +10,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import LoadingModule from "@/components/MainComponents/loadingModule";
-import {UserData} from "../../../public/interfaces/userdata";
+import {UserData} from "@/interfaces/userdata";
 
 export default function DateConfig() {
 
@@ -36,10 +36,6 @@ export default function DateConfig() {
     useEffect(() => {
 
         if (!user) {
-            setDay("");
-            setWeek("");
-            setCheckedDay(0);
-            setCheckedWeek(0)
             return;
         }
     }, [user]); // <-- rerun when user changes
