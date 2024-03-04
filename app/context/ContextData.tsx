@@ -32,13 +32,15 @@ export function ContextDataProvider({ children }: Props) {
     const [activeButton, setActiveButton] = useState<string>(null);
 
     useEffect(() => {
-        if (sessionStorage.getItem("day")!== "null" && sessionStorage.getItem("week")!=="null") {
+        if (sessionStorage.getItem("day")!==null && sessionStorage.getItem("week")!==null) {
+            console.log("Not NUll")
             setDay(sessionStorage.getItem("day"));
             setWeek(sessionStorage.getItem("week"));
         } else{
             getFirestoreDocument('userdata', getAuth().currentUser.uid, (data: UserData) => {
                 if (data.weeks) {
                     sortDates(Object.keys(data.weeks)).then((dates: [string]) => {
+                        console.log("Null");
                         setDay("MO");
                         sessionStorage.setItem("day", "MO");
                         setWeek(dates[0]);
