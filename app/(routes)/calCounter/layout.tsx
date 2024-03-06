@@ -13,9 +13,7 @@ export default async function DashboardLayout({children,}: {
 
     return (
         <>
-            <MainComponent style={"w-[100%]"}>
-                {children}
-            </MainComponent>
+            {children}
         </>
     );
 }

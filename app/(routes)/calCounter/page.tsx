@@ -221,7 +221,7 @@ export default function Page() {
     }
 
     return (
-        <>
+        <div className={"w-auto sm:w-full flex-grow p-5 items-center m-5 dark:bg-white dark:bg-opacity-5 rounded-md flex-col flex "}>
             <div id={"graph"} className={'rounded-s-md w-[80%]'}>
                 <div id={'graph-content'}
                      className={'flex justify-center flex-col items-center dark:bg-white dark:bg-opacity-20 rounded-bl-md rounded-t-md min-h-fit sm:h-[40vh] p-4 bg-[#efefef]'}>
@@ -240,17 +240,17 @@ export default function Page() {
                     </select>
                     <LineGraph data={displayData} lineKey={selectedKey} key={`lgC_${Object.keys(displayData)}`} />
                 </div>
-                <ul className={'flex flex-row bg-transparent rounded-b-md ms-auto w-fit dark:bg-white dark:bg-opacity-10 hover:cursor-pointer'}>
+                <ul className={'flex flex-row rounded-b-md ms-auto w-fit bg-gray-300 dark:bg-white dark:bg-opacity-10 hover:cursor-pointer'}>
                     <li onClick={(e) => {
                         setPast()
                     }}
-                        className={`p-3 rounded-bl-md ${selectedBottomTap == "past" ? "dark:bg-white dark:bg-opacity-10" : ""}`}>
+                        className={`p-3 rounded-bl-md ${selectedBottomTap == "past" ? "dark:bg-white dark:bg-opacity-10 bg-[#efefef]" : ""}`}>
                         Past
                     </li>
                     <li onClick={() => {
                         setFuture()
                     }}
-                        className={`p-3 ${selectedBottomTap == "planned" ? "dark:bg-white dark:bg-opacity-10" : ""}`}>
+                        className={`p-3 ${selectedBottomTap == "planned" ? "dark:bg-white dark:bg-opacity-10 bg-[#efefef]" : ""}`}>
                         Future
                     </li>
                 </ul>
@@ -281,7 +281,7 @@ export default function Page() {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 
     function formatCompactNumber(number) {
