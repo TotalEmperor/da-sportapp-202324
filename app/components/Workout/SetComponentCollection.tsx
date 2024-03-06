@@ -98,7 +98,6 @@ export default function SetComponentCollection() {
         <>
             {exerciseSetKeys.length!==null ?
                 <>
-                    <>
                         <div
                             className="flex flex-col text-4xl font-bold w-full dark:bg-transparent justify-center items-center">
                             <h1>{day}</h1>
@@ -129,7 +128,6 @@ export default function SetComponentCollection() {
                                 <EditCalendarIcon/>
                             </Link>
                         </div>
-                    </>
                 </>
                 :
                 <LoadingModule/>

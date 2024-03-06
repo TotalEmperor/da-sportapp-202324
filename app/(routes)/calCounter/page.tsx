@@ -224,7 +224,7 @@ export default function Page() {
         <>
             <div id={"graph"} className={'rounded-s-md w-[80%]'}>
                 <div id={'graph-content'}
-                     className={'flex justify-center flex-col items-center dark:bg-white dark:bg-opacity-20 rounded-bl-md rounded-t-md min-h-fit sm:h-[40vh] p-4'}>
+                     className={'flex justify-center flex-col items-center dark:bg-white dark:bg-opacity-20 rounded-bl-md rounded-t-md min-h-fit sm:h-[40vh] p-4 bg-[#efefef]'}>
                     <select name="timespan"
                             id="timespan-select"
                             value={timespan}
@@ -256,7 +256,7 @@ export default function Page() {
                 </ul>
             </div>
             <div id={"statistic"}
-                 className={'flex flex-col flex-shrink w-[-webkit-fill-available] md:mx-[10%] dark:bg-white dark:bg-opacity-5 mt-2 p-4 rounded-md overflow-y-scroll h-max'}>
+                 className={'flex flex-col flex-shrink w-[-webkit-fill-available] md:mx-[10%] bg-[#efefef] dark:bg-white dark:bg-opacity-5 mt-2 p-4 rounded-md overflow-y-scroll h-max'}>
                 <h1 className={"border-b-2 dark:border-white border-black"}>Statistics</h1>
                 <div className={'flex flex-col flex-wrap justify-center'}>
                     <div id={"Graphcard Container"} className={'min-h-fit max-h-min flex flex-wrap mx-auto'}>

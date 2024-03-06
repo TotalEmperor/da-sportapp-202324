@@ -31,12 +31,24 @@ export default function LineGraph(props) {
         );
     };
 
+    const CustomXAxisTick = (props) => {
+        const { x, y, payload } = props;
+        return (
+            <g transform={`translate(${x},${y})`}>
+                <text x={0} y={0} dy={16} textAnchor="end" className={'dark:fill-white'}>
+                    {payload.value.substring(5)}
+                </text>
+            </g>
+        );
+    };
+
     return (
-        <ResponsiveContainer key={`rc_${data.length}`} width="100%" height="100%">
+        <ResponsiveContainer key={`rc_${data.length}`} width="100%" height="100%" className={''}>
             <LineChart
                 key={`lc_${data.length}`}
                 width={500}
                 height={300}
+                className={''}
                 data={data}
                 margin={{
                     top: 5,
@@ -46,7 +58,7 @@ export default function LineGraph(props) {
                 }}
             >
                 <CartesianGrid strokeDasharray="3 3"/>
-                <XAxis dataKey="date" stroke={"white"}/>
+                <XAxis stroke={"white"} dataKey="date" tick={<CustomXAxisTick/>}/>
                 <YAxis stroke={"white"} tick={<CustomYAxisTick />}/>
                 <Tooltip wrapperClassName={"dark:text-black"} formatter={(value:number)=>{return parseFloat(String(value)).toFixed( 2 )}}/>
                 <Legend/>
