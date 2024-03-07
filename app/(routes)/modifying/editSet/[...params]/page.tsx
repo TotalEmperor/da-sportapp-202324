@@ -49,8 +49,6 @@ export default function Page({params: {params}}) {
     }, [user, day, week]); // <-- rerun when user changes
 
     const handleSubmit = ()=>{
-
-        console.log(exerciseData)
         const newSchedule = renameKey(params, setName);
 
         setDocument("exercises", user, newSchedule).then(r => {
@@ -59,12 +57,13 @@ export default function Page({params: {params}}) {
     }
 
     function renameKey(oldKey: string, newKey: string): any {
+        let schedule = exerciseData;
         const set = exerciseData["exercises"][week][day][oldKey];
-        delete exerciseData["exercises"][week][day][oldKey];
+        delete schedule["exercises"][week][day][oldKey];
 
-        exerciseData["exercises"][week][day][newKey] = set;
+        schedule["exercises"][week][day][newKey] = set;
 
-        return exerciseData;
+        return schedule;
     }
 
     return (

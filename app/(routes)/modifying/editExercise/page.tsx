@@ -123,6 +123,8 @@ export default function Page() {
 
     const handleSubmit = async ()=>{
         let newSchedule = exerciseData;
+        delete newSchedule.exercises[week][day][setName][searchParams.get("exerciseName")]
+
 
         newSchedule["exercises"][week][day][setName][exerciseName] = {
             "image": selectedImage,
@@ -295,27 +297,3 @@ export default function Page() {
         </>
     )
 }
-
-const getSets = async (data: any, day: string, week: string) => {
-
-    let objArray: any[] = [];
-    let exerciseNum = 0;
-    let time = 0;
-
-
-    if (day) {
-        for (const setName in data.exercises[week][day]) {
-            const exerciseSet = data.exercises[week][day][setName];
-            exerciseNum += Object.entries(exerciseSet).length;
-            for (const exerciseName in exerciseSet) {
-                time += parseInt(exerciseSet[exerciseName].time);
-            }
-        }
-
-        objArray = objArray.concat(Object.entries(data.exercises[week][day]));
-
-    }
-
-
-    return {objArray, exerciseNum, time};
-};
