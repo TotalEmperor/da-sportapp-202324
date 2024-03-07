@@ -115,7 +115,7 @@ export default function Page(){
                             selectedExercises.map((key: any, index) => (
                                 <SetManager key={index}
                                             setName={key}
-                                            data={exercises[key]} link={`/modifying/searchExercise/${key}`}
+                                            data={exercises[key]} link={`/modifying/searchExercise/templates/${key}`}
                                             time={getSetTime(exercises[key])}
                                             exerciseNum={exercises[key] ? Object.entries(exercises[key]).length : 0}
                                             stars={getAverageDifficulty(exercises[key])}/>

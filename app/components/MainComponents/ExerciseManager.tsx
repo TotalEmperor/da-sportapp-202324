@@ -1,6 +1,4 @@
 "use client"
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import Image from "next/image";
 import Link from "next/link"
 import React, {useEffect, useState} from "react"
@@ -16,7 +14,7 @@ import getFirestoreDocument from "@/firebase/firestore/getData";
 import AddModal from "@/components/Modifying/AddingExerciseModal";
 import {useContextData} from "@/context/ContextData";
 import setDocument from "@/firebase/firestore/setDocument";
-import {useRouter} from "next/navigation";
+import {useRouter, redirect} from "next/navigation";
 
 export default function ExerciseManager(props: {
     data: Exercise;
@@ -34,9 +32,6 @@ export default function ExerciseManager(props: {
 
     const [isContentVisible, setIsContentVisible] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-    const [isAddModalOpen, setAddModalOpen] = useState(false);
-    const [setKeys, setSetKeys] = useState<string[]>([]);
-    const [exerciseData, setExerciseData] = useState([]);
     const {day, week, setDay, setWeek} = useContextData();
     const router = useRouter();
 
@@ -60,27 +55,9 @@ export default function ExerciseManager(props: {
         if (!user) {
             // user still loading, do nothing yet
             return;
-        } else {
-            const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
-                if (data) {
-                    setExerciseData(data);
-                    setSetKeys(Object.keys(data.exercises[week][day]));
-                }
-            });
-
-            return () => {
-                unsubscribe();
-            };
         }
 
-
     }, [user, day, week]); // <-- rerun when user changes
-
-    const openAddModal = (e) => {
-        e.preventDefault();
-        search ? setAddModalOpen(true) : null
-    }
-    const closeAddModal = () => setAddModalOpen(false);
 
     const openDeleteModal = (e) => {
         e.preventDefault();
@@ -95,55 +72,15 @@ export default function ExerciseManager(props: {
         setIsContentVisible(!isContentVisible);
     };
 
-    const addExerciseToSet = (setName: string) => {
-        let schedule = exerciseData["exercises"][week][day];
-
-        schedule[setName][exerciseName] = {
-            "image": data.image,
-            "moves": data.moves, // Replace with the actual number of moves
-            "description": data.description,
-            "met": data.met,
-            "time": data.time, // Replace with the actual time
-            "stars": data.stars, // Replace with the actual stars rating
-            "breakTime": data.breakTime // Replace with the actual break time
-
-        };
-
-        console.log(schedule)
-
-        setExerciseData(exerciseData["exercises"][week][day] = schedule);
-
-        setDocument("exercises", user, exerciseData).then(r => {
-             router.push(`/modifying/${setName}`)
-         });
-    }
-
-    const createNewSet = (setName: string) => {
-        let schedule = exerciseData["exercises"][week][day];
-
-        schedule[setName] = {
-            [exerciseName]: {
-                "image": data.image,
-                "moves": data.moves, // Replace with the actual number of moves
-                "description": data.description,
-                "met": data.met,
-                "time": data.time, // Replace with the actual time
-                "stars": data.stars, // Replace with the actual stars rating
-                "breakTime": data.breakTime // Replace with the actual break time
-            }
-
-        };
-        setExerciseData(exerciseData["exercises"][week][day] = schedule);
-
-        setDocument("exercises", user, exerciseData).then(r => {
-           router.push(`/modifying/${setName}`)
-        });
-    };
+    const redirect=()=>{
+        if(search){
+            router.push(`/modifying/searchExercise/templates/configure?setName=${setName}&exerciseName=${exerciseName}`)
+        }}
 
     return (
         <>
             <div
-                className={"rounded-xl w-full hover:bg-green-300 dark:hover:bg-opacity-40 dark:shadow-neutral-600 shadow-md bg-[#ffffff] dark:bg-black dark:bg-opacity-[50%] " + style} onClick={openAddModal}>
+                className={"rounded-xl w-full hover:bg-green-300 dark:hover:bg-opacity-40 dark:shadow-neutral-600 shadow-md bg-[#ffffff] dark:bg-black dark:bg-opacity-[50%] " + style} onClick={redirect}>
                 <div
                     className="w-full justify-center flex-col mx-auto flex px-4 pt-8 py-4">
                     <div className="flex w-fit flex-row min-h-fit">
@@ -226,8 +163,6 @@ export default function ExerciseManager(props: {
             </div>
             <ModifyDeleteModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal}
                                setName={setName} exerciseName={exerciseName}/>
-            <AddModal isOpen={isAddModalOpen} onClose={closeAddModal} setKeys={setKeys}
-                      createNewSet={createNewSet} addExerciseToSet={addExerciseToSet}/>
         </>
     )
 }

@@ -16,8 +16,8 @@ export default function DateConfig() {
 
     const days = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
     const {day, week, setDay, setWeek} = useContextData();
-    const [checkedDay, setCheckedDay] = useState<number | 0>();
-    const [checkedWeek, setCheckedWeek] = useState<number | 0>();
+    const [checkedDay, setCheckedDay] = useState<number | 0>(0);
+    const [checkedWeek, setCheckedWeek] = useState<number | 0>(0);
     const [exerciseStatus, setExerciseStatus] = useState<boolean[]>(new Array(7).fill(null));
     const date = new Date();
     const currentDay = days[date.getDay() - 1];
@@ -42,9 +42,9 @@ export default function DateConfig() {
 
     useEffect(() => {
         const unsubscribe = getFirestoreDocument('userdata', user, (data: UserData) => {
-            if (data.weeks[week]) {
+            if (data.weeks) {
                 sortDates(Object.keys(data.weeks)).then((dates: [string]) => {
-                    if (!sessionStorage.getItem("day")) {
+                    if (sessionStorage.getItem("day")==null) {
                         setCheckedDay(0);
                         setCheckedWeek(0);
                     } else {
@@ -75,9 +75,9 @@ export default function DateConfig() {
     const handleClickWeek = (i: number) => {
 
         if (checkedWeek + i >= 0 && checkedWeek + i <= 3) {
-            const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
+            const unsubscribe = getFirestoreDocument('userdata', user, (data) => {
                 if (data) {
-                    sortDates(Object.keys(data.exercises)).then((date: [string]) => {
+                    sortDates(Object.keys(data.weeks)).then((date: [string]) => {
                         setWeek(date[checkedWeek + i]);
                         setCheckedWeek(checkedWeek + i);
                     });
@@ -192,8 +192,8 @@ const reformatDate = (week: string) => {
             let firstDate = dates[0];
             let secondDate = dates[1];
 
-            firstDate = firstDate.slice(0, 5);
-            secondDate = secondDate.slice(0, 5);
+            firstDate = firstDate.slice(0, firstDate.length-5);
+            secondDate = secondDate.slice(0, secondDate.length-5);
             return firstDate + "-" + secondDate;
         }catch (e){
 

@@ -18,8 +18,6 @@ export default function Page({params: {params}}) {
     });
     const [exampleExerciseData, setExampleExerciseData] = useState([]);
     const [exerciseKeys, setExerciseKeys] = useState<string[]>([]);
-    const [time, setTime] = useState(0);
-    const [numSets, setNumSets] = useState(0);
     const {day, week, setDay, setWeek} = useContextData();
 
     const router = useRouter();

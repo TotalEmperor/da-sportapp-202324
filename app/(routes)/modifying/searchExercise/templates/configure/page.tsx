@@ -11,6 +11,7 @@ import {useRouter, useSearchParams} from "next/navigation";
 import {getDownloadURL, getStorage, listAll, ref} from "firebase/storage";
 import getFirestoreDocument from "@/firebase/firestore/getData";
 import setDocument from "@/firebase/firestore/setDocument";
+import AddModal from "@/components/Modifying/AddingExerciseModal";
 
 export default function Page() {
     const [user, setuser] = useState(() => {
@@ -25,7 +26,7 @@ export default function Page() {
     const [difficulty, setDifficulty] = useState<number>(0)
     const [hoverDifficulty, setHoverDifficulty] = useState<number>(-1);
     const [exerciseName, setExerciseName] = useState<string>("");
-    const [setName, setSetName] = useState<string>("");
+    const [setNames, setSetNames] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [repMode, setRepMode] = useState<boolean>(true);
     const [rep, setRep] = useState<number>(0);
@@ -35,7 +36,10 @@ export default function Page() {
     const [selectedImage, setSelectedImage] = useState("");
     const [images, setImages] = useState<{ imageURL: string, imageName: string }[]>([]);
     const [exerciseData, setExerciseData] = useState<any>([]);
+    const [isModalOpen, setModalOpen] = useState(false);
     const [currentExercise, setCurrentExercise] = useState<any>([]);
+    const [setKeys, setSetKeys] = useState<string[]>([]);
+
 
     const [isImageSelectModalOpen, setIsImageSelectModalOpen] = useState(false);
 
@@ -68,26 +72,34 @@ export default function Page() {
 
         listAll(listRef);
 
-        const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
-            if (data) {
-                const exerciseName = searchParams.get("exerciseName");
-                const setName = searchParams.get("setName");
-                const currentExercise = data.exercises[week][day][setName][exerciseName];
-                setExerciseData(data);
-                setCurrentExercise(currentExercise);
-                setDescription(currentExercise.description);
-                setTimer(currentExercise.time);
-                setRep(currentExercise.moves);
-                setTimerMode(currentExercise.time != 0);
-                setRepMode(currentExercise.moves != 0);
-                setDifficulty(currentExercise.stars);
-                setSelectedImage(currentExercise.image);
-                setBreakTime(currentExercise.breakTime);
-                setExerciseName(exerciseName);
-                setHoverDifficulty(currentExercise.stars);
-                setSetName(setName);
-            }
-        });
+        const unsubscribe =()=>{
+            getFirestoreDocument('exampleexercises', "CB6Eqnz7qfDrfcwuZJPn", (data) => {
+                if (data) {
+                    const exerciseName = searchParams.get("exerciseName");
+                    const setName = searchParams.get("setName");
+                    const currentExercise = data.exampleexercises[setName][exerciseName];
+                    setCurrentExercise(currentExercise);
+                    setDescription(currentExercise.description);
+                    setTimer(currentExercise.time);
+                    setRep(currentExercise.moves);
+                    setTimerMode(currentExercise.time != 0);
+                    setRepMode(currentExercise.moves != 0);
+                    setDifficulty(currentExercise.stars);
+                    setSelectedImage(currentExercise.image);
+                    setBreakTime(currentExercise.breakTime);
+                    setExerciseName(exerciseName);
+                    setHoverDifficulty(currentExercise.stars);
+                    setSetNames(setName);
+                }
+                });
+
+            getFirestoreDocument('exercises', user, (data) => {
+                if (data) {
+                    setExerciseData(data);
+                    setSetKeys(Object.keys(data.exercises[week][day]));
+                }
+            });
+        };
 
         return () => {
             unsubscribe();
@@ -121,36 +133,65 @@ export default function Page() {
         setSelectedImage(imageURL);
     }
 
-    const handleSubmit = async () => {
-        let newSchedule = exerciseData;
-        delete newSchedule.exercises[week][day][setName][searchParams.get("exerciseName")]
+    const openModal = (e) => {
+        e.preventDefault();
+        setModalOpen(true);
+    }
+    const closeModal = () => setModalOpen(false);
 
+    const addExerciseToSet = (setName: string) => {
+        let schedule = exerciseData["exercises"][week][day];
 
-        newSchedule["exercises"][week][day][setName][exerciseName] = {
+        schedule[setName][exerciseName] = {
             "image": selectedImage,
             "moves": rep, // Replace with the actual number of moves
             "description": description,
+            "met": currentExercise.met,
             "time": timer, // Replace with the actual time
             "stars": difficulty + 1, // Replace with the actual stars rating
             "breakTime": breakTime // Replace with the actual break time
 
         };
+        
+        setExerciseData(exerciseData["exercises"][week][day] = schedule);
 
-        setDocument("exercises", user, newSchedule).then(r => {
+        setDocument("exercises", user, exerciseData).then(r => {
             router.push(`/modifying/${setName}`)
         });
     }
+
+    const createNewSet = (setName: string) => {
+        let schedule = exerciseData["exercises"][week][day];
+
+        schedule[setName] = {
+            [exerciseName]: {
+                "image": selectedImage,
+                "moves": rep, // Replace with the actual number of moves
+                "description": description,
+                "met": currentExercise.met,
+                "time": timer, // Replace with the actual time
+                "stars": difficulty + 1, // Replace with the actual stars rating
+                "breakTime": breakTime // Replace with the actual break time
+            }
+
+        };
+        setExerciseData(exerciseData["exercises"][week][day] = schedule);
+
+        setDocument("exercises", user, exerciseData).then(r => {
+            router.push(`/modifying/${setName}`)
+        });
+    };
 
     return (
         <>
             <div className="w-full flex-grow flex-shrink pt-1 flex-col flex px-3 dark:text-white text-neutral-800">
                 <div className="flex w-full items-center border-b-2 border-gray-300 pb-[1.5rem]">
-                    <Link
+                    <button
                         className="hover:bg-gray-200 rounded-full w-fit p-2"
-                        href="/modifying">
+                        onClick={router.back}>
                         <ArrowBackIcon/>
-                    </Link>
-                    <span className="font-bold text-xl ms-4">Edit Exercise</span>
+                    </button>
+                    <span className="font-bold text-xl ms-4">Configure Exercise</span>
                 </div>
                 <form className={"flex flex-col group px-10 mt-5 w-fit"}>
                     <label htmlFor="exerciseName" className="mb-5 sm:w-[50%] flex flex-col">
@@ -286,14 +327,16 @@ export default function Page() {
                         />
                     </label>
                     <button type="button"
-                            onClick={handleSubmit}
+                            onClick={openModal}
                             className="mt-5 bg-green-500 dark:bg-green-800 py-3 rounded-md text-white group-invalid:pointer-events-none group-invalid:opacity-50">
-                        Update Exercise
+                        Add Exercise
                     </button>
-                    <ImageSelectModal isOpen={isImageSelectModalOpen} onClose={closeImageSelectModal} images={images}
-                                      setSelectedExerciseImage={setSelectedExerciseImage}/>
                 </form>
             </div>
+            <ImageSelectModal isOpen={isImageSelectModalOpen} onClose={closeImageSelectModal} images={images}
+                              setSelectedExerciseImage={setSelectedExerciseImage}/>
+            <AddModal isOpen={isModalOpen} onClose={closeModal} setKeys={setKeys}
+                      createNewSet={createNewSet} addExerciseToSet={addExerciseToSet}/>
         </>
     )
 }

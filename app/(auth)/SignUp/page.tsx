@@ -63,7 +63,7 @@ export default function SignUp() {
     return (
         <>
             <div
-                className="flex flex-col bg-gradient-to-tr dark:from-neutral-800 dark:via-blue-600 dark:to-green-900 dark:from-80% dark:via-40% dark:to-10% from-gray-100 to-green-700 via-green-400 min-h-screen h-fit">
+                className="flex flex-col dark:bg-gradient-to-tr dark:from-green-900 dark:to-lime-600 dark:via-green-600 bg-gradient-to-tr from-gray-100 to-green-700 via-green-400 min-h-screen h-fit">
                 <header>
                     <Navbar/>
                 </header>
