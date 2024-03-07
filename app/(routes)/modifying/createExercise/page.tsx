@@ -156,9 +156,14 @@ export default function Page() {
 
 
         setExercises(exercises["exercises"][week][day] = schedule)
-        setDocument("exercises", user, exercises).then(r => {
+        getFirestoreDocument("userdata", user, (result)=>{
+            let newUserData = result
+            console.log(newUserData.weeks);
+        })
+        /*setDocument("exercises", user, exercises).then(r => {
+
             router.push(`/modifying/${setName}`)
-        });
+        });*/
     }
 
     const setSelectedExerciseImage = (imageURL: string) => {

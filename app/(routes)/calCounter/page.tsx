@@ -263,7 +263,7 @@ export default function Page() {
                         <GraphCard title={"Total burned cal."}
                                    onClick={()=>{setSelectedKey("sum")}}
                                    selectedCard={selectedKey == "sum"}>
-                            <h1>{parseFloat(formatCompactNumber(formatCompactNumber(totalBurnedCal))).toFixed( 2 )} kcal</h1>
+                            <h1>{parseFloat(formatCompactNumber(totalBurnedCal)).toFixed( 2 )} kcal</h1>
                         </GraphCard>
                         <GraphCard title={"Average burned cal."}
                                    onClick={()=>{setSelectedKey("average")}}

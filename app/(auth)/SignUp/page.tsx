@@ -167,8 +167,5 @@ const reformateTemplate = (firstName:string, lastName:string):any=>{
             counter: 0
         }
     };
-
-    console.log(userData)
-
     return userData;
 }

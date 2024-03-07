@@ -13,13 +13,13 @@ export default function Page() {
 
     const [email, setEmail] = React.useState('');
     const [firstName, setFirstName] = React.useState('');
-    const [weight, setWeight] = useState<number>(null);
+    const [weight, setWeight] = useState<number>(0);
     const [birthday, setBirthday] = React.useState<string>("");
     const [lastName, setLastName] = React.useState('');
     const [heightUnit, setHeightUnit] = useState<string>("");
     const [weightUnit, setWeightUnit] = useState<string>("");
-    const [height, setHeight] = useState<number>(null);
-    const [userData, setUserdata] = useState<UserData>();
+    const [height, setHeight] = useState<number>(0);
+    const [userData, setUserdata] = useState<UserData>(null);
     const [isFormValid, setIsFormValid] = useState(false);
     const router = useRouter();
     const user = getAuth().currentUser;
@@ -27,7 +27,6 @@ export default function Page() {
     useEffect(() => {
         const unsubscribe = getFirestoreDocument('userdata', getAuth().currentUser.uid, (data: UserData) => {
             if (data) {
-                console.log(data)
                 setUserdata(data);
                 setFirstName(data.personaldata.firstName);
                 setLastName(data.personaldata.lastName);

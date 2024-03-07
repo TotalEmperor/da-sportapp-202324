@@ -38,6 +38,7 @@ export default function AccountDropdown() {
 
         // else successful
         console.log(result)
+        sessionStorage.clear();
         return router.push("/")
     }
 
