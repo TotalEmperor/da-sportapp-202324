@@ -44,7 +44,7 @@ export default function DateConfig() {
         const unsubscribe = getFirestoreDocument('userdata', user, (data: UserData) => {
             if (data.weeks) {
                 sortDates(Object.keys(data.weeks)).then((dates: [string]) => {
-                    if (sessionStorage.getItem("day")==null) {
+                    if (sessionStorage.getItem("day") == null) {
                         setCheckedDay(0);
                         setCheckedWeek(0);
                     } else {
@@ -62,7 +62,7 @@ export default function DateConfig() {
         return () => {
             unsubscribe();
         };
-        }, [week, day, user]);
+    }, [week, day, user]);
 
 
     const handleClickDay = (i: number) => {
@@ -95,7 +95,8 @@ export default function DateConfig() {
     return (
         <>
             {day && week ?
-                <div className="rounded-xl w-fit md:px-10 dark:bg-white dark:bg-opacity-5 bg-[#efefef] dark:shadow-neutral-600 shadow-md min-w-fit flex-shrink">
+                <div
+                    className="rounded-xl w-fit md:px-10 dark:bg-white dark:bg-opacity-5 bg-[#efefef] dark:shadow-neutral-600 shadow-md min-w-fit flex-shrink">
                     <div className="w-fit justify-center flex-col mx-auto flex mb-3 px-4 pt-8 py-4">
                         <div className="flex w-full mb-[1rem] font-bold text-3xl flex-row">
                             <span className="w-full flex items-center">
@@ -188,14 +189,14 @@ const reformatDate = (week: string) => {
     if (week) {
         let dates = week.split("-"); // split the string into two dates
 
-        try{
+        try {
             let firstDate = dates[0];
             let secondDate = dates[1];
 
-            firstDate = firstDate.slice(0, firstDate.length-5);
-            secondDate = secondDate.slice(0, secondDate.length-5);
+            firstDate = firstDate.slice(0, firstDate.length - 5);
+            secondDate = secondDate.slice(0, secondDate.length - 5);
             return firstDate + "-" + secondDate;
-        }catch (e){
+        } catch (e) {
 
         }
     }

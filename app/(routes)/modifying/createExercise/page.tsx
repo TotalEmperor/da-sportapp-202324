@@ -101,10 +101,10 @@ export default function Page() {
             if (data) {
                 setExercises(data)
 
-                    let newSetKeys = setKeys;
-                    newSetKeys = newSetKeys.concat(Object.keys(data.exercises[week][day]));
-                    newSetKeys.sort((a, b) => a.localeCompare(b));
-                    setSetKeys(newSetKeys);
+                let newSetKeys = setKeys;
+                newSetKeys = newSetKeys.concat(Object.keys(data.exercises[week][day]));
+                newSetKeys.sort((a, b) => a.localeCompare(b));
+                setSetKeys(newSetKeys);
             }
         });
 
@@ -156,7 +156,7 @@ export default function Page() {
 
 
         setExercises(exercises["exercises"][week][day] = schedule)
-        getFirestoreDocument("userdata", user, (result)=>{
+        getFirestoreDocument("userdata", user, (result) => {
             let newUserData = result
             console.log(newUserData.weeks);
         })
@@ -201,7 +201,7 @@ export default function Page() {
                             required
                         />
                     </label>
-                    <label htmlFor="exerciseDescription" className="mb-5 sm:w-[50%] flex flex-col">
+                    <label htmlFor="exerciseDescription" className="mb-5 flex flex-col w-auto">
                         <span>Description</span>
                         <textarea
                             name="exerciseDescription"
@@ -210,7 +210,7 @@ export default function Page() {
                                 setDescription(e.target.value)
                             }}
                             placeholder={"Move your sorry ass"}
-                            className="rounded border border-gray-300 bg-gray-200 dark:bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                            className="rounded w-full border border-gray-300 bg-gray-200 w-full dark:bg-inherit p-3 shadow shadow-gray-100 mt-2 appearance-none outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                             required
                         />
                     </label>

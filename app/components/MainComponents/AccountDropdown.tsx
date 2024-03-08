@@ -25,7 +25,7 @@ export default function AccountDropdown() {
             setUsers(auth.currentUser.displayName)
         }
 
-    },[]);
+    }, []);
 
     const handleLogOut = async (event) => {
         event.preventDefault()
@@ -56,7 +56,8 @@ export default function AccountDropdown() {
                             onClick={() => setIsOpen(!isOpen)}
                         >
                             <span className="sm:inline font-medium text-[1.5rem] w-full">
-                                <AccountCircleOutlinedIcon className={"icons sm:mx-2 mx-4 inline"}></AccountCircleOutlinedIcon>{username}
+                                <AccountCircleOutlinedIcon
+                                    className={"icons sm:mx-2 mx-4 inline"}></AccountCircleOutlinedIcon>{username}
                             </span>
                         </button>
                     </div>

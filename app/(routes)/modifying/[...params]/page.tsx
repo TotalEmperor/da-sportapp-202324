@@ -82,7 +82,7 @@ export default function Page({params: {params}}) {
                                         <div key={index} className={"sm:w-[-webkit-fill-available]"}>
                                             <ExerciseManager
                                                 data={exerciseData[key]}
-                                                time={time}
+                                                time={exerciseData[key].time}
                                                 stars={exerciseData[key].stars}
                                                 description={exerciseData[key].description}
                                                 style={"m-0 p-0"}

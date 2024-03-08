@@ -36,7 +36,6 @@ export default function ExerciseManager(props: {
     const router = useRouter();
 
 
-
     const [user, setuser] = useState(() => {
         // if a user is already logged in, use the current user object, or `undefined` otherwise.
         try {
@@ -72,22 +71,24 @@ export default function ExerciseManager(props: {
         setIsContentVisible(!isContentVisible);
     };
 
-    const redirect=()=>{
-        if(search){
+    const redirect = () => {
+        if (search) {
             router.push(`/modifying/searchExercise/templates/configure?setName=${setName}&exerciseName=${exerciseName}`)
-        }}
+        }
+    }
 
     return (
         <>
             <div
-                className={"rounded-xl w-full hover:bg-green-300 dark:hover:bg-opacity-40 dark:shadow-neutral-600 shadow-md bg-[#ffffff] dark:bg-black dark:bg-opacity-[50%] " + style} onClick={redirect}>
+                className={"rounded-xl w-full hover:bg-green-300 dark:hover:bg-opacity-40 dark:shadow-neutral-600 shadow-md bg-[#ffffff] dark:bg-black dark:bg-opacity-[50%] " + style}
+                onClick={redirect}>
                 <div
                     className="w-full justify-center flex-col mx-auto flex px-4 pt-8 py-4">
                     <div className="flex w-fit flex-row min-h-fit">
                         <span className="left-auto text-[1.8rem] font-bold me-6">{exerciseName}</span>
                         {Array.from({length: stars}, (_, i) => (
                             <div key={i} className="flex flex-col pe-2 justify-center">
-                                <StarRoundedIcon sx={{fontSize: "2.5rem", fill: "yellow"}} />
+                                <StarRoundedIcon sx={{fontSize: "2.5rem", fill: "yellow"}}/>
                             </div>
                         ))}
                     </div>
@@ -106,12 +107,12 @@ export default function ExerciseManager(props: {
                                                     sx={{fontSize: "2rem"}}/>
                                     </button>
                                     <Link href={{
-                                            pathname: "/modifying/editExercise",
-                                            query: {
-                                                setName: setName,
-                                                exerciseName: exerciseName,
-                                            }
-                                        }}
+                                        pathname: "/modifying/editExercise",
+                                        query: {
+                                            setName: setName,
+                                            exerciseName: exerciseName,
+                                        }
+                                    }}
                                           className={'p-2 rounded-full dark:hover:bg-opacity-5 me-2 dark:hover:bg-white'}>
                                         <EditRoundedIcon
                                             className={"hover:text-blue-400 icon rounded-full text-lime-600"}

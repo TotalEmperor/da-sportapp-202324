@@ -31,7 +31,7 @@ export default function SideNav() {
         const result = parts.length >= 3 ? parts.slice(0, 3) : parts.slice(0, 2);
 
         result.join('/');
-        setActiveButton("/"+result[1]);
+        setActiveButton("/" + result[1]);
     }, [path]);
 
     const toggleMenu = () => {
@@ -44,41 +44,45 @@ export default function SideNav() {
                 className={`${menuVisible ? 'fixed top-0 left-0 h-full min-w-fit w-[60%]' : 'w-full'} w-left-fixed flex-shrink flex-grow-0 mb-2 z-10 bg-[#F3F6EB] dark:bg-inherit dark:bg-black dark:bg-opacity-20 border-r-2 border-gray-300 dark:border-none`}>
                 <div
                     className={'sm:sticky sm:top-0 sm:p-4 w-full h-full min-w-fit flex flex-col dark:text-neutral-300 z-10'}>
-                    <div className="flex flex-row justify-center" >
+                    <div className="flex flex-row justify-center">
                         <button className="me-auto ms-5 p-3 m-1 min-w-fit w-[5vw] flex sm:hidden" onClick={toggleMenu}>
                             <MenuIcon/>
                         </button>
                         <div className={`${menuVisible ? 'hidden' : 'w-full flex me-[75%] sm:hidden items-center'}`}>
-                            <Link href={activeButton? activeButton: ""} className={`${menuVisible ? 'hidden' : 'w-[20vw] flex me-[60%] items-center'}`}>
+                            <Link href={activeButton ? activeButton : ""}
+                                  className={`${menuVisible ? 'hidden' : 'w-[20vw] flex me-[60%] items-center'}`}>
                                 {activeButton}
                             </Link>
                         </div>
                     </div>
                     <div
                         className={`flex-col sm:justify-center sm:items-center mb-[15%] mt-[15%] sm:flex dark:fill-white ${menuVisible ? '' : 'hidden'}`}>
-                        <Image src={Logo} alt="Logo" priority={true} className="dark:invert sm:h-full h-[48px] w-fit sm:w-full"/>
+                        <Image src={Logo} alt="Logo" priority={true}
+                               className="dark:invert sm:h-full h-[48px] w-fit sm:w-full"/>
                     </div>
                     <div
                         className={`flex-col sm:mt-[20%] items-center min-w-fit ${menuVisible ? "" : "hidden sm:flex"}`}>
                         <ul className="flex flex-col overflow-hidden justify-center content-center sm:w-[75%] min-w-fit">
-                            <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] dark:font-medium ${activeButton === '/workout' ? 'font-bold dark:bg-gray-700' : ''}`}>
+                            <li
+                                className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] dark:font-medium ${activeButton === '/workout' ? 'font-bold dark:bg-gray-700' : ''}`}>
                                 <Link href="/workout" prefetch onClick={() => setMenuVisible(false)}>
                                     {activeButton === '/workout' ?
-                                    <>
-                                        <TimerIcon
-                                            className={"icons fill-black sm:mx-2 mx-4 inline"}></TimerIcon>
-                                        <span className="sm:inline">Workout</span>
-                                    </>
-                                    :
-                                    <>
-                                        <TimerOutlinedIcon
-                                            className={"icons fill-black sm:mx-2 mx-4 inline"}></TimerOutlinedIcon>
-                                        <span className="sm:inline">Workout</span>
-                                    </>
-                                }
+                                        <>
+                                            <TimerIcon
+                                                className={"icons fill-black sm:mx-2 mx-4 inline"}></TimerIcon>
+                                            <span className="sm:inline">Workout</span>
+                                        </>
+                                        :
+                                        <>
+                                            <TimerOutlinedIcon
+                                                className={"icons fill-black sm:mx-2 mx-4 inline"}></TimerOutlinedIcon>
+                                            <span className="sm:inline">Workout</span>
+                                        </>
+                                    }
                                 </Link>
                             </li>
-                            <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] dark:font-medium ${activeButton === '/modifying' ? 'font-bold dark:bg-gray-700' : ''}`}>
+                            <li
+                                className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 hover:bg-[#d9e7cb] dark:font-medium ${activeButton === '/modifying' ? 'font-bold dark:bg-gray-700' : ''}`}>
                                 <Link className="truncate" href="/modifying" onClick={() => setMenuVisible(false)}>
                                     {activeButton === '/modifying' ?
                                         <>
@@ -95,35 +99,38 @@ export default function SideNav() {
                                     }
                                 </Link>
                             </li>
-                            <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 dark:font-medium hover:bg-[#d9e7cb] ${activeButton === '/calCounter' ? 'font-bold dark:bg-gray-700' : ''}`}>
+                            <li
+                                className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 dark:font-medium hover:bg-[#d9e7cb] ${activeButton === '/calCounter' ? 'font-bold dark:bg-gray-700' : ''}`}>
                                 <Link className="" href="/calCounter" onClick={() => setMenuVisible(false)}>
                                     {activeButton === '/calCounter' ?
                                         <>
-                                            <InsertChartIcon className={"icons sm:mx-2 mx-4 inline"}></InsertChartIcon>
+                                            <InsertChartIcon className={"icons sm:mx-2 mx-4 inline"}/>
                                             <span className="sm:inline w-fit">Cal. Counter</span>
                                         </>
                                         :
                                         <>
-                                            <InsertChartOutlinedIcon className={"icons sm:mx-2 mx-4 inline"}></InsertChartOutlinedIcon>
+                                            <InsertChartOutlinedIcon
+                                                className={"icons sm:mx-2 mx-4 inline"}></InsertChartOutlinedIcon>
                                             <span className="sm:inline w-fit">Cal. Counter</span>
                                         </>
                                     }
                                 </Link>
                             </li>
-                            <li className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 dark:font-medium hover:bg-[#d9e7cb] ${activeButton === '/settings' ? 'font-bold dark:bg-gray-700' : ''}`}>
+                            <li
+                                className={`py-2 my-1 rounded-xl dark:hover:bg-gray-700 dark:font-medium hover:bg-[#d9e7cb] ${activeButton === '/settings' ? 'font-bold dark:bg-gray-700' : ''}`}>
                                 <Link href={`/settings/${"Account"}`} prefetch={true}
                                       onClick={() => setMenuVisible(false)}>
-                                      {activeButton === '/settings' ?
-                                          <>
-                                              <SettingsIcon className={"icons sm:mx-2 mx-4 inline"}/>
-                                              <span className="sm:inline ">Settings</span>
-                                          </>
-                                          :
-                                          <>
-                                              <SettingsOutlinedIcon className={"icons sm:mx-2 mx-4 inline"}/>
-                                              <span className="sm:inline ">Settings</span>
-                                          </>
-                                      }
+                                    {activeButton === '/settings' ?
+                                        <>
+                                            <SettingsIcon className={"icons sm:mx-2 mx-4 inline"}/>
+                                            <span className="sm:inline ">Settings</span>
+                                        </>
+                                        :
+                                        <>
+                                            <SettingsOutlinedIcon className={"icons sm:mx-2 mx-4 inline"}/>
+                                            <span className="sm:inline ">Settings</span>
+                                        </>
+                                    }
                                 </Link>
                             </li>
                             <li className="mt-[50%]">
@@ -135,7 +142,6 @@ export default function SideNav() {
             </nav>
             <div
                 className={`${menuVisible ? 'fixed top-0 right-0 h-full w-full bg-gray-300 opacity-30 z-[1]' : ''}`}>
-
             </div>
         </>
     );

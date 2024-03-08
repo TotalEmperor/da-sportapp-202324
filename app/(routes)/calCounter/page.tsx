@@ -42,8 +42,8 @@ export default function Page() {
     const router = useRouter();
 
     useEffect(() => {
-        const unsubscribe = ()=>{
-            getFirestoreDocument('caloriecounter', user,  (data) => {
+        const unsubscribe = () => {
+            getFirestoreDocument('caloriecounter', user, (data) => {
                 if (data) {
                     analyseData(data);
                 } else {
@@ -51,8 +51,8 @@ export default function Page() {
                 }
             });
 
-            getFirestoreDocument('exercises', user,  (data:ExerciseSchedule) => {
-                getFirestoreDocument('userdata', user,  (userData: UserData) => {
+            getFirestoreDocument('exercises', user, (data: ExerciseSchedule) => {
+                getFirestoreDocument('userdata', user, (userData: UserData) => {
                     if (data) {
                         analyseExerciseData(data, userData.personaldata.weight);
                     } else {
@@ -74,7 +74,7 @@ export default function Page() {
             return;
         }
 
-        getFirestoreDocument('caloriecounter', user,  (data) => {
+        getFirestoreDocument('caloriecounter', user, (data) => {
             if (data) {
                 analyseData(data);
             } else {
@@ -82,8 +82,8 @@ export default function Page() {
             }
         });
 
-        getFirestoreDocument('exercises', user,  (data:ExerciseSchedule) => {
-            getFirestoreDocument('userdata', user,  (userData: UserData) => {
+        getFirestoreDocument('exercises', user, (data: ExerciseSchedule) => {
+            getFirestoreDocument('userdata', user, (userData: UserData) => {
                 if (data) {
                     analyseExerciseData(data, userData.personaldata.weight);
                 } else {
@@ -95,15 +95,15 @@ export default function Page() {
 
     }, [user, day, week]); // <-- rerun when user changes
 
-    const analyseData =  (data: any) =>{
+    const analyseData = (data: any) => {
         let calorieData: WorkoutData[] = [];
-        data.calorieCounter.map((sets)=>{
-            let newSet: WorkoutData = { date: sets.date, time: null, average: null,sum:null};
-            sets.exercises.map((exercise)=>{
-                newSet.time +=exercise.time;
+        data.calorieCounter.map((sets) => {
+            let newSet: WorkoutData = {date: sets.date, time: null, average: null, sum: null};
+            sets.exercises.map((exercise) => {
+                newSet.time += exercise.time;
                 newSet.sum += exercise.burned;
             });
-            newSet.average = newSet.sum/Object.entries(sets.exercises).length;
+            newSet.average = newSet.sum / Object.entries(sets.exercises).length;
             calorieData.push(newSet);
         });
         setPastCalorieData(calorieData);
@@ -138,22 +138,22 @@ export default function Page() {
         return dates;
     }
 
-    const analyseExerciseData = (data: any, weight: number) =>{
+    const analyseExerciseData = (data: any, weight: number) => {
         let calorieData: WorkoutData[] = [];
-        let weeks =  sortDates(Object.keys(data.exercises)).then((sortedWeeks:any)=>{
+        let weeks = sortDates(Object.keys(data.exercises)).then((sortedWeeks: any) => {
             const days = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
-            sortedWeeks.map((week)=>{
+            sortedWeeks.map((week) => {
                 const dateList = getDatesWithinWeek(week);
-                days.map((day, index)=>{
-                    let newSet: WorkoutData = { date: dateList[index], time: 0, average: 0,sum:0};
+                days.map((day, index) => {
+                    let newSet: WorkoutData = {date: dateList[index], time: 0, average: 0, sum: 0};
                     const setKeys = Object.keys(data.exercises[week][day]);
-                    setKeys.map((setKey)=>{
+                    setKeys.map((setKey) => {
                         const exerkeys = Object.keys(data.exercises[week][day][setKey]);
-                        exerkeys.map((exerciseKey)=>{
+                        exerkeys.map((exerciseKey) => {
                             newSet.time += Number(data.exercises[week][day][setKey][exerciseKey].time);
                             newSet.sum += calculateBurnedCal(Number(data.exercises[week][day][setKey][exerciseKey].met), newSet.time, weight, "");
                         });
-                        newSet.average = newSet.average + (newSet.sum/exerkeys.length);
+                        newSet.average = newSet.average + (newSet.sum / exerkeys.length);
                     })
                     calorieData.push(newSet);
                     console.log(newSet)
@@ -169,7 +169,7 @@ export default function Page() {
         return new Date(year, month - 1, day); // Month is 0-indexed in JavaScript Date
     };
 
-    const setNewTimespan = (newTimespan:string, calorieData:any)=>{
+    const setNewTimespan = (newTimespan: string, calorieData: any) => {
         setTimespan(newTimespan);
         const currentDate = new Date();
         let startDate: Date;
@@ -188,7 +188,7 @@ export default function Page() {
                 startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 7);
                 break;
             case "all":
-                startDate = new Date(currentDate.getFullYear()-100);
+                startDate = new Date(currentDate.getFullYear() - 100);
         }
 
         const newDisplaydata = calorieData.filter(item => parseDateString(item.date) >= startDate && parseDateString(item.date) <= currentDate);
@@ -201,19 +201,19 @@ export default function Page() {
         setDisplayData(newDisplaydata);
     }
 
-    const setPast = ()=>{
+    const setPast = () => {
         setSelectedBottomTap("past");
         setDisplayData(pastCalorieData);
         setNewTimespan("all", pastCalorieData)
     }
 
-    const setFuture =  ()=>{
+    const setFuture = () => {
         setSelectedBottomTap("planned");
         setDisplayData(planedCalorieData);
         const newDisplaydata = planedCalorieData.filter(item => parseDateString(item.date) >= new Date(-100) && parseDateString(item.date) <= new Date());
-        const averageCal = planedCalorieData.reduce((totalCal, item) => totalCal + (parseDateString(item.date) >= new Date(-100)  && parseDateString(item.date) <= new Date() ? item.average : 0), 0);
-        const timeSpent = planedCalorieData.reduce((totalCal, item) => totalCal + (parseDateString(item.date) >= new Date(-100)  && parseDateString(item.date) <= new Date() ? item.time : 0), 0);
-        const burnedCal = planedCalorieData.reduce((totalCal, item) => totalCal + (parseDateString(item.date) >= new Date(-100)  && parseDateString(item.date) <= new Date() ? item.sum : 0), 0);
+        const averageCal = planedCalorieData.reduce((totalCal, item) => totalCal + (parseDateString(item.date) >= new Date(-100) && parseDateString(item.date) <= new Date() ? item.average : 0), 0);
+        const timeSpent = planedCalorieData.reduce((totalCal, item) => totalCal + (parseDateString(item.date) >= new Date(-100) && parseDateString(item.date) <= new Date() ? item.time : 0), 0);
+        const burnedCal = planedCalorieData.reduce((totalCal, item) => totalCal + (parseDateString(item.date) >= new Date(-100) && parseDateString(item.date) <= new Date() ? item.sum : 0), 0);
         setAverageBurnedCal(averageCal);
         setTotalBurnedCal(burnedCal);
         setTimeSpent(timeSpent);
@@ -221,7 +221,8 @@ export default function Page() {
     }
 
     return (
-        <div className={"w-auto sm:w-full flex-grow p-5 items-center m-5 dark:bg-white dark:bg-opacity-5 rounded-md flex-col flex "}>
+        <div
+            className={"w-auto sm:w-full flex-grow p-5 items-center m-5 dark:bg-white dark:bg-opacity-5 rounded-md flex-col flex "}>
             <div id={"graph"} className={'rounded-s-md w-[80%]'}>
                 <div id={'graph-content'}
                      className={'flex justify-center flex-col items-center dark:bg-white dark:bg-opacity-20 rounded-bl-md rounded-t-md min-h-fit sm:h-[40vh] p-4 bg-[#efefef]'}>
@@ -231,14 +232,14 @@ export default function Page() {
                             onChange={(e) => {
                                 setNewTimespan(e.target.value, pastCalorieData)
                             }}
-                            className={`ms-auto rounded mt-4 mr-4 ${selectedBottomTap==="planned" ? "hidden":""}`}>
+                            className={`ms-auto rounded mt-4 mr-4 ${selectedBottomTap === "planned" ? "hidden" : ""}`}>
                         <option value="all">All time</option>
                         <option value="year">1 year</option>
                         <option value="6Months">6 Months</option>
                         <option value="1Month">1 Months</option>
                         <option value="1Week">1 Week</option>
                     </select>
-                    <LineGraph data={displayData} lineKey={selectedKey} key={`lgC_${Object.keys(displayData)}`} />
+                    <LineGraph data={displayData} lineKey={selectedKey} key={`lgC_${Object.keys(displayData)}`}/>
                 </div>
                 <ul className={'flex flex-row rounded-b-md ms-auto w-fit bg-gray-300 dark:bg-white dark:bg-opacity-10 hover:cursor-pointer'}>
                     <li onClick={(e) => {
@@ -256,22 +257,30 @@ export default function Page() {
                 </ul>
             </div>
             <div id={"statistic"}
-                 className={'flex flex-col flex-shrink w-[-webkit-fill-available] md:mx-[10%] bg-[#efefef] dark:bg-white dark:bg-opacity-5 mt-2 p-4 rounded-md overflow-y-scroll h-max'}>
+                 className={'flex flex-col flex-shrink w-[-webkit-fill-available] md:mx-[10%] bg-[#efefef] dark:bg-white dark:bg-opacity-5 mt-2 p-4 rounded-md h-max'}>
                 <h1 className={"border-b-2 dark:border-white border-black"}>Statistics</h1>
                 <div className={'flex flex-col flex-wrap justify-center'}>
                     <div id={"Graphcard Container"} className={'min-h-fit max-h-min flex flex-wrap mx-auto'}>
                         <GraphCard title={"Total burned cal."}
-                                   onClick={()=>{setSelectedKey("sum")}}
+                                   onClick={() => {
+                                       setSelectedKey("sum")
+                                   }}
                                    selectedCard={selectedKey == "sum"}>
-                            <h1>{parseFloat(formatCompactNumber(totalBurnedCal)).toFixed( 2 )} kcal</h1>
+                            <h1>{parseFloat(formatCompactNumber(totalBurnedCal)).toFixed(2)} kcal</h1>
                         </GraphCard>
                         <GraphCard title={"Average burned cal."}
-                                   onClick={()=>{setSelectedKey("average")}}
+                                   onClick={() => {
+                                       setSelectedKey("average")
+                                   }}
                                    selectedCard={selectedKey == "average"}>
-                            <h1>{parseFloat(formatCompactNumber(averageBurnedCal)).toFixed( 2 )} kcal per day <br/> {parseFloat(formatCompactNumber(averageBurnedCal)).toFixed( 2 )} kcal per exercise</h1>
+                            <h1>{parseFloat(formatCompactNumber(averageBurnedCal)).toFixed(2)} kcal per
+                                day <br/> {parseFloat(formatCompactNumber(averageBurnedCal)).toFixed(2)} kcal per
+                                exercise</h1>
                         </GraphCard>
                         <GraphCard title={"Time spent"}
-                                   onClick={()=>{setSelectedKey("time")}}
+                                   onClick={() => {
+                                       setSelectedKey("time")
+                                   }}
                                    selectedCard={selectedKey == "time"}>
                             <h1>{timeFormatter(timeSpent)}</h1>
                         </GraphCard>
@@ -299,13 +308,11 @@ export default function Page() {
     }
 
     function calculateBurnedCal(met: number, time: number, weight: number, weightUnit: string): number {
-        if(isNaN(weight * met * 0.0175 * time)){
+        if (isNaN(weight * met * 0.0175 * time)) {
             return 0
         }
         return weight * met * 0.0175 * time;
     }
-
-
 
 
 }
