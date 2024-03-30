@@ -1,7 +1,5 @@
 "use client"
 import React, {useState} from "react";
-import Head from "next/head";
-import Navbar from "@/components/MainComponents/Navbar";
 import getFirestoreDocument from "@/firebase/firestore/getData";
 import {getAuth, sendEmailVerification} from "firebase/auth";
 import setDocument from "@/firebase/firestore/setDocument";
@@ -84,7 +82,6 @@ export default function Page() {
                 await updateFirestoreDocument("userdata", data);
                 await setDocument("exercises", getAuth().currentUser.uid, workoutSchedule);
                 await setDocument("caloriecounter", getAuth().currentUser.uid, {});
-                await sendEmailVerification(user);
 
                 router.push("/Verification");
             }

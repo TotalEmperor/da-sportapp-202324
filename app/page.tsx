@@ -1,12 +1,9 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
 import Navbar from '@/components/MainComponents/Navbar'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
     title: 'Landing Page',
 }
-const inter = Inter({ subsets: ['latin'] })
 
 export default function Landing() {
   return(

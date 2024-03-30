@@ -1,5 +1,4 @@
 import {CheckEmailVerification} from "@/context/AuthContext";
-import Head from "next/head";
 import SideNav from "@/components/MainComponents/SideNav";
 import React, {Suspense} from "react";
 import {ContextDataProvider} from "@/context/ContextData";
@@ -11,9 +10,6 @@ export default async function DashboardLayout({children,}: {
         <CheckEmailVerification>
             <ContextDataProvider>
                 <div id={"rootElement"} className={"flex flex-col min-h-fit h-screen bg-[#F8FAF7] dark:bodyScreen"}>
-                    <Head>
-                        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="icon"/>
-                    </Head>
                     <div className="w-full flex flex-col sm:flex-row sm:flex-nowrap flex-grow overflow-hidden">
                         <SideNav/>
                         <>
