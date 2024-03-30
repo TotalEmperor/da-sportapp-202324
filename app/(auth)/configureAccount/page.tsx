@@ -104,16 +104,16 @@ export default function Page() {
         <>
 
             <div
-                className="flex flex-col dark:bg-gradient-to-tr dark:from-green-700 dark:to-gray-100 dark:via-green-400 bg-gradient-to-tr from-gray-100 to-green-700 via-green-400 min-h-screen h-fit">
+                className="flex flex-col dark:bg-gradient-to-tr dark:from-green-700 dark:text-black dark:to-gray-100 dark:via-green-400 bg-gradient-to-tr from-gray-100 to-green-700 via-green-400 min-h-screen h-fit">
                 <div className="flex-1 flex justify-center items-center">
                     <form className="bg-white shadow-lg rounded-md p-5 m-4 md:p-10 flex flex-col min-w-fit max-w-lg group">
                         <div className="border-b-2 border-black mb-[2vh]">
-                            <h1>Pls enter your personal Information, so we can customize your experience</h1>
+                            <h1>Please enter your personal Information</h1>
                         </div>
                         <label htmlFor="birthday" className="mb-5">
                             <span>Birthday</span>
                             <input type="date"
-                                   className="w-full rounded border border-gray-300 p-3 bg-white shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                                   className="w-full rounded border dark:[color-scheme:light] border-gray-300 p-3 bg-white shadow shadow-gray-100 mt-2 appearance-none outline-none text-neutral-800 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                                    onChange={(e) => setBirthday(e.target.value)}/>
                         </label>
                         <label htmlFor="weight" className="mb-5">

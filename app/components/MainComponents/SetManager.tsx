@@ -57,7 +57,7 @@ export default function SetManager(props: {
                         <span className="left-auto text-[1.8rem] font-bold me-6">{setName}</span>
                         {Array.from({length: stars}, (_, i) => (
                             <div key={i} className="flex flex-col pe-2 justify-center">
-                                <StarRoundedIcon sx={{fontSize: "2.5rem", fill: "yellow"}} />
+                                <StarRoundedIcon sx={{fontSize: "2.5rem", fill: "gold"}} />
                             </div>
                         ))}
                     </div>

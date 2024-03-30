@@ -103,7 +103,7 @@ export default function Page(){
         Password don&apos;t match
     </span>
     </label>
-    <button type="submit" className="mt-5 bg-blue-500 py-3 rounded-md text-white group-invalid:pointer-events-none group-invalid:opacity-50" onSubmit={handleForm}>
+    <button type="submit" className="mt-5 bg-[#51dd9b] dark:bg-lime-600 py-3 rounded-md text-white group-invalid:pointer-events-none group-invalid:opacity-50" onSubmit={handleForm}>
         Submit
         </button>
         </form>

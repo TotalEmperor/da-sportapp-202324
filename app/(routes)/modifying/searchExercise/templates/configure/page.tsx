@@ -277,7 +277,7 @@ export default function Page() {
                             </div>
                         </label>
                     </div>
-                    <div className={'bg-lime-800 hover:bg-lime-700 rounded flex flex-col justify-center w-fit mb-2'}>
+                    <div className={'bg-green-500 hover:bg-lime-700 rounded flex flex-col justify-center w-fit mb-2'}>
                         {selectedImage ?
                             <Image src={selectedImage} alt={"image"} height={200} width={200}
                                    className={`${selectedImage ? "" : "hidden"} rounded hover:scale-150 transition delay-300`}/>

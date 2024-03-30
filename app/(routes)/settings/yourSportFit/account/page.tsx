@@ -223,7 +223,7 @@ export default function Page() {
 
                 <button type="submit"
                         onClick={handleForm}
-                        className="mt-5 bg-blue-500 py-3 w-fit hover:bg-blue-300 px-2 rounded-md text-white group-invalid::opacity-50">
+                        className="mt-5 py-3 w-fit bg-[#51dd9b] dark:bg-lime-600 hover:bg-blue-300 px-2 rounded-md text-white group-invalid::opacity-50">
                     Save Changes
                 </button>
             </form>

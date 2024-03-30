@@ -72,8 +72,8 @@ export default function ModifyDeleteModal({isOpen, onClose, setName, exerciseNam
                             className="rounded-full border border-red-600 flex items-center justify-center w-16 h-16 flex-shrink-0">
                             <WarningAmberRoundedIcon sx={{fill: "red"}}/>
                         </div>
-                        <div className="mt-4 md:mt-0 ms-auto md:ml-6 text-center md:text-left dark:text-gray-200">
-                            <p className="font-bold">Do you want to delete ?</p>
+                        <div className="mt-4 md:mt-0 ms-auto md:ml-6 text-center md:text-left text-black dark:text-gray-200">
+                            <p className="font-bold">Do you want to delete?</p>
                         </div>
                     </div>
                     <div className="text-center md:text-right mt-4 md:flex md:justify-end">
@@ -84,7 +84,7 @@ export default function ModifyDeleteModal({isOpen, onClose, setName, exerciseNam
                         </button>
                         <button
                             type="button"
-                            className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-gray-200 dark:bg-gray-600 hover:brightness-125 rounded-lg font-semibold text-sm mt-4 md:mt-0 md:order-1"
+                            className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 text-blue-400 dark:bg-gray-600 hover:brightness-125 rounded-lg font-semibold text-sm mt-4 md:mt-0 md:order-1"
                             onClick={onClose}
                         >
                             Cancel

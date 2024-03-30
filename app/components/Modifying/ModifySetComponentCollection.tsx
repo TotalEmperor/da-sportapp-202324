@@ -143,7 +143,7 @@ export default function ModifySetComponentCollection() {
                                 <div className={"mt-auto w-[80%] flex mb-20"}>
                                     <button
                                         onClick={openModal}
-                                        className={"p-5 ms-auto rounded-2xl bg-green-300 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-700"}>
+                                        className={"p-5 ms-auto rounded-2xl bg-[#51dd9b] hover:bg-lime-400 dark:bg-lime-700 dark:hover:bg-lime-600"}>
                                         <AddIcon/>
                                     </button>
                                 </div>

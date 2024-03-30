@@ -141,9 +141,9 @@ export default function Page() {
     };
 
     const addExerciseToSet = (setName: string) => {
-        let schedule = exercises["exercises"][week][day];
+        let schedule = exercises;
 
-        schedule[setName][exerciseName] = {
+        schedule["exercises"][week][day][setName][exerciseName] = {
             "image": selectedImage,
             "moves": rep, // Replace with the actual number of moves
             "description": description,
@@ -155,15 +155,17 @@ export default function Page() {
         };
 
 
-        setExercises(exercises["exercises"][week][day] = schedule)
-        getFirestoreDocument("userdata", user, (result) => {
+
+
+        setExercises(schedule);
+        /*getFirestoreDocument("userdata", user, (result) => {
             let newUserData = result
             console.log(newUserData.weeks);
-        })
-        /*setDocument("exercises", user, exercises).then(r => {
+        })*/
+        setDocument("exercises", user, exercises).then(r => {
 
             router.push(`/modifying/${setName}`)
-        });*/
+        });
     }
 
     const setSelectedExerciseImage = (imageURL: string) => {

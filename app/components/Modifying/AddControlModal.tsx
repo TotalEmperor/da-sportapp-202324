@@ -45,7 +45,7 @@ export default function AddControlModal({style, isOpen, onClose}: {
                         <h3 className={`border-b border-gray-500 mt-3 font-semibold`}>Adding Exercise</h3>
                         <div className={`mt-5 flex flex-col`}>
                             <Link href={"/modifying/searchExercise"} onClick={onClose} className={`p-3 bg-green-400 rounded-lg mb-2 dark:bg-green-800`}>
-                                Search Exercise
+                                Template Exercises
                             </Link>
                             <Link href={"/modifying/createExercise"} onClick={onClose} className={`p-3 bg-green-400 rounded-lg dark:bg-green-800`}>
                                 Create Exercise

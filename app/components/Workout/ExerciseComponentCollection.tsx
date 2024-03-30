@@ -82,7 +82,7 @@ export default function ExerciseComponentCollection(setName:any) {
                         </div>
                         <div className={'w-[80%] my-2 mx-10 flex overflow-y-scroll'}>
                             <div
-                                className={"w-full h-fit flex flex-col items-center justify-center p-[2px] rounded-xl z-50 dark:bg-gray-400 dark:bg-opacity-80"}>
+                                className={"w-full h-fit flex flex-col items-center justify-center p-[2px] rounded-xl z-50 bg-gray-300 dark:bg-gray-400 dark:bg-opacity-80"}>
                                 {(
                                     exerciseKeys.map((key: any, index) => (
                                         <div key={index} className={'w-full'}>

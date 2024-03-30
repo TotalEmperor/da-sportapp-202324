@@ -10,12 +10,9 @@ import ModifyDeleteModal from "@/components/Modifying/ModifyDeleteModal";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import {getAuth} from "firebase/auth";
 import {Exercise} from "@/interfaces/Exercise";
-import getFirestoreDocument from "@/firebase/firestore/getData";
-import AddModal from "@/components/Modifying/AddingExerciseModal";
 import {useContextData} from "@/context/ContextData";
-import setDocument from "@/firebase/firestore/setDocument";
 import {useRouter, redirect} from "next/navigation";
-
+import StarBorderRoundedIcon from '@mui/icons-material/StarBorderRounded';
 export default function ExerciseManager(props: {
     data: Exercise;
     time: number;
@@ -34,6 +31,8 @@ export default function ExerciseManager(props: {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
     const {day, week, setDay, setWeek} = useContextData();
     const router = useRouter();
+
+
 
 
     const [user, setuser] = useState(() => {
@@ -80,7 +79,7 @@ export default function ExerciseManager(props: {
     return (
         <>
             <div
-                className={"rounded-xl w-full hover:bg-green-300 dark:hover:bg-opacity-40 dark:shadow-neutral-600 shadow-md bg-[#ffffff] dark:bg-black dark:bg-opacity-[50%] " + style}
+                className={"rounded-xl w-full hover:bg-green-100 dark:hover:bg-opacity-40 dark:shadow-neutral-600 shadow-md bg-[#efefef] dark:bg-black dark:bg-opacity-[50%] " + style}
                 onClick={redirect}>
                 <div
                     className="w-full justify-center flex-col mx-auto flex px-4 pt-8 py-4">
@@ -88,7 +87,7 @@ export default function ExerciseManager(props: {
                         <span className="left-auto text-[1.8rem] font-bold me-6">{exerciseName}</span>
                         {Array.from({length: stars}, (_, i) => (
                             <div key={i} className="flex flex-col pe-2 justify-center">
-                                <StarRoundedIcon sx={{fontSize: "2.5rem", fill: "yellow"}}/>
+                                <StarRoundedIcon sx={{fontSize: "2.5rem", fill: "gold"}}/>
                             </div>
                         ))}
                     </div>

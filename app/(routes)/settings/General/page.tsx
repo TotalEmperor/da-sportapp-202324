@@ -67,9 +67,6 @@ export default function Page(){
                     </button>
                 </div>
             </div>
-            <div className="flex w-full flex-col border-b-2 border-gray-300 mt-[1.5rem] pb-[1.5rem]">
-                <h1 className="font-bold text-2xl">Notifications</h1>
-            </div>
         </div>
     )
 
