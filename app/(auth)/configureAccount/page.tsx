@@ -199,10 +199,10 @@ function getNext4WeeksDates(): { startDate: string, endDate: string }[] {
     const next4WeeksDates: { startDate: string, endDate: string }[] = [];
 
     for (let i = 0; i < 4; i++) {
-        const startOfWeek = new Date(currentDate);
+        const startOfWeek:Date = new Date(currentDate);
         startOfWeek.setDate(currentDate.getDate() + i * 7 - (currentDate.getDay() + 6) % 7); // Start from the current week and adjust for the day of the week
 
-        const endOfWeek = new Date(startOfWeek);
+        const endOfWeek:Date = new Date(startOfWeek);
         endOfWeek.setDate(startOfWeek.getDate() + 6); // End of the week is 6 days after the start
 
         const formattedStartDate = startOfWeek.toLocaleDateString('de');

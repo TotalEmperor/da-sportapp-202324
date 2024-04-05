@@ -157,7 +157,7 @@ export default function DateConfig() {
                           color: `${currentDay === day ? "" : "#b7f397"}`
                         }}/>
                       ) : getExerciseStatusAtIndex(index) === false ? (
-                        <CheckCircleOutlineIcon sx={{fontSize: '4rvh', color: "#b7f397"}}/>
+                        <CheckCircleOutlineIcon sx={{fontSize: '4vh', color: "#b7f397"}}/>
                       ) : (<RadioButtonUncheckedIcon sx={{fontSize: '4vh'}}/>)
                     }
                     <h2 key={index} className="flex justify-center text-xl">{day}</h2>
