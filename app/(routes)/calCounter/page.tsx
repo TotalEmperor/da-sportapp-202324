@@ -50,7 +50,7 @@ export default function Page() {
 
         getFirestoreDocument('caloriecounter', user, (data) => {
             if (data) {
-                analyseData(data);
+                analysePastData(data);
             } else {
                 console.error("Couldn't fetch Calorie Counter")
             }
@@ -59,7 +59,7 @@ export default function Page() {
         getFirestoreDocument('exercises', user, (data: ExerciseSchedule) => {
             getFirestoreDocument('userdata', user, (userData: UserData) => {
                 if (data) {
-                    analyseCalorieData(data, userData.personaldata.weight);
+                    analysePlannedData(data, userData.personaldata);
                 } else {
                     console.error("Couldn't fetch Exercises")
                 }
@@ -69,13 +69,13 @@ export default function Page() {
 
     }, [user, day, week]); // <-- rerun when user changes
 
-    const analyseData = (data: any) => {
+    const analysePastData = (data: any) => {
         let calorieData: WorkoutData[] = [];
         data.calorieCounter.map((sets) => {
             let newSet: WorkoutData = {date: sets.date, time: null, average: null, sum: null};
             sets.exercises.map((exercise) => {
                 newSet.time += exercise.time;
-                newSet.sum += exercise.burned;
+                newSet.sum += parseInt(exercise.burned);
             });
             newSet.average = newSet.sum / Object.entries(sets.exercises).length;
             calorieData.push(newSet);
@@ -112,7 +112,7 @@ export default function Page() {
         return dates;
     }
 
-    const analyseCalorieData = (data: any, weight: number) => {
+    const analysePlannedData = (data: any, personalData: any) => {
         let calorieData: WorkoutData[] = [];
         let weeks = sortDates(Object.keys(data.exercises)).then((sortedWeeks: any) => {
             const days = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
@@ -125,7 +125,7 @@ export default function Page() {
                         const exerkeys = Object.keys(data.exercises[week][day][setKey]);
                         exerkeys.map((exerciseKey) => {
                             newSet.time += Number(data.exercises[week][day][setKey][exerciseKey].time);
-                            newSet.sum += calculateBurnedCal(Number(data.exercises[week][day][setKey][exerciseKey].met), newSet.time, weight, "");
+                            newSet.sum += calculateBurnedCal(Number(data.exercises[week][day][setKey][exerciseKey].met), newSet.time, personalData);
                         });
                         newSet.average = newSet.average + (newSet.sum / exerkeys.length);
                     })
@@ -281,11 +281,11 @@ export default function Page() {
         }
     }
 
-    function calculateBurnedCal(met: number, time: number, weight: number, weightUnit: string): number {
-        if (isNaN(weight * met * 0.0175 * time)) {
+    function calculateBurnedCal(met: number, time: number, personalData: any): number {
+        if (isNaN(personalData.weight * met * 0.0175 * time)) {
             return 0
         }
-        return weight * met * 0.0175 * time;
+        return  personalData.weight * met * (time / 60);
     }
 
 
