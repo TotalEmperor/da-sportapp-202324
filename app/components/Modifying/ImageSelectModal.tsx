@@ -34,7 +34,7 @@ export default function ImageSelectModal({isOpen, onClose, images, setSelectedEx
                         {images.map((imageData, index) => (
                             <div key={index}
                                  onClick={()=>{setSelectedExerciseImage(imageData.imageURL)}}
-                                 className='rounded bg-gray-600 mb-2 flex items-center justify-center p-2 flex-col hover:scale-150 transition delay-150 hover:cursor-pointer'>
+                                 className='rounded bg-green-300 bg-opacity-80 dark:bg-gray-600 mb-2 flex items-center justify-center p-2 flex-col hover:scale-150 transition delay-150 hover:cursor-pointer'>
                                 <Image src={imageData.imageURL} height={200} width={200} alt={"image"} className='rounded'/>
                                 <label>{imageData.imageName}</label>
                             </div>

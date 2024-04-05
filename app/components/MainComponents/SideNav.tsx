@@ -92,8 +92,7 @@ export default function SideNav() {
                         Filled Timer Icon
                       */}
                       <TimerIcon
-                        className={"icons fill-black sm:mx-2 mx-4 inline"}></TimerIcon>
-                      <span className="sm:inline">Workout</span>
+                        className={"icons fill-black sm:mx-2 mx-4 inline"}/>
                     </>
                     :
                     <>
@@ -101,10 +100,10 @@ export default function SideNav() {
                         OutLined Icon
                       */}
                       <TimerOutlinedIcon
-                        className={"icons fill-black sm:mx-2 mx-4 inline"}></TimerOutlinedIcon>
-                      <span className="sm:inline">Workout</span>
+                        className={"icons fill-black sm:mx-2 mx-4 inline"}/>
                     </>
                   }
+                  <span className="sm:inline">Workout</span>
                 </Link>
               </li>
               <li

@@ -11,6 +11,7 @@ import {ExerciseSet} from "@/interfaces/ExerciseSet";
 
 export default function Page() {
 
+    // States of the different personal Informations
     const [birthday, setBirthday] = useState<string>("");
     const [weight, setWeight] = useState<number>();
     const [height, setHeight] = useState<number>();
@@ -18,16 +19,25 @@ export default function Page() {
     const [weightUnit, setWeightUnit] = useState<string>("KG");
     const [language, setLanguage] = useState<string>("GERMAN");
     const [gender, setGender] = useState<string>("MALE");
+
+    // User
     const user = getAuth().currentUser;
 
+    // Router object for Navigation
     const router = useRouter();
-    const updatingUserData = async ()=>{
+
+    // Handling submit
+    const handleForm = async (event)=> {
+        event.preventDefault();
+        // Reformat date into European standard
         const [year, month, day] = birthday.split('-');
         const formattedDateString = `${day}.${month}.${year}`;
 
 
         const unsubscribe = getFirestoreDocument('userdata', getAuth().currentUser.uid, async (data) => {
+            // If data is not null
             if (data) {
+                // Update userdata with new information
                 data.personaldata.birthday = formattedDateString;
                 data.personaldata.height = height;
                 data.personaldata.weight = weight;
@@ -36,15 +46,21 @@ export default function Page() {
                 data.settingsdata.language = language;
                 data.personaldata.gender = gender;
 
+                // Generating next for weeks in dd.mm.yyyy-dd.mm-yyyy format
                 const next4Weeks = getNext4WeeksDates();
 
+                // Creating empty Schedule for userdata and exercises
+
+                // ExerciseSchedule
                 let workoutSchedule: ExerciseSchedule = {
                     exercises: {}
                 };
 
+                // Userdata schedule
                 let weeksSchedule:any = {};
 
                 next4Weeks.forEach(date => {
+                    // Formatting weekRange
                     const dateString = date.startDate + "-" + date.endDate;
                     const exerciseWeek: {
                         "MO": { [setNames: string]: ExerciseSet },
@@ -90,11 +106,6 @@ export default function Page() {
         return () => {
             unsubscribe();
         };
-    }
-
-    const handleForm = async (event)=> {
-        event.preventDefault();
-        await updatingUserData();
     }
 
     return (

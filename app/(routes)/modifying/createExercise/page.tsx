@@ -95,8 +95,6 @@ export default function Page() {
             // Uh-oh, an error occurred!
         });
 
-        listAll(listRef);
-
         const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
             if (data) {
                 setExercises(data)

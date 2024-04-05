@@ -7,10 +7,11 @@ import {useEffect, useState} from "react";
 import EmailIcon from '@mui/icons-material/Email';
 export default function Verification() {
 
+    // Router object for navigation
     const router = useRouter();
+
+    // user
     const user = getAuth().currentUser;
-    const auth = getAuth();
-    const [isReady, setIsReady] = useState(false);
 
     useEffect(() => {
         let intervalId: NodeJS.Timeout;
@@ -22,7 +23,6 @@ export default function Verification() {
             await user.reload()
 
             if (user.emailVerified) {
-                setIsReady(true);
                 clearInterval(intervalId);
                 router.push("/workout")
             }
@@ -36,6 +36,7 @@ export default function Verification() {
     }, []);
 
 
+    // Handle additional resend of the verification Email
     const handleResend = async ()=>{
         await sendEmailVerification(user);
     }

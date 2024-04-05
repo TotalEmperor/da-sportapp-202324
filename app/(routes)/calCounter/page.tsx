@@ -10,6 +10,7 @@ import {UserData} from "@/interfaces/userdata";
 import timeFormatter from "@/components/MainComponents/TimeFormatter";
 import {sortDates} from "@/components/MainComponents/dateConfig";
 import {useRouter} from "next/navigation";
+import setDocument from "@/firebase/firestore/setDocument";
 
 interface WorkoutData {
     date: string;
@@ -42,33 +43,6 @@ export default function Page() {
     const router = useRouter();
 
     useEffect(() => {
-        const unsubscribe = () => {
-            getFirestoreDocument('caloriecounter', user, (data) => {
-                if (data) {
-                    analyseData(data);
-                } else {
-                    console.error("Couldn't fetch Calorie Counter")
-                }
-            });
-
-            getFirestoreDocument('exercises', user, (data: ExerciseSchedule) => {
-                getFirestoreDocument('userdata', user, (userData: UserData) => {
-                    if (data) {
-                        analyseExerciseData(data, userData.personaldata.weight);
-                    } else {
-                        console.error("Couldn't fetch Exercises")
-                    }
-                });
-            });
-        }
-
-        return () => {
-            router.refresh();
-            unsubscribe();
-        };
-    }, []);
-
-    useEffect(() => {
         if (user === null) {
 
             return;
@@ -85,7 +59,7 @@ export default function Page() {
         getFirestoreDocument('exercises', user, (data: ExerciseSchedule) => {
             getFirestoreDocument('userdata', user, (userData: UserData) => {
                 if (data) {
-                    analyseExerciseData(data, userData.personaldata.weight);
+                    analyseCalorieData(data, userData.personaldata.weight);
                 } else {
                     console.error("Couldn't fetch Exercises")
                 }
@@ -138,7 +112,7 @@ export default function Page() {
         return dates;
     }
 
-    const analyseExerciseData = (data: any, weight: number) => {
+    const analyseCalorieData = (data: any, weight: number) => {
         let calorieData: WorkoutData[] = [];
         let weeks = sortDates(Object.keys(data.exercises)).then((sortedWeeks: any) => {
             const days = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];

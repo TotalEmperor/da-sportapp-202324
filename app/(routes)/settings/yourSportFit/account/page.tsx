@@ -176,7 +176,7 @@ export default function Page() {
                         <label htmlFor="height" className="me-5">
                             <span>Height</span>
                             <div
-                                className="flex flex-row w-full dark:bg-neutral-800 shadow mt-2 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
+                              className="flex flex-row w-full dark:bg-neutral-800 shadow mt-2 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
 
                                 <input type="number"
                                        id={"heightInput"}
@@ -188,8 +188,8 @@ export default function Page() {
                                        onChange={(e) => setHeight(e.target.valueAsNumber)}>
                                 </input>
                                 <select
-                                    className="border-s-2 border-black dark:border-neutral-400 p-2 bg-inherit min-w-fit w-[15%] text-md text-center outline-0 appearance-none"
-                                    onChange={(e) => changeHeightUnit(e.target.value)} value={heightUnit}>
+                                  className="border-s-2 border-black dark:border-neutral-400 p-2 bg-inherit min-w-fit w-[15%] text-md text-center outline-0 appearance-none"
+                                  onChange={(e) => changeHeightUnit(e.target.value)} value={heightUnit}>
                                     <option value="CM">cm</option>
                                     <option value="FEET">feet</option>
                                 </select>
@@ -199,7 +199,7 @@ export default function Page() {
                         <label htmlFor="weight">
                             <span>Weight</span>
                             <div
-                                className="flex flex-row w-full dark:bg-neutral-800 shadow mt-2 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
+                              className="flex flex-row w-full dark:bg-neutral-800 shadow mt-2 shadow-gray-100 appearance-none outline-none items-center rounded border border-gray-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer">
                                 <input type="number"
                                        id={"weightInput"}
                                        min={weightUnit == "KG" ? 30 : 66.1387}
@@ -210,15 +210,26 @@ export default function Page() {
                                        required>
                                 </input>
                                 <select
-                                    className="border-s-2 border-black dark:border-neutral-400 p-2 bg-inherit min-w-fit w-[15%] text-md text-center outline-0 appearance-none"
-                                    onChange={(e) => changeWeightUnit(e.target.value)} value={weightUnit}>
+                                  className="border-s-2 border-black dark:border-neutral-400 p-2 bg-inherit min-w-fit w-[15%] text-md text-center outline-0 appearance-none"
+                                  onChange={(e) => changeWeightUnit(e.target.value)} value={weightUnit}>
                                     <option value="KG">kg</option>
                                     <option value="POUND">pounds</option>
                                 </select>
                             </div>
                         </label>
-
                     </div>
+                    <label htmlFor="Gender" className="sm:w-[10vw] mb-5 flex flex-col">
+                        <span>Gender</span>
+                        <select
+                          id="gender"
+                          name="gender"
+                          autoComplete="gender"
+                          className="text-center bg-inherit w-full rounded border-gray-300 border p-4 cursor-pointer">
+                            <option value="MALE">Male</option>
+                            <option value="FEMALE">Female</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+                    </label>
                 </div>
 
                 <button type="submit"
@@ -236,7 +247,7 @@ const dateFormat = (date: string) => {
     return `${day}-${month}-${year}`;
 }
 
-const reverseDateFormat = (date:string)=>{
+const reverseDateFormat = (date: string) => {
     const [year, month, day] = date.split('-');
     return `${day}.${month}.${year}`;
 }

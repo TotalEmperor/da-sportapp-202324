@@ -56,17 +56,19 @@ export default function Page() {
 
         listAll(listRef)
             .then((res) => {
+                let newImages: { imageURL: string, imageName: string }[] = [];
+
                 res.items.forEach((itemRef) => {
                     getDownloadURL(itemRef).then((imageURL: string) => {
                         const imageData = {imageURL: imageURL, imageName: itemRef.name};
-                        images.push(imageData)
+                        newImages.push(imageData)
                     });
                 });
+                setImages(newImages)
+
             }).catch((error) => {
             // Uh-oh, an error occurred!
         });
-
-        listAll(listRef);
 
         const unsubscribe = getFirestoreDocument('exercises', user, (data) => {
             if (data) {

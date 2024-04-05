@@ -87,8 +87,8 @@ export default function Page(){
                     </Link>
                     <span className="font-bold text-xl ms-4">Search for Exercises</span>
                 </div>
-                <div className={`flex flex-col mt-5 ms-4`}>
-                    <div className='max-w-md w-full pb-3 border-b-2 border-white ms-[10%]'>
+                <div className={`flex flex-col mt-5 ms-4 bg-[#efefef] dark:bg-transparent pt-3 rounded-md`}>
+                    <div className='max-w-md w-full pb-3 border-b-2 border-black dark:border-white ms-[10%]'>
                         <div
                             className="relative flex items-center w-full min-h-fit h-12 rounded-lg focus-within:shadow-lg dark:bg-neutral-700 bg-white overflow-hidden">
                             <div className="grid place-items-center h-full w-12 dark:text-white text-gray-300">
