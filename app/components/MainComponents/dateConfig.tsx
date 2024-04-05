@@ -11,7 +11,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import LoadingModule from "@/components/MainComponents/loadingModule";
 import {UserData} from "@/interfaces/userdata";
-
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 export default function DateConfig() {
 
   // Days Array
@@ -49,11 +49,11 @@ export default function DateConfig() {
     }
 
     // Fetch userdata from Firestore
-    const unsubscribe = getFirestoreDocument('userdata', user, (data: UserData) => {
+    const unsubscribe = getFirestoreDocument('userdata', user, (userdata: UserData) => {
       // If data is not null
-      if (data.weeks) {
+      if (userdata.weeks) {
         // Sort Weeks
-        sortDates(Object.keys(data.weeks)).then((weeks: [string]) => {
+        sortDates(Object.keys(userdata.weeks)).then((weeks: [string]) => {
           // If day and week are not set in SessionStorage, then set day to MO and week to the earliest week in weeks
           if (sessionStorage.getItem("day") == null) {
             setCheckedDay(0);
@@ -67,7 +67,7 @@ export default function DateConfig() {
         })
         // Go through all days and set Exercise Status
         days.forEach((day) => {
-          setExerciseStatusAtIndex(days.indexOf(day), getExerciseStatus(day, data.weeks[week]));
+          setExerciseStatusAtIndex(days.indexOf(day), getExerciseStatus(day, userdata.weeks[week]));
         });
       }
     });
@@ -151,14 +151,16 @@ export default function DateConfig() {
                     onClick={() => handleClickDay(index)}
                   >
                     {
-                      getExerciseStatusAtIndex(index) === true ? (
-                        <CheckCircleIcon sx={{
-                          fontSize: '4vh',
-                          color: `${currentDay === day ? "" : "#b7f397"}`
-                        }}/>
-                      ) : getExerciseStatusAtIndex(index) === false ? (
-                        <CheckCircleOutlineIcon sx={{fontSize: '4vh', color: "#b7f397"}}/>
-                      ) : (<RadioButtonUncheckedIcon sx={{fontSize: '4vh'}}/>)
+                      getExerciseStatusAtIndex(index) === null?
+                        <RadioButtonUncheckedIcon sx={{fontSize: '4vh'}}/>
+                        :
+                        (getExerciseStatusAtIndex(index)===false?
+                            <CancelOutlinedIcon sx={{
+                              fontSize: '4vh'
+                            }}/>
+                          :
+                            <CheckCircleOutlineIcon sx={{fontSize: '4vh', color: "#b7f397"}}/>
+                        )
                     }
                     <h2 key={index} className="flex justify-center text-xl">{day}</h2>
                     <div className={`${checkedDay === index ? "h-[1vh]" : ""}`}>
@@ -196,6 +198,8 @@ const getExerciseStatus = (day: string, data: any): any => {
       return true;
     case "TRAINING_INCOMPLETE":
       return false;
+    case "":
+      return null;
 
   }
 }

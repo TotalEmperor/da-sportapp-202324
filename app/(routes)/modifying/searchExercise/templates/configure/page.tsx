@@ -155,6 +155,11 @@ export default function Page() {
         
         setExerciseData(exerciseData["exercises"][week][day] = schedule);
 
+        getFirestoreDocument("userdata", user, (result) => {
+            result.weeks[week][day] = "TRAINING_INCOMPLETE";
+            setDocument("userdata", user, result);
+        })
+
         setDocument("exercises", user, exerciseData).then(r => {
             router.push(`/modifying/${setName}`)
         });
@@ -175,6 +180,11 @@ export default function Page() {
             }
 
         };
+        getFirestoreDocument("userdata", user, (result) => {
+            result.weeks[week][day] = "TRAINING_INCOMPLETE";
+            setDocument("userdata", user, result);
+        })
+
         setExerciseData(exerciseData["exercises"][week][day] = schedule);
 
         setDocument("exercises", user, exerciseData).then(r => {

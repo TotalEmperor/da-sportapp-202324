@@ -12,6 +12,7 @@ import {useRouter} from "next/navigation";
 import {getStorage, ref, listAll, getDownloadURL} from "firebase/storage";
 import Image from "next/image";
 import ImageSelectModal from "@/components/Modifying/ImageSelectModal";
+import updateFirestoreDocument from "@/firebase/firestore/updateData";
 
 export default function Page() {
 
@@ -113,7 +114,7 @@ export default function Page() {
     }, [user, day, week]); // <-- rerun when user changes
 
 
-    const createNewSet = (setName: string) => {
+    const createNewSet = async (setName: string) => {
         let schedule = exercises["exercises"][week][day];
 
         schedule[setName] = {
@@ -128,6 +129,11 @@ export default function Page() {
             }
 
         };
+
+        getFirestoreDocument("userdata", user, (result) => {
+           result.weeks[week][day] = "TRAINING_INCOMPLETE";
+           setDocument("userdata", user, result);
+       })
 
         setExercises(exercises["exercises"][week][day] = schedule)
         setDocument("exercises", user, exercises).then(r => {
@@ -152,14 +158,12 @@ export default function Page() {
 
         };
 
-
-
-
         setExercises(schedule);
-        /*getFirestoreDocument("userdata", user, (result) => {
-            let newUserData = result
-            console.log(newUserData.weeks);
-        })*/
+
+        getFirestoreDocument("userdata", user, (result) => {
+            result.weeks[week][day] = "TRAINING_INCOMPLETE";
+            setDocument("userdata", user, result);
+        })
         setDocument("exercises", user, exercises).then(r => {
 
             router.push(`/modifying/${setName}`)
